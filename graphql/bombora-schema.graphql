@@ -1,0 +1,829 @@
+"""
+Bombora B2B Intent Data - Conceptual GraphQL Schema
+Covers Company Surge, Intent API, Reference API, Digital Audience Builder API,
+Webhooks API, and Authentication API.
+"""
+
+scalar Date
+scalar DateTime
+scalar URL
+scalar JSON
+
+# ─────────────────────────────────────────────
+# Company and Firmographic Types
+# ─────────────────────────────────────────────
+
+"""Core account record keyed on company domain."""
+type Company {
+  id: ID!
+  domain: String!
+  name: String
+  details: CompanyDetails
+  domains: [CompanyDomain!]
+  location: CompanyLocation
+  industry: CompanyIndustry
+  size: CompanySize
+  revenue: CompanyRevenue
+  type: CompanyType
+  intentProfile: CompanyIntentProfile
+  surgeScores: [CompanySurge!]
+  contacts: [B2BContact!]
+  crmMatches: [CRMMatch!]
+}
+
+"""Full firmographic profile for a company."""
+type CompanyDetails {
+  legalName: String
+  ticker: String
+  founded: Int
+  description: String
+  website: URL
+  linkedIn: URL
+  naicsCode: String
+  sicCode: String
+  employeeCount: Int
+  annualRevenue: Float
+  isPublic: Boolean
+}
+
+"""Domain and subdomain identifiers associated with a company."""
+type CompanyDomain {
+  id: ID!
+  domain: String!
+  isPrimary: Boolean!
+  isSubdomain: Boolean!
+  resolvedCompany: Company
+}
+
+"""Employee count range and headcount estimate."""
+type CompanySize {
+  range: String!
+  min: Int
+  max: Int
+  estimate: Int
+  band: CompanySizeBand!
+}
+
+"""Industry classification using SIC and NAICS codes."""
+type CompanyIndustry {
+  naicsCode: String
+  naicsDescription: String
+  sicCode: String
+  sicDescription: String
+  primaryVertical: String
+  subVertical: String
+}
+
+"""Annual revenue range for a company."""
+type CompanyRevenue {
+  range: String!
+  currencyCode: String!
+  minUSD: Float
+  maxUSD: Float
+  estimatedUSD: Float
+}
+
+"""Public/private/nonprofit/government classification."""
+type CompanyType {
+  code: String!
+  label: String!
+  isPubliclyTraded: Boolean!
+}
+
+"""Headquarters and branch geography."""
+type CompanyLocation {
+  street: String
+  city: String
+  state: String
+  stateCode: String
+  postalCode: String
+  country: String
+  countryCode: String
+  region: String
+  latitude: Float
+  longitude: Float
+  isHeadquarters: Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Intent and Surge Scoring Types
+# ─────────────────────────────────────────────
+
+"""Aggregate intent record for a company and topic pair."""
+type IntentData {
+  id: ID!
+  company: Company!
+  topic: Topic!
+  score: IntentScore!
+  surgeScore: SurgeScore
+  weeklyScore: WeeklyScore
+  monthlyScore: MonthlyScore
+  trend: IntentTrend
+  signals: [IntentSignal!]
+  weekEnding: Date!
+  details: IntentDetails
+}
+
+"""Detailed per-topic intent breakdown."""
+type IntentDetails {
+  signalCount: Int!
+  uniqueDomainsConsuming: Int!
+  avgSessionDepth: Float
+  topContentTypes: [String!]
+  primarySignalType: SignalType
+  compositeScore: SurgeCompositeScore
+}
+
+"""Normalized 0-100 intent score."""
+type IntentScore {
+  value: Float!
+  percentile: Float
+  normalizedValue: Float!
+  tier: IntentTier!
+}
+
+"""Week-over-week surge score for an account and topic."""
+type SurgeScore {
+  value: Float!
+  previousValue: Float
+  weekOverWeekDelta: Float
+  percentile: Float
+  ranking: SurgeRanking
+  details: SurgeDetails
+}
+
+"""Metadata about a surge score event."""
+type SurgeDetails {
+  reportId: ID!
+  weekEnding: Date!
+  topicId: ID!
+  companyDomain: String!
+  dataCoopSignals: Int!
+  publisherCount: Int!
+  geography: String
+  autoGenEnabled: Boolean!
+}
+
+"""Company Surge record combining account and topic surge scores."""
+type CompanySurge {
+  id: ID!
+  company: Company!
+  topic: Topic!
+  surgeScore: SurgeScore!
+  rank: SurgeRanking
+  compositeScore: SurgeCompositeScore
+  weeklyScores: [WeeklyScore!]
+  buyerJourney: BuyerJourney
+  weekEnding: Date!
+}
+
+"""Percentile ranking within topic or industry peer groups."""
+type SurgeRanking {
+  globalPercentile: Float!
+  industryPercentile: Float
+  peerGroupPercentile: Float
+  rank: Int
+  totalCompaniesInPeerGroup: Int
+}
+
+"""Multi-topic composite surge signal."""
+type SurgeCompositeScore {
+  value: Float!
+  topicCount: Int!
+  weightedAverage: Float!
+  topics: [Topic!]!
+  methodology: String
+}
+
+"""Rolling 7-day aggregated intent score."""
+type WeeklyScore {
+  weekEnding: Date!
+  score: Float!
+  signalCount: Int!
+  delta: Float
+}
+
+"""Rolling 30-day aggregated intent score."""
+type MonthlyScore {
+  monthEnding: Date!
+  score: Float!
+  avgWeeklyScore: Float!
+  peakWeekScore: Float
+  signalCount: Int!
+}
+
+# ─────────────────────────────────────────────
+# Topics and Taxonomy Types
+# ─────────────────────────────────────────────
+
+"""A Bombora intent topic (one of 18,000+)."""
+type Topic {
+  id: ID!
+  name: String!
+  slug: String!
+  details: TopicDetails
+  category: TopicCategory
+  cluster: TopicCluster
+  subTopics: [SubTopic!]
+  parentTopic: Topic
+  relatedTopics: [Topic!]
+  isActive: Boolean!
+}
+
+"""Description and metadata for a topic."""
+type TopicDetails {
+  description: String
+  definition: String
+  exampleKeywords: [String!]
+  signalSources: [String!]
+  createdAt: DateTime
+  lastUpdatedAt: DateTime
+  version: String
+}
+
+"""High-level category grouping for topics."""
+type TopicCategory {
+  id: ID!
+  name: String!
+  description: String
+  clusters: [TopicCluster!]
+  topicCount: Int!
+}
+
+"""Thematic cluster of related topics."""
+type TopicCluster {
+  id: ID!
+  name: String!
+  description: String
+  category: TopicCategory
+  topics: [Topic!]!
+  topicCount: Int!
+}
+
+"""Granular sub-topic beneath a parent topic."""
+type SubTopic {
+  id: ID!
+  name: String!
+  parentTopic: Topic!
+  details: TopicDetails
+  isActive: Boolean!
+}
+
+"""Topic as inferred from content consumption signals."""
+type ContentTopic {
+  topic: Topic!
+  inferredFrom: [String!]!
+  confidence: Float!
+  signalDate: DateTime!
+}
+
+"""Root taxonomy object for the Bombora reference taxonomy."""
+type Taxonomy {
+  id: ID!
+  version: String!
+  details: TaxonomyDetails!
+  categories: [TopicCategory!]!
+  clusters: [TopicCluster!]!
+  totalTopics: Int!
+  lastUpdated: Date!
+}
+
+"""Version metadata and structure information for the taxonomy."""
+type TaxonomyDetails {
+  version: String!
+  releaseDate: Date!
+  changelogUrl: URL
+  totalCategories: Int!
+  totalClusters: Int!
+  totalTopics: Int!
+  totalSubTopics: Int!
+  description: String
+}
+
+# ─────────────────────────────────────────────
+# Buyer Journey and Stage Types
+# ─────────────────────────────────────────────
+
+"""Full buyer journey model for an account."""
+type BuyerJourney {
+  company: Company!
+  currentStage: BuyingStage!
+  stageHistory: [StageDetails!]
+  enteredCurrentStageAt: Date
+  topicsResearched: [Topic!]!
+  predictedCloseDate: Date
+  confidenceScore: Float
+}
+
+"""TOFU/MOFU/BOFU stage classification."""
+type BuyingStage {
+  code: String!
+  label: String!
+  description: String
+  isFunnelTop: Boolean!
+  isFunnelMid: Boolean!
+  isFunnelBottom: Boolean!
+}
+
+"""Evidence and signals underlying a stage assignment."""
+type StageDetails {
+  stage: BuyingStage!
+  enteredAt: Date!
+  exitedAt: Date
+  signalCount: Int!
+  primarySignals: [IntentSignal!]
+  surgeScoreAtEntry: Float
+}
+
+# ─────────────────────────────────────────────
+# Intent Signal and Trend Types
+# ─────────────────────────────────────────────
+
+"""Individual content-consumption signal event."""
+type IntentSignal {
+  id: ID!
+  company: Company!
+  topic: Topic!
+  type: SignalType!
+  strength: SignalStrength!
+  publisherDomain: String
+  signalDate: DateTime!
+  contentTopic: ContentTopic
+  sessionDepth: Int
+  geography: String
+}
+
+"""Category of intent signal."""
+type SignalType {
+  code: String!
+  label: String!
+  description: String
+  weight: Float!
+}
+
+"""Strength classification of a signal."""
+type SignalStrength {
+  code: String!
+  label: String!
+  numericValue: Float!
+}
+
+"""Directional trend in intent over time."""
+type IntentTrend {
+  company: Company!
+  topic: Topic!
+  direction: TrendDirection!
+  velocity: Float!
+  acceleration: Float
+  details: TrendDetails
+  weeklyScores: [WeeklyScore!]!
+}
+
+"""Trend metadata including velocity and acceleration."""
+type TrendDetails {
+  startDate: Date!
+  endDate: Date!
+  baselineScore: Float!
+  currentScore: Float!
+  peakScore: Float
+  peakDate: Date
+  trendDurationWeeks: Int!
+  isAccelerating: Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Contacts and B2B Identity Types
+# ─────────────────────────────────────────────
+
+"""Business contact details."""
+type ContactDetails {
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  linkedInUrl: URL
+  title: String
+  department: String
+}
+
+"""Resolved B2B individual identity."""
+type B2BContact {
+  id: ID!
+  details: ContactDetails!
+  company: Company!
+  role: ContactRole
+  seniority: ContactSeniority
+  intent: ContactIntent
+  isVerified: Boolean!
+  lastVerifiedAt: DateTime
+}
+
+"""Functional role classification for a contact."""
+type ContactRole {
+  code: String!
+  label: String!
+  isBuyingInfluence: Boolean!
+  isDeterminer: Boolean!
+  isChampion: Boolean!
+}
+
+"""Seniority level classification."""
+type ContactSeniority {
+  code: String!
+  label: String!
+  level: Int!
+  isCSuite: Boolean!
+  isVP: Boolean!
+  isDirector: Boolean!
+  isManager: Boolean!
+  isIndividualContributor: Boolean!
+}
+
+"""Intent signals attributed to a contact."""
+type ContactIntent {
+  contact: B2BContact!
+  topicsResearched: [Topic!]!
+  surgeScores: [IntentData!]
+  primaryBuyingStage: BuyingStage
+  lastActivityDate: DateTime
+}
+
+"""Intent snapshot for an entire account."""
+type CompanyIntentProfile {
+  company: Company!
+  topTopics: [Topic!]!
+  activeTopics: [IntentData!]!
+  surgeTopics: [CompanySurge!]!
+  buyerJourney: BuyerJourney
+  snapshotDate: Date!
+  totalActiveTopics: Int!
+}
+
+# ─────────────────────────────────────────────
+# Audience and Activation Types
+# ─────────────────────────────────────────────
+
+"""Audience segment definition."""
+type Segment {
+  id: ID!
+  name: String!
+  description: String
+  details: AudienceDetails!
+  topics: [Topic!]
+  filters: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  status: SegmentStatus!
+}
+
+"""Audience composition and reach metadata."""
+type AudienceDetails {
+  estimatedReach: Int!
+  matchedCompanies: Int!
+  matchedContacts: Int
+  intentScoreThreshold: Float
+  geographies: [String!]
+  industries: [String!]
+  companySizes: [String!]
+  activationStatus: String
+  lastActivatedAt: DateTime
+}
+
+# ─────────────────────────────────────────────
+# CRM and Integration Types
+# ─────────────────────────────────────────────
+
+"""Match record linking Bombora data to a CRM object."""
+type CRMMatch {
+  id: ID!
+  company: Company!
+  crmObjectType: String!
+  crmObjectId: String!
+  platform: CRMPlatform!
+  matchConfidence: Float!
+  matchedAt: DateTime!
+  enrichmentData: JSON
+}
+
+"""Salesforce lead or contact enrichment record."""
+type SalesforceLead {
+  id: ID!
+  salesforceId: String!
+  company: Company!
+  contact: B2BContact
+  intentData: [IntentData!]
+  surgeScores: [CompanySurge!]
+  lastSyncedAt: DateTime!
+  integrationDetails: IntegrationDetails
+}
+
+"""HubSpot contact enrichment record."""
+type HubSpotContact {
+  id: ID!
+  hubspotId: String!
+  company: Company!
+  contact: B2BContact
+  intentData: [IntentData!]
+  surgeScores: [CompanySurge!]
+  lastSyncedAt: DateTime!
+  integrationDetails: IntegrationDetails
+}
+
+"""Integration configuration and sync state."""
+type IntegrationDetails {
+  platform: String!
+  enabled: Boolean!
+  lastSyncAt: DateTime
+  syncFrequency: String
+  webhookEnabled: Boolean!
+  webhookDestinationId: ID
+  fieldMappings: JSON
+  errorCount: Int!
+  lastError: String
+}
+
+# ─────────────────────────────────────────────
+# Predictions and Models
+# ─────────────────────────────────────────────
+
+"""ML-generated account-level prediction."""
+type Prediction {
+  id: ID!
+  company: Company!
+  model: PredictionModel!
+  score: Float!
+  confidence: Float!
+  predictedOutcome: String!
+  generatedAt: DateTime!
+  expiresAt: DateTime
+  features: JSON
+}
+
+"""ML model metadata and version information."""
+type PredictionModel {
+  id: ID!
+  name: String!
+  version: String!
+  description: String
+  trainedAt: DateTime
+  accuracy: Float
+  precision: Float
+  recall: Float
+  features: [String!]!
+}
+
+# ─────────────────────────────────────────────
+# API Operations and Authentication Types
+# ─────────────────────────────────────────────
+
+"""API key credential record."""
+type APIKey {
+  id: ID!
+  name: String
+  keyPrefix: String!
+  createdAt: DateTime!
+  lastUsedAt: DateTime
+  expiresAt: DateTime
+  isActive: Boolean!
+  scopes: [String!]!
+}
+
+"""OAuth 2.0 access token."""
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  expiresAt: DateTime!
+  scope: String
+  issuedAt: DateTime!
+}
+
+"""Bulk data export query record."""
+type BulkQuery {
+  id: ID!
+  status: BulkQueryStatus!
+  queryType: String!
+  parameters: JSON!
+  submittedAt: DateTime!
+  startedAt: DateTime
+  completedAt: DateTime
+  resultCount: Int
+  errorMessage: String
+  results: QueryResults
+}
+
+"""Paginated results for bulk queries."""
+type QueryResults {
+  queryId: ID!
+  totalCount: Int!
+  pageSize: Int!
+  currentPage: Int!
+  totalPages: Int!
+  data: JSON!
+  nextCursor: String
+  generatedAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Enumerations
+# ─────────────────────────────────────────────
+
+enum CompanySizeBand {
+  MICRO
+  SMALL
+  MID_MARKET
+  ENTERPRISE
+  LARGE_ENTERPRISE
+}
+
+enum IntentTier {
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+  SURGE
+}
+
+enum TrendDirection {
+  ACCELERATING
+  RISING
+  FLAT
+  DECLINING
+  REVERSING
+}
+
+enum SegmentStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum CRMPlatform {
+  SALESFORCE
+  HUBSPOT
+  DYNAMICS
+  MARKETO
+  PARDOT
+  OTHER
+}
+
+enum BulkQueryStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+# ─────────────────────────────────────────────
+# Input Types
+# ─────────────────────────────────────────────
+
+input SurgeReportInput {
+  name: String!
+  topicIds: [ID!]!
+  geographies: [String!]
+  blacklistDomains: [String!]
+  autoGen: Boolean
+  weekEnding: Date
+}
+
+input SegmentInput {
+  name: String!
+  description: String
+  topicIds: [ID!]
+  intentScoreThreshold: Float
+  geographies: [String!]
+  industries: [String!]
+  companySizeBands: [CompanySizeBand!]
+  filters: JSON
+}
+
+input BulkQueryInput {
+  queryType: String!
+  topicIds: [ID!]
+  domains: [String!]
+  startDate: Date!
+  endDate: Date!
+  pageSize: Int
+  filters: JSON
+}
+
+input WebhookDestinationInput {
+  name: String!
+  url: URL!
+  secret: String
+  events: [String!]!
+  isActive: Boolean!
+  headers: JSON
+}
+
+# ─────────────────────────────────────────────
+# Root Operations
+# ─────────────────────────────────────────────
+
+type Query {
+  """Fetch a company by domain."""
+  company(domain: String!): Company
+
+  """Fetch multiple companies by domains."""
+  companies(domains: [String!]!): [Company!]!
+
+  """Fetch Company Surge scores for an account."""
+  companySurge(domain: String!, topicIds: [ID!]): [CompanySurge!]!
+
+  """Fetch a topic by ID."""
+  topic(id: ID!): Topic
+
+  """List or search Bombora intent topics."""
+  topics(
+    clusterId: ID
+    categoryId: ID
+    search: String
+    limit: Int
+    offset: Int
+  ): [Topic!]!
+
+  """Fetch the current Bombora reference taxonomy."""
+  taxonomy: Taxonomy
+
+  """Fetch a taxonomy category by ID."""
+  topicCategory(id: ID!): TopicCategory
+
+  """List all taxonomy categories."""
+  topicCategories: [TopicCategory!]!
+
+  """Fetch a topic cluster by ID."""
+  topicCluster(id: ID!): TopicCluster
+
+  """Pull the weekly intent feed for topics and date range."""
+  intentFeed(
+    startDate: Date!
+    endDate: Date!
+    topicIds: [ID!]!
+    domains: [String!]
+    limit: Int
+    cursor: String
+  ): [IntentData!]!
+
+  """Fetch intent trend over time for an account and topic."""
+  intentTrend(domain: String!, topicId: ID!, weeks: Int): IntentTrend
+
+  """Fetch an audience segment by ID."""
+  segment(id: ID!): Segment
+
+  """List audience segments."""
+  segments(status: SegmentStatus, limit: Int, offset: Int): [Segment!]!
+
+  """Retrieve bulk query status and results."""
+  bulkQuery(id: ID!): BulkQuery
+
+  """List bulk queries."""
+  bulkQueries(status: BulkQueryStatus, limit: Int, offset: Int): [BulkQuery!]!
+
+  """Inspect current OAuth token metadata."""
+  token: Token
+
+  """Fetch a B2B contact by ID."""
+  contact(id: ID!): B2BContact
+
+  """List contacts for a company domain."""
+  companyContacts(domain: String!, limit: Int, offset: Int): [B2BContact!]!
+
+  """Fetch a prediction by ID."""
+  prediction(id: ID!): Prediction
+}
+
+type Mutation {
+  """Create a Company Surge report (v4 API)."""
+  createSurgeReport(input: SurgeReportInput!): CompanySurge!
+
+  """Compose a new audience segment."""
+  createSegment(input: SegmentInput!): Segment!
+
+  """Update an existing audience segment."""
+  updateSegment(id: ID!, input: SegmentInput!): Segment!
+
+  """Push an audience segment to a DSP or partner platform."""
+  activateAudience(
+    segmentId: ID!
+    partnerId: ID!
+    dataExchange: String!
+  ): AudienceDetails!
+
+  """Register a new webhook destination."""
+  registerWebhookDestination(input: WebhookDestinationInput!): IntegrationDetails!
+
+  """Update an existing webhook destination."""
+  updateWebhookDestination(id: ID!, input: WebhookDestinationInput!): IntegrationDetails!
+
+  """Delete a webhook destination."""
+  deleteWebhookDestination(id: ID!): Boolean!
+
+  """Submit a bulk intent data export query."""
+  createBulkQuery(input: BulkQueryInput!): BulkQuery!
+
+  """Cancel a running bulk query."""
+  cancelBulkQuery(id: ID!): BulkQuery!
+}

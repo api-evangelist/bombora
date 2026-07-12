@@ -145,6 +145,8 @@ apis:
   - type: GetResults
     url: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381716/Get+Surge+Report+Results
 common:
+- type: DomainSecurity
+  url: security/bombora-domain-security.yml
 - type: Website
   url: https://bombora.com
 - type: DeveloperPortal
@@ -177,6 +179,8 @@ common:
   url: https://twitter.com/bomboradata
 - type: YouTube
   url: https://www.youtube.com/@BomboraNYC
+- url: https://bombora.com/feed/
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

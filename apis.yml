@@ -20,9 +20,20 @@ description: Bombora is a New York-based B2B data company that provides intent d
   ZoomInfo, Dun and Bradstreet, Snowflake, and Adobe Experience Platform, and is profiled
   here for its role as the dominant supplier of cooperative-sourced B2B intent data.
 type: Index
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 position: Provider
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bombora.png
 tags:
 - Intent Data
 - B2B Intent

@@ -1,24 +1,24 @@
 aid: bombora
 name: Bombora
-description: Bombora is a New York-based B2B data company that provides intent data
-  and identity solutions used by marketing, sales, and ad-tech teams to identify in-market
-  accounts and personalize outreach. Its flagship product, Company Surge, aggregates
-  anonymous content-consumption signals from a cooperative of more than 5,000 B2B
-  publishers and scores accounts against 18,000+ B2B intent topics to surface organizations
-  actively researching specific products, services, and categories. Beyond Company
-  Surge, Bombora offers Identity and Enrichment for first-party visitor resolution,
-  Digital Audiences for activation across DSPs and walled gardens, Campaign Measurement
-  for B2B attribution, and an Insights Suite that combines intent, visitor, and engagement
-  signals. Bombora exposes a developer portal at developer.bombora.com with OAuth
-  2.0 authentication and a catalog of REST APIs covering intent feeds, reference taxonomies,
-  digital audience activation, webhooks, and Company Surge report orchestration (v4
-  via sentry.bombora.com). The portal's API reference is gated behind login and Bombora
-  does not publish public OpenAPI specifications; commercial access is sold via annual
-  contracts with no public pricing, typically starting around $30K/year and scaling
-  with topic volume and integration scope. Bombora integrates broadly with the B2B
-  revenue stack, including Salesforce, HubSpot, LinkedIn, 6sense, Demandbase, Apollo,
-  ZoomInfo, Dun and Bradstreet, Snowflake, and Adobe Experience Platform, and is profiled
-  here for its role as the dominant supplier of cooperative-sourced B2B intent data.
+description: 'Bombora is a New York-based B2B data company that provides intent data and identity
+  solutions used by marketing, sales, and ad-tech teams to identify in-market accounts and personalize
+  outreach. Its flagship product, Company Surge, aggregates anonymous content-consumption signals
+  from a cooperative of more than 5,000 B2B publishers and scores accounts against 18,000+ B2B intent
+  topics to surface organizations actively researching specific products, services, and categories.
+  Beyond Company Surge, Bombora offers Identity and Enrichment for first-party visitor resolution,
+  Digital Audiences for activation across DSPs and walled gardens, Campaign Measurement for B2B attribution,
+  and an Insights Suite that combines intent, visitor, and engagement signals. Bombora runs an Apigee
+  Integrated Developer Portal at developer.bombora.com that publishes six OpenAPI 3.0 documents anonymously
+  — Intent, Reference, Account List, Digital Audience Builder, Webhooks, and Authentication — covering
+  54 operations on api.bombora.com, all secured with OAuth 2.0 client credentials exchanged for a
+  bearer JWT at POST /oauth/token. A separate legacy partner Company Surge API (v4) runs on sentry.bombora.com
+  with HTTP Basic auth and a documented 60 calls-per-minute-per-endpoint limit. Credentials are not
+  self-service: the portal is SAML-only and restricted to existing Bombora customers, the Intent
+  and Digital Audience products require manual per-application approval, and no pricing is published
+  — commercial access is sold via annual contracts. Bombora integrates broadly with the B2B revenue
+  stack, including Salesforce, HubSpot, LinkedIn, 6sense, Demandbase, Apollo, ZoomInfo, Dun and Bradstreet,
+  Snowflake, and Adobe Experience Platform, and is profiled here for its role as the dominant supplier
+  of cooperative-sourced B2B intent data.'
 type: Index
 accessModel:
   pricing: unknown
@@ -49,16 +49,19 @@ tags:
 - Adtech
 - Martech
 - B2B
+- Account Lists
+- Digital Audience Builder
+- OpenAPI
 url: https://raw.githubusercontent.com/api-evangelist/bombora/refs/heads/main/apis.yml
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-08-13'
 specificationVersion: '0.20'
 apis:
 - aid: bombora:bombora-authentication-api
   name: Bombora Authentication API
-  description: OAuth 2.0 token endpoint that issues bearer access tokens used to authenticate
-    calls to the rest of Bombora's developer APIs. Clients exchange credentials for
-    a short-lived access token via a POST to the OAuth token route on developer.bombora.com.
+  description: OAuth 2.0 token endpoint that issues bearer access tokens used to authenticate calls
+    to the rest of Bombora's developer APIs. Clients exchange credentials for a short-lived access
+    token via a POST to the OAuth token route on developer.bombora.com.
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   tags:
   - Authentication
@@ -69,14 +72,17 @@ apis:
     url: https://developer.bombora.com/docs/authentication-api/1/overview
   - type: TokenEndpoint
     url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
-  - url: graphql/bombora-graphql.md
-    type: GraphQL
+  - type: OpenAPI
+    url: openapi/bombora-authentication-api-openapi.yml
+  - type: Overlay
+    url: overlays/bombora-authentication-api-overlay.yaml
+  baseURL: https://api.bombora.com
 - aid: bombora:bombora-intent-api
   name: Bombora Intent API
-  description: Streams Bombora's Company Surge intent signals — account-level scores
-    against 18,000+ B2B intent topics — derived from the Bombora Data Cooperative.
-    Subscribers pull weekly Surge scores for monitored topics and accounts and integrate
-    them into CRM, marketing automation, and ABM platforms.
+  description: Streams Bombora's Company Surge intent signals — account-level scores against 18,000+
+    B2B intent topics — derived from the Bombora Data Cooperative. Subscribers pull weekly Surge
+    scores for monitored topics and accounts and integrate them into CRM, marketing automation, and
+    ABM platforms.
   humanURL: https://developer.bombora.com/docs/intent-api/1/overview
   tags:
   - Intent Data
@@ -85,12 +91,36 @@ apis:
   properties:
   - type: Documentation
     url: https://developer.bombora.com/docs/intent-api/1/overview
+  - type: OpenAPI
+    url: openapi/bombora-intent-api-openapi.yml
+  - type: Overlay
+    url: overlays/bombora-intent-api-overlay.yaml
+  baseURL: https://api.bombora.com/intent/v1
+- aid: bombora:bombora-account-list-api
+  name: Bombora Account List API
+  description: Defines and maintains lists of B2B accounts, keyed on company domain. Lists can be
+    manually curated, synchronized from external systems, derived by segmenting a parent list with
+    a predicate filter, sourced from a Company Surge signal definition, or built from Visitor Insights.
+    Provides account membership add/update/delete, domain listing, and account data search.
+  humanURL: https://developer.bombora.com/docs/account-list-api/1/overview
+  baseURL: https://api.bombora.com/account-list/v1
+  tags:
+  - Account Lists
+  - Account Based Marketing
+  - Segmentation
+  - Company Surge
+  properties:
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: OpenAPI
+    url: openapi/bombora-account-list-api-openapi.yml
+  - type: Overlay
+    url: overlays/bombora-account-list-api-overlay.yaml
 - aid: bombora:bombora-reference-api
   name: Bombora Reference API
-  description: Reference data and taxonomy lookups for the Bombora platform — including
-    intent topics, topic clusters, and supporting metadata needed to interpret intent
-    and audience responses. Used by integrators to keep local taxonomies in sync with
-    Bombora's canonical reference data.
+  description: Reference data and taxonomy lookups for the Bombora platform — including intent topics,
+    topic clusters, and supporting metadata needed to interpret intent and audience responses. Used
+    by integrators to keep local taxonomies in sync with Bombora's canonical reference data.
   humanURL: https://developer.bombora.com/docs/reference-api/1/overview
   tags:
   - Reference Data
@@ -99,12 +129,16 @@ apis:
   properties:
   - type: Documentation
     url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: OpenAPI
+    url: openapi/bombora-reference-api-openapi.yml
+  - type: Overlay
+    url: overlays/bombora-reference-api-overlay.yaml
+  baseURL: https://api.bombora.com/reference/v1
 - aid: bombora:bombora-digital-audience-api
   name: Bombora Digital Audience Builder (DAB) API
-  description: Programmatic interface to Bombora's Digital Audience Builder for composing
-    custom B2B audiences from intent, firmographic, and behavioral signals and activating
-    them to downstream data exchanges, DSPs, and partner platforms via the activate
-    route.
+  description: Programmatic interface to Bombora's Digital Audience Builder for composing custom
+    B2B audiences from intent, firmographic, and behavioral signals and activating them to downstream
+    data exchanges, DSPs, and partner platforms via the activate route.
   humanURL: https://developer.bombora.com/docs/digital-audience-api/1/overview
   tags:
   - Digital Audiences
@@ -116,11 +150,16 @@ apis:
     url: https://developer.bombora.com/docs/digital-audience-api/1/overview
   - type: ActivateEndpoint
     url: https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: OpenAPI
+    url: openapi/bombora-digital-audience-api-openapi.yml
+  - type: Overlay
+    url: overlays/bombora-digital-audience-api-overlay.yaml
+  baseURL: https://api.bombora.com/digital-audiences/v1
 - aid: bombora:bombora-webhooks-api
   name: Bombora Webhooks API
-  description: Outbound webhook destinations that push Bombora events — including
-    Surge report completions and audience activation updates — to partner endpoints.
-    Destinations are registered and updated via PUT routes on the developer portal.
+  description: Outbound webhook destinations that push Bombora events — including Surge report completions
+    and audience activation updates — to partner endpoints. Destinations are registered and updated
+    via PUT routes on the developer portal.
   humanURL: https://developer.bombora.com/docs/webhooks-api/1/overview
   tags:
   - Webhooks
@@ -131,14 +170,20 @@ apis:
     url: https://developer.bombora.com/docs/webhooks-api/1/overview
   - type: DestinationEndpoint
     url: https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: OpenAPI
+    url: openapi/bombora-webhooks-api-openapi.yml
+  - type: Overlay
+    url: overlays/bombora-webhooks-api-overlay.yaml
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+  baseURL: https://api.bombora.com/webhooks/v1
 - aid: bombora:bombora-company-surge-api
   name: Bombora Company Surge API (v4)
-  description: Partner API for orchestrating Company Surge reports — create reports
-    with topic, geography, blacklist, and AutoGen options (POST /v4/Surge/Create),
-    list reports (GET /v4/Surge/GetList), and retrieve report results. Uses Basic
-    auth with username:password base64 credentials and is rate limited to 60 calls
-    per minute per endpoint. Hosted at sentry.bombora.com and documented on the Bombora
-    Partners Confluence space.
+  description: Partner API for orchestrating Company Surge reports — create reports with topic, geography,
+    blacklist, and AutoGen options (POST /v4/Surge/Create), list reports (GET /v4/Surge/GetList),
+    and retrieve report results. Uses Basic auth with username:password base64 credentials and is
+    rate limited to 60 calls per minute per endpoint. Hosted at sentry.bombora.com and documented
+    on the Bombora Partners Confluence space.
   humanURL: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381698/Surge+API
   baseURL: https://sentry.bombora.com/v4/Surge
   tags:
@@ -156,6 +201,8 @@ apis:
   - type: GetResults
     url: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381716/Get+Surge+Report+Results
 common:
+- type: Authentication
+  url: authentication/bombora-authentication.yml
 - type: DomainSecurity
   url: security/bombora-domain-security.yml
 - type: Website
@@ -183,7 +230,7 @@ common:
 - type: Privacy
   url: https://bombora.com/privacy
 - type: TermsOfService
-  url: https://bombora.com/terms-of-use
+  url: https://bombora.com/terms
 - type: LinkedIn
   url: https://www.linkedin.com/company/bombora
 - type: Twitter
@@ -192,6 +239,57 @@ common:
   url: https://www.youtube.com/@BomboraNYC
 - url: https://bombora.com/feed/
   type: Blog
+- type: Packages
+  url: packages/bombora-packages.yml
+- type: WellKnown
+  url: well-known/bombora-well-known.yml
+- type: MCPServer
+  url: mcp/bombora-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/bombora-tool-crosswalk.yml
+- type: LLMsTxt
+  url: llms/bombora-llms.txt
+- type: Conformance
+  url: conformance/bombora-conformance.yml
+- type: ErrorCatalog
+  url: errors/bombora-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/bombora-lifecycle.yml
+- type: Deprecation
+  url: https://developer.bombora.com/api-change-policy
+- type: Conventions
+  url: conventions/bombora-conventions.yml
+- type: ChangeLog
+  url: changelog/bombora-changelog.yml
+- type: DataModel
+  url: data-model/bombora-data-model.yml
+- type: Webhooks
+  url: asyncapi/bombora-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/bombora-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/bombora-rate-limits.yml
+- type: Documentation
+  url: https://developer.bombora.com/docs/intent-api/1/overview
+- type: APIReference
+  url: https://developer.bombora.com/apis
+- type: GettingStarted
+  url: https://developer.bombora.com/get-started
+- type: Support
+  url: https://bombora.com/customer-support-forms/
+- type: SignUp
+  url: https://developer.bombora.com/login
+- type: GitHubOrganization
+  url: https://github.com/bomboradata
+- type: PrivacyPolicy
+  url: https://bombora.com/privacy-policy
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 43
+  pass: local-v1

@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Digital Audience Builder (DAB) API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Create a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "The Create endpoint allows customers to generate a new DAB custom audience."
+    },
+    {
+      "info": {
+        "name": "Get a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange/:externalId/:partnerId",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          },
+          {
+            "name": "externalId",
+            "value": "",
+            "type": "path",
+            "description": "The external ID of the digital audience."
+          },
+          {
+            "name": "partnerId",
+            "value": "",
+            "type": "path",
+            "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+          }
+        ]
+      },
+      "docs": "The Get endpoint allows users to retrieve an existing Digital Audience."
+    },
+    {
+      "info": {
+        "name": "Update a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "PUT",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange/:externalId/:partnerId",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          },
+          {
+            "name": "externalId",
+            "value": "",
+            "type": "path",
+            "description": "The external ID of the digital audience."
+          },
+          {
+            "name": "partnerId",
+            "value": "",
+            "type": "path",
+            "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "The Edit endpoint allows customers to modify an existing DAB custom audience. \nThis endpoint is a full overwrite of the existing custom audience settings.\n\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n"
+    },
+    {
+      "info": {
+        "name": "Delete a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange/:externalId/:partnerId",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          },
+          {
+            "name": "externalId",
+            "value": "",
+            "type": "path",
+            "description": "The external ID of the digital audience."
+          },
+          {
+            "name": "partnerId",
+            "value": "",
+            "type": "path",
+            "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+          }
+        ]
+      },
+      "docs": "The Delete endpoint allows users to delete an existing Digital Audience."
+    },
+    {
+      "info": {
+        "name": "Activate a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "PUT",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange/:externalId/:partnerId/activate",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          },
+          {
+            "name": "externalId",
+            "value": "",
+            "type": "path",
+            "description": "The external ID of the digital audience."
+          },
+          {
+            "name": "partnerId",
+            "value": "",
+            "type": "path",
+            "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+          }
+        ]
+      },
+      "docs": "The Activate endpoint allows users to activate an existing suspended Digital Audience.\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n"
+    },
+    {
+      "info": {
+        "name": "Suspend a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "PUT",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange/:externalId/:partnerId/suspend",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          },
+          {
+            "name": "externalId",
+            "value": "",
+            "type": "path",
+            "description": "The external ID of the digital audience."
+          },
+          {
+            "name": "partnerId",
+            "value": "",
+            "type": "path",
+            "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+          }
+        ]
+      },
+      "docs": "The Suspend endpoint allows users to suspend an existing Digital Audience.\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n"
+    },
+    {
+      "info": {
+        "name": "Estimate the size of a digital audience.",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.bombora.com/digital-audiences/v1/:dataexchange/estimate",
+        "params": [
+          {
+            "name": "dataexchange",
+            "value": "",
+            "type": "path",
+            "description": "Data exchange which owns the digital audience."
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "The Estimate endpoint allows customers to estimate the size of an audience."
+    }
+  ],
+  "bundled": true
+}

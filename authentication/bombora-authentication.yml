@@ -1,0 +1,89 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  openapi/ (6 OpenAPI 3.0 documents), https://developer.bombora.com/get-started,
+  https://developer.bombora.com/docs/authentication-api/1/overview,
+  https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+docs: https://developer.bombora.com/get-started
+summary:
+  types: [http, oauth2-client-credentials]
+  api_key_in: []
+  oauth2_flows: [clientCredentials]
+  oauth2_flows_note: >-
+    The client-credentials exchange is real and documented on the Get Started page, but it is NOT
+    modelled as an oauth2 securityScheme in any spec — the five product specs declare only
+    bearerAuth (http/bearer/JWT) and the Authentication API spec declares no securityScheme at
+    all. There is consequently no scope map anywhere, so no scopes/ artifact is emitted.
+  scopes: 0
+  self_service: false
+
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  in: header
+  parameter: Authorization
+  applied: 'global (security: [{bearerAuth: []}]) on all five product APIs'
+  sources:
+  - openapi/bombora-account-list-api-openapi.yml
+  - openapi/bombora-digital-audience-api-openapi.yml
+  - openapi/bombora-intent-api-openapi.yml
+  - openapi/bombora-reference-api-openapi.yml
+  - openapi/bombora-webhooks-api-openapi.yml
+
+token_endpoint:
+  url: https://api.bombora.com/oauth/token
+  method: POST
+  api: Authentication API
+  spec: openapi/bombora-authentication-api-openapi.yml
+  docs: https://developer.bombora.com/docs/authentication-api/1/overview
+  credentials: ClientId (key) + ClientSecret (secret), issued per app in the developer portal
+  note: >-
+    "The Authentication API must be enabled for your app otherwise calls to the /oauth/token
+    endpoint will fail." — developer.bombora.com/get-started
+
+credential_issuance:
+  self_service: false
+  steps:
+  - Sign in to https://developer.bombora.com — the only sign-in option is LOGIN WITH SAML.
+  - >-
+      You must already be a Bombora user; Bombora Support must associate your account with your
+      organisation's developer team before any team or app is visible.
+  - Select My Apps, open your developer team, then open your application under Apps.
+  - Read the ClientId (key) and ClientSecret (secret) from the app's API Keys section.
+  - >-
+      Request access to the API products you need; new applications require Bombora Support
+      approval before they work.
+  support: https://bombora.com/customer-support-forms/
+  api_products:
+  - {name: Reference API, approval: auto}
+  - {name: Authentication API, approval: auto}
+  - {name: Account List API, approval: auto}
+  - {name: Webhooks API, approval: auto}
+  - {name: Intent API, approval: manual}
+  - {name: Digital Audience API, approval: manual}
+  api_products_source: >-
+    https://developer.bombora.com/portals/api/sites/astute-harbor-103715-developerportalbombora/liveportal/apis
+
+legacy_partner_auth:
+  api: Company Surge API (v4)
+  host: https://sentry.bombora.com
+  type: http
+  scheme: basic
+  detail: >-
+    "authorization key which will be a base 64 encoded string of username and password in the
+    format of username:password" — the partner Confluence documentation. This is a different
+    credential from the portal's ClientId/ClientSecret and a different host; it is not covered by
+    any OpenAPI document.
+  docs: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+
+unrelated_oauth_surface:
+  host: bombora.com
+  issuer: https://bombora.com
+  metadata: https://bombora.com/.well-known/oauth-authorization-server
+  scopes_supported: [mcp]
+  note: >-
+    The RFC 8414 document on bombora.com belongs to the WordPress MCP adapter on the marketing
+    site, not to the product APIs. Do not send its tokens to api.bombora.com. See
+    mcp/bombora-mcp.yml and well-known/bombora-well-known.yml.

@@ -1,0 +1,282 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Intent API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Intent Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/intent/v1/data",
+            "params": [
+              {
+                "name": "pageToken",
+                "value": "nSA21gW",
+                "type": "query",
+                "description": "Page token for paginated retrieval."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Allows paginated intent data to be retrieved.\n* Response body size will not exceed 10MB.\n\nData is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent"
+        },
+        {
+          "info": {
+            "name": "Retrieve Intent Data Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/intent/v1/data",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The POST is used before the corresponding GET endpoint to describe the required attributes and filters in the request body.\nWhen attributes is empty or unspecified, the domain, score, and scoreLabel attributes are returned by default.\nThe request body must contain either a `signalDefinitionId` OR `topics`, but cannot contain both.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SignalDefinition",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Signal Definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the specified Signal Definition."
+        },
+        {
+          "info": {
+            "name": "Replace Signal Definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replaces the signal definition."
+        },
+        {
+          "info": {
+            "name": "Delete Signal Definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes the Signal Definition."
+        },
+        {
+          "info": {
+            "name": "Create a Signal Definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/intent/v1/signal-definition",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "A new Signal Definition can be created given one or more data points in the request body."
+        },
+        {
+          "info": {
+            "name": "Get List of Signal Definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/intent/v1/signal-definitions",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of all the signal definitions."
+        },
+        {
+          "info": {
+            "name": "Gets the metadata of a signal definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId/metadata",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets the metadata of a signal definition."
+        },
+        {
+          "info": {
+            "name": "Updates the metadata of a signal definition.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId/metadata",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the metadata of a signal definition."
+        },
+        {
+          "info": {
+            "name": "Retrieves product definition for a signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId/product-definition",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves product definition for a signal"
+        },
+        {
+          "info": {
+            "name": "Updates the product definition for a signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/intent/v1/signal-definition/:signalDefinitionId/product-definition",
+            "params": [
+              {
+                "name": "signalDefinitionId",
+                "value": "517134f7-4451-4941-9491-8c5c7750d49a",
+                "type": "path",
+                "description": "Unique identifier of a Signal Definition"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replaces the product definition inputs for a signal definition.  \nOnce updated, the signal definition will enter the “Processing” state. \n\n* **Updates to product definition inputs will cause a signal definition’s “topics” collection to be \noverwritten before returning to the “Available” state.**\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

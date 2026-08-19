@@ -1,0 +1,110 @@
+# Bombora
+
+> Bombora is a New York-based B2B data company. Its Data Co-op aggregates anonymous
+> content-consumption signals from more than 5,000 B2B publishers and scores accounts against
+> 18,000+ intent topics — the Company Surge product. Bombora publishes six REST APIs on
+> api.bombora.com through an Apigee Integrated Developer Portal, plus a legacy partner Company
+> Surge API on sentry.bombora.com. Credentials are not self-service: the portal is SAML-only and
+> restricted to existing Bombora customers, and the Intent and Digital Audience products require
+> manual approval per application.
+
+Generated 2026-08-13 by the API Evangelist enrichment pipeline. Bombora publishes no llms.txt of
+its own (https://bombora.com/llms.txt → 404; https://developer.bombora.com/llms.txt → SPA shell).
+Every link below was fetched and its status recorded.
+
+## APIs
+
+- [Intent API](https://developer.bombora.com/docs/intent-api/1/overview): Define and manage intent
+  signals and retrieve Company Surge intent data. Base https://api.bombora.com/intent/v1. 11
+  operations. Manual approval required.
+- [Reference API](https://developer.bombora.com/docs/reference-api/1/overview): The canonical
+  topic, firmographic, demographic, geographic and install-data vocabularies every other API
+  filters on. Base https://api.bombora.com/reference/v1. 14 operations.
+- [Account List API](https://developer.bombora.com/docs/account-list-api/1/overview): Manual,
+  derived, Surge-sourced and visitor-insights account lists and their membership. Base
+  https://api.bombora.com/account-list/v1. 11 operations.
+- [Digital Audience Builder (DAB) API](https://developer.bombora.com/docs/digital-audience-api/1/overview):
+  Compose, estimate, activate and suspend custom B2B audiences against data exchanges and
+  partners. Base https://api.bombora.com/digital-audiences/v1. 7 operations. Manual approval
+  required.
+- [Webhooks API](https://developer.bombora.com/docs/webhooks-api/1/overview): Register signed
+  webhook destinations and subscribe to Bombora event types. Base
+  https://api.bombora.com/webhooks/v1. 10 operations.
+- [Authentication API](https://developer.bombora.com/docs/authentication-api/1/overview): OAuth
+  2.0 token endpoint. Base https://api.bombora.com. POST /oauth/token.
+- [Company Surge API v4 (partner)](https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381698/Surge+API):
+  Legacy partner API for orchestrating Company Surge reports. Base
+  https://sentry.bombora.com/v4/Surge. HTTP Basic auth. 60 calls/minute/endpoint.
+
+## Specs
+
+- openapi/bombora-intent-api-openapi.yml — OpenAPI 3.0.1, info.version 1.0
+- openapi/bombora-reference-api-openapi.yml — OpenAPI 3.0.1, info.version 1.0.1
+- openapi/bombora-account-list-api-openapi.yml — OpenAPI 3.0.1, info.version 1.1
+- openapi/bombora-digital-audience-api-openapi.yml — OpenAPI 3.0.1, info.version v1
+- openapi/bombora-webhooks-api-openapi.yml — OpenAPI 3.0.1, info.version 1.0.1
+- openapi/bombora-authentication-api-openapi.yml — OpenAPI 3.0.0, info.version 1.0.0
+- openapi/_original/ — the verbatim portal snapshots, unmodified
+
+## Runtime semantics
+
+- authentication/bombora-authentication.yml — bearerAuth (http/bearer/JWT) on all five product
+  APIs; ClientId/ClientSecret exchanged at POST /oauth/token. No scopes anywhere.
+- conventions/bombora-conventions.yml — cursor pagination (limit + opaque pageToken) on Intent
+  and Account List only; no idempotency key; no request-id header; no field expansion.
+- errors/bombora-problem-types.yml — vendor envelope {"message": string|null}. NOT RFC 9457. No
+  error codes. 19 distinct documented 4xx/5xx conditions across 400/401/403/404/409/422/502.
+- rate-limits/bombora-rate-limits.yml — one published limit: 60 calls/min/endpoint on the legacy
+  partner API, 429 on exhaustion. No RateLimit-* or Retry-After headers anywhere.
+- lifecycle/bombora-lifecycle.yml — URI-path versioning (/v1). Published API Change Policy with
+  advance notice on major-version removal. No Sunset/Deprecation headers, no SLA, no status page.
+- data-model/bombora-data-model.yml — 10 entities, 16 relationships derived from the specs.
+- conformance/bombora-conformance.yml — 9 standards conformant, 7 not, 1 unknown.
+
+## Events
+
+- asyncapi/bombora-webhooks.yml — webhook catalogue. No AsyncAPI document is published. Four
+  documented event types: SignalDefinitionCreated, SignalDefinitionUpdated,
+  SignalDefinitionDeleted, AccountListAccountsUpdated. Deliveries are HMAC-SHA256 signed in the
+  X-Bombora-Signature-256 header. No payload schemas are published.
+
+## Agent surfaces
+
+- mcp/bombora-mcp.yml — a remote MCP endpoint exists at
+  https://bombora.com/wp-json/mcp/mcp-oauth-server, published by the WordPress MCP adapter on the
+  marketing site and advertised in Bombora's own /.well-known/oauth-protected-resource. It is
+  OAuth-gated (401 to anonymous tools/list) and it does NOT expose the six product APIs.
+- mcp/bombora-tool-crosswalk.yml — 54 REST operations, 0 bound to an MCP tool.
+- skills/ — six packaged Agent Skills grounded in the harvested specs.
+- No A2A agent card. /.well-known/agent-card.json and /.well-known/agent.json miss on every host.
+
+## Docs
+
+- [Developer portal](https://developer.bombora.com)
+- [Get started](https://developer.bombora.com/get-started)
+- [API list](https://developer.bombora.com/apis)
+- [API change policy](https://developer.bombora.com/api-change-policy)
+- [Partner documentation (Confluence)](https://bombora-partners.atlassian.net/wiki/spaces/DOC/overview)
+- [API release notes (legacy, last entry 2020-03-23)](https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/869761025/API+Release+Notes)
+- [Customer resource centre](https://customers.bombora.com)
+- [Support](https://bombora.com/customer-support-forms/)
+
+## Company
+
+- [Website](https://bombora.com)
+- [Company Surge](https://bombora.com/company-surge-intent-data)
+- [Integrations](https://bombora.com/integrations)
+- [Blog](https://bombora.com/feed/)
+- [Terms](https://bombora.com/terms)
+- [Privacy policy](https://bombora.com/privacy-policy)
+- [Privacy philosophy](https://bombora.com/privacy)
+
+## Known gaps
+
+- No pricing of any kind is published; access is an annual sales contract.
+- No SDK in any registry, in any language. The GitHub org github.com/bomboradata contains only
+  forks of third-party projects.
+- No status page, no SLA, no security.txt, no vulnerability-disclosure page, no trust centre, no
+  published certifications.
+- No Postman collection.
+- 53 of 54 operations declare no operationId.

@@ -1,0 +1,2203 @@
+{
+  "item": [
+    {
+      "id": "8d5a413a-6a30-47d9-a4f2-4a9f36bb48a1",
+      "name": "Create a digital audience.",
+      "request": {
+        "name": "Create a digital audience.",
+        "description": {
+          "content": "The Create endpoint allows customers to generate a new DAB custom audience.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"<string>\",\n  \"endDate\": \"<dateTime>\",\n  \"externalId\": \"<string>\",\n  \"partnerId\": \"<string>\",\n  \"cpmPrice\": \"<string>\",\n  \"topics\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"domains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filters\": [\n    {\n      \"id\": \"<string>\",\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"surgeId\": \"<string>\",\n  \"granularInstallData\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filterOr\": false,\n  \"entityParty\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "96279c11-157b-4abd-9643-a448f206fa69",
+          "name": "Created",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"123\",\n  \"externalId\": \"testaudience123\",\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-23T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "f5ed566a-9283-4e8c-be65-ea04b9dda445",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"123\",\n  \"externalId\": \"testaudience123\",\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-23T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "fe9630ff-468c-43df-bc79-64131e9e66b5",
+          "name": "Forbidden",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"123\",\n  \"externalId\": \"testaudience123\",\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-23T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "aa8284bc-ca6b-45ea-9fb4-3a9b3754b88d",
+          "name": "Conflict",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"123\",\n  \"externalId\": \"testaudience123\",\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-23T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Given External Id is already in use. Please retry with a new External Id.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "422a6fde-ea5f-4880-b6e5-3c5c7e47831a",
+          "name": "Invalid",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partnerId\": \"123\",\n  \"externalId\": \"testaudience123\",\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-23T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errors\": {\n    \"cpmPrice\": [\n      \"CPM price 0.25 provided is not supported for eyeota.\"\n    ],\n    \"externalId\": [\n      \"External id containing only numbers, letters, - or _ expected for creating eyeota digital audience.\"\n    ]\n  },\n  \"message\": \"One or more validation errors occurred.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "3881aba4-3fa2-43b1-b87d-75bba53b96e6",
+      "name": "Get a digital audience.",
+      "request": {
+        "name": "Get a digital audience.",
+        "description": {
+          "content": "The Get endpoint allows users to retrieve an existing Digital Audience.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange",
+            ":externalId",
+            ":partnerId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "externalId",
+              "description": "(Required) The external ID of the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "partnerId",
+              "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "0c8d3264-2f52-433e-9885-ec5c68187111",
+          "name": "OK",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"externalId\": \"audience123\",\n  \"partnerId\": \"123\",\n  \"name\": \"Example Audience\",\n  \"endDate\": \"2021-12-23T19:53:35.984Z\",\n  \"filterOr\": false,\n  \"topics\": [\n    \"topic1\",\n    \"topic2\"\n  ],\n  \"domains\": [\n    \"url1.com\",\n    \"url2.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"surgeId\": \"123\",\n  \"cpmPrice\": \"1.00\",\n  \"filters\": [\n    {\n      \"id\": \"filter1\",\n      \"values\": [\n        \"value1\"\n      ]\n    },\n    {\n      \"id\": \"filter2\",\n      \"values\": [\n        \"value2\"\n      ]\n    }\n  ],\n  \"granularInstallData\": [\n    \"10000\",\n    \"10001\",\n    \"10002\"\n  ],\n  \"status\": \"ACTIVE\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "acb4525c-fdc2-4f55-8db4-4ee86f83a583",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "3ba4da11-3da9-4fc6-bd28-e3a4246dbc30",
+          "name": "Forbidden",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "5d1e93d7-1102-4e3c-960d-51664e226a45",
+          "name": "Not Found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "f99ff11e-be3a-41a9-80f5-d46edb16ead6",
+      "name": "Update a digital audience.",
+      "request": {
+        "name": "Update a digital audience.",
+        "description": {
+          "content": "The Edit endpoint allows customers to modify an existing DAB custom audience. \nThis endpoint is a full overwrite of the existing custom audience settings.\n\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange",
+            ":externalId",
+            ":partnerId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "externalId",
+              "description": "(Required) The external ID of the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "partnerId",
+              "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "PUT",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"<string>\",\n  \"endDate\": \"<dateTime>\",\n  \"cpmPrice\": \"<string>\",\n  \"topics\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"domains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filters\": [\n    {\n      \"id\": \"<string>\",\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"surgeId\": \"<string>\",\n  \"granularInstallData\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filterOr\": false,\n  \"entityParty\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "ae188bcc-10c5-4a7b-bec3-34ce6d6937aa",
+          "name": "No Content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-27T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "84798cb5-0f6f-460b-a8a4-37c33d8b1678",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-27T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "bdfc29bb-6795-4355-bcf1-b09bda6b15a1",
+          "name": "Forbidden",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-27T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "fa9c33d5-6b8a-4119-9616-2b9e28cb0a2d",
+          "name": "Not Found",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-27T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "e03ef9aa-6f0f-4bac-ba40-a79632fb999a",
+          "name": "Unprocessable Entity",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Test Audience\",\n  \"endDate\": \"2021-12-27T19:53:35.984Z\",\n  \"topics\": [\n    \"1503561\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"bombora.com\",\n    \"spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Software\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Marketing\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errors\": {\n    \"filters\": [\n      \"Filters are expected to have both an id and a list of values.\"\n    ]\n  },\n  \"message\": \"One or more validation errors occurred.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "7be76cac-913d-42f1-9638-06f9e062eb79",
+      "name": "Delete a digital audience.",
+      "request": {
+        "name": "Delete a digital audience.",
+        "description": {
+          "content": "The Delete endpoint allows users to delete an existing Digital Audience.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange",
+            ":externalId",
+            ":partnerId"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "externalId",
+              "description": "(Required) The external ID of the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "partnerId",
+              "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "c76d0705-731b-466c-87c6-1fb0a2bacba2",
+          "name": "The resource no longer exists.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "c580fda9-2378-493e-8cbd-15a492eba268",
+          "name": "No Content",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "90195bb6-f40c-4ae2-a33a-70275023ed2b",
+      "name": "Activate a digital audience.",
+      "request": {
+        "name": "Activate a digital audience.",
+        "description": {
+          "content": "The Activate endpoint allows users to activate an existing suspended Digital Audience.\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange",
+            ":externalId",
+            ":partnerId",
+            "activate"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "externalId",
+              "description": "(Required) The external ID of the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "partnerId",
+              "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+            }
+          ]
+        },
+        "method": "PUT",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "c826ca02-c21a-4dee-9925-11c97a9eb975",
+          "name": "No Content - Request was successful",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "da2f449e-7dbc-4950-9e6b-33ca73d23c43",
+          "name": "Unauthorized - Request was not properly authorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "8fbd8adc-681a-4ba5-8ae9-73689aafe7ce",
+          "name": "Forbidden - Request for segment activation was not properly authorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "30ce9d89-c325-444f-a4e1-9f97a7840417",
+          "name": "Conflict - Segment does not have prerequired \"Suspended\" status",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "activate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "Conflict",
+          "code": 409,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "0d454a56-89c9-463b-9e33-897020b5859a",
+      "name": "Suspend a digital audience.",
+      "request": {
+        "name": "Suspend a digital audience.",
+        "description": {
+          "content": "The Suspend endpoint allows users to suspend an existing Digital Audience.\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange",
+            ":externalId",
+            ":partnerId",
+            "suspend"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "externalId",
+              "description": "(Required) The external ID of the digital audience."
+            },
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "partnerId",
+              "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+            }
+          ]
+        },
+        "method": "PUT",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "97c6aacd-2fb0-42d3-b044-36013d9199d7",
+          "name": "No Content - Request was successful",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "suspend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "f8de0d4e-2c2f-41c8-aee9-86d76fe8d195",
+          "name": "Unauthorized - Request was not properly authorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "suspend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "ed5cd142-d121-4ca3-b1a7-016393a52f0b",
+          "name": "Forbidden - Request for segment activation was not properly authorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "suspend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "dceb85b2-da58-4bff-8a11-9faded077d5b",
+          "name": "Not Found - Segment does not exist",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                ":externalId",
+                ":partnerId",
+                "suspend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "externalId",
+                  "description": "(Required) The external ID of the digital audience."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partnerId",
+                  "description": "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "PUT",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "e0c17437-1f65-4d76-81ab-176b66c663a0",
+      "name": "Estimate the size of a digital audience.",
+      "request": {
+        "name": "Estimate the size of a digital audience.",
+        "description": {
+          "content": "The Estimate endpoint allows customers to estimate the size of an audience.",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ":dataexchange",
+            "estimate"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "dataexchange",
+              "description": "(Required) Data exchange which owns the digital audience."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"topics\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"domains\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filters\": [\n    {\n      \"id\": \"<string>\",\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"values\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"surgeId\": \"<string>\",\n  \"granularInstallData\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filterOr\": false,\n  \"entityParty\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "3eb02472-daa0-4a42-84c8-73e8a8398381",
+          "name": "OK - Request was successful",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                "estimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"www.bombora.com\",\n    \"www.spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Agriculture\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Building & Grounds Maintenance\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"count\": 3904\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "19b467ae-b6ae-42d0-9286-513e11f9f20f",
+          "name": "Unauthorized",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                "estimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"www.bombora.com\",\n    \"www.spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Agriculture\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Building & Grounds Maintenance\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "6a64b8e6-a972-435e-b5f8-58602b69d471",
+          "name": "Unprocessable Entity - Request was invalid",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                "estimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"www.bombora.com\",\n    \"www.spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Agriculture\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Building & Grounds Maintenance\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+          "code": 422,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"errors\": {\n    \"granularInstallData\": [\n      \"Invalid ids: 23\"\n    ]\n  },\n  \"message\": \"One or more validation errors occurred.\"\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3d215f9b-44b1-49df-9860-056ca7fc15e6",
+          "name": "Bad Gateway",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ":dataexchange",
+                "estimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dataexchange",
+                  "description": "(Required) Data exchange which owns the digital audience."
+                }
+              ]
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topics\": [\n    \"1503561\",\n    \"1503565\"\n  ],\n  \"filterOr\": false,\n  \"domains\": [\n    \"www.bombora.com\",\n    \"www.spotify.com\"\n  ],\n  \"entityParty\": \"3\",\n  \"filters\": [\n    {\n      \"id\": \"ccm_industry\",\n      \"values\": [\n        \"Agriculture\"\n      ]\n    },\n    {\n      \"id\": \"functional_area\",\n      \"values\": [\n        \"Building & Grounds Maintenance\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Gateway",
+          "code": 502,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bombora.com/digital-audiences/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "307f35fa-4843-4129-8fe4-e593a9cdc1c4",
+    "name": "Digital Audience Builder (DAB) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Digital Audience Builder (DAB) API provides customers\nthe ability to programmatically create and edit custom audiences.\n\n### **Security**\nAll API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.\nGo to the [Get Started](/get-started) page for additional details.\n\n### **Error Handling**\nThe API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.\n\n### **Reference Data**\nThe API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.\n",
+      "type": "text/plain"
+    }
+  }
+}

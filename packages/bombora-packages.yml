@@ -1,0 +1,47 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, rubygems.org, crates.io, api.github.com/orgs/bomboradata,
+  https://developer.bombora.com (portal navigation and Get Started page)
+package_count: 0
+official_package_count: 0
+packages: []
+note: >-
+  Bombora ships no first-party client library in any registry. Verified: npm registry search for
+  "bombora" returns exactly one package, gatsby-plugin-bombora (third-party, v1.0.0, published
+  2022-09-12, a Gatsby tag-injection plugin, not an API client); pypi.org/pypi/bombora/json 404;
+  rubygems.org/api/v1/gems/bombora.json 404; crates.io has no bombora crate. The GitHub
+  organisation github.com/bomboradata holds 23 public repositories and every one of them is a fork
+  or mirror of a third-party project (Apache Beam, Apache Airflow, terraform-provider-google,
+  google-cloud-python, spaCy, skorch, dragnet, Jenkins plugins) — there is no Bombora API client
+  among them. The only first-party developer asset in that org is bombora-tutorials, a Jupyter
+  notebook repo, archived, last pushed 2016-07-14. The developer portal's own Get Started page
+  documents raw HTTP against /oauth/token and offers no SDK download. No `SDKs` pointer is emitted.
+third_party:
+- language: javascript
+  registry: npm
+  name: gatsby-plugin-bombora
+  url: https://www.npmjs.com/package/gatsby-plugin-bombora
+  version: 1.0.0
+  published: '2022-09-12'
+  official: false
+  description: Third-party Gatsby plugin that injects the Bombora tracking tag into a site.
+  note: Not an API client and not published by Bombora.
+registries_checked:
+- registry: npm
+  query: bombora
+  result: 1 match, none official
+- registry: pypi
+  package: bombora
+  status: 404
+- registry: rubygems
+  package: bombora
+  status: 404
+- registry: crates.io
+  package: bombora
+  status: not-found
+- registry: github
+  org: bomboradata
+  repos: 23
+  first_party_clients: 0
+  note: All repositories are forks/mirrors of third-party projects; bombora-tutorials is archived (2016).

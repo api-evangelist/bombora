@@ -1,0 +1,366 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/ (6 Bombora OpenAPI 3.0 documents harvested from the Apigee developer portal) + mcp/bombora-mcp.yml
+note: Bombora's MCP endpoint and its REST product APIs do not overlap. The MCP server is the WordPress MCP Adapter
+  on bombora.com (marketing site); the 54 REST operations below are served from api.bombora.com and have no MCP
+  tool. tools/list is 401 to anonymous callers, so no tool names were observed and none are invented here — crosswalk[]
+  is empty by measurement, not by omission.
+surfaces:
+  openapi:
+    files:
+    - bombora-account-list-api-openapi.yml
+    - bombora-authentication-api-openapi.yml
+    - bombora-digital-audience-api-openapi.yml
+    - bombora-intent-api-openapi.yml
+    - bombora-reference-api-openapi.yml
+    - bombora-webhooks-api-openapi.yml
+    host: https://api.bombora.com
+    operations: 54
+    gated: false
+    note: Specs are public and anonymous at developer.bombora.com; calling the operations requires an Apigee-issued
+      bearer token.
+  graphql:
+    endpoint: null
+    note: 'Bombora publishes no GraphQL endpoint. The Apigee portal''s own API-doc records report graphqlSchema:
+      null and graphqlEndpointUrl: null for all six APIs.'
+  mcp:
+    url: https://bombora.com/wp-json/mcp/mcp-oauth-server
+    gated: true
+    note: '401 mcp_unauthorized on anonymous initialize and tools/list; OAuth required (scope: mcp).'
+crosswalk: []
+mcp_only: []
+rest_only:
+- openapi: bombora-account-list-api-openapi.yml
+  api: Account List API
+  capability: AccountLists
+  operations:
+  - ref: GET /account-list
+    method: GET
+    path: /account-list
+    operationId: null
+    summary: Get Account Lists
+  - ref: POST /account-list
+    method: POST
+    path: /account-list
+    operationId: null
+    summary: Create New Account List
+  - ref: GET /account-list/{accountListId}
+    method: GET
+    path: /account-list/{accountListId}
+    operationId: null
+    summary: Get Account List
+  - ref: PUT /account-list/{accountListId}
+    method: PUT
+    path: /account-list/{accountListId}
+    operationId: null
+    summary: Update Account List
+  - ref: DELETE /account-list/{accountListId}
+    method: DELETE
+    path: /account-list/{accountListId}
+    operationId: null
+    summary: Delete Account List
+- openapi: bombora-account-list-api-openapi.yml
+  api: Account List API
+  capability: Accounts
+  operations:
+  - ref: updateAccounts
+    method: POST
+    path: /account-list/{accountListId}/accounts
+    operationId: updateAccounts
+    summary: Add/Update Accounts
+  - ref: DELETE /account-list/{accountListId}/accounts
+    method: DELETE
+    path: /account-list/{accountListId}/accounts
+    operationId: null
+    summary: Delete Account List Contents
+  - ref: GET /account-list/{accountListId}/accounts/domains
+    method: GET
+    path: /account-list/{accountListId}/accounts/domains
+    operationId: null
+    summary: Get Account Domains
+  - ref: POST /account-list/{accountListId}/accounts/search
+    method: POST
+    path: /account-list/{accountListId}/accounts/search
+    operationId: null
+    summary: Retrieve Account Data Request
+  - ref: GET /account-list/{accountListId}/accounts/search
+    method: GET
+    path: /account-list/{accountListId}/accounts/search
+    operationId: null
+    summary: Retrieve Account Data
+  - ref: POST /account-list/{accountListId}/delete-accounts
+    method: POST
+    path: /account-list/{accountListId}/delete-accounts
+    operationId: null
+    summary: Delete Accounts
+- openapi: bombora-authentication-api-openapi.yml
+  api: Authentication API
+  capability: Authentication API
+  operations:
+  - ref: POST /oauth/token
+    method: POST
+    path: /oauth/token
+    operationId: null
+    summary: OAuth Token
+- openapi: bombora-digital-audience-api-openapi.yml
+  api: Digital Audience Builder (DAB) API
+  capability: Digital Audience Builder (DAB) API
+  operations:
+  - ref: POST /{dataexchange}
+    method: POST
+    path: /{dataexchange}
+    operationId: null
+    summary: Create a digital audience.
+  - ref: GET /{dataexchange}/{externalId}/{partnerId}
+    method: GET
+    path: /{dataexchange}/{externalId}/{partnerId}
+    operationId: null
+    summary: Get a digital audience.
+  - ref: PUT /{dataexchange}/{externalId}/{partnerId}
+    method: PUT
+    path: /{dataexchange}/{externalId}/{partnerId}
+    operationId: null
+    summary: Update a digital audience.
+  - ref: DELETE /{dataexchange}/{externalId}/{partnerId}
+    method: DELETE
+    path: /{dataexchange}/{externalId}/{partnerId}
+    operationId: null
+    summary: Delete a digital audience.
+  - ref: PUT /{dataexchange}/{externalId}/{partnerId}/activate
+    method: PUT
+    path: /{dataexchange}/{externalId}/{partnerId}/activate
+    operationId: null
+    summary: Activate a digital audience.
+  - ref: PUT /{dataexchange}/{externalId}/{partnerId}/suspend
+    method: PUT
+    path: /{dataexchange}/{externalId}/{partnerId}/suspend
+    operationId: null
+    summary: Suspend a digital audience.
+  - ref: POST /{dataexchange}/estimate
+    method: POST
+    path: /{dataexchange}/estimate
+    operationId: null
+    summary: Estimate the size of a digital audience.
+- openapi: bombora-intent-api-openapi.yml
+  api: Intent API
+  capability: Data
+  operations:
+  - ref: GET /data
+    method: GET
+    path: /data
+    operationId: null
+    summary: Retrieve Intent Data
+  - ref: POST /data
+    method: POST
+    path: /data
+    operationId: null
+    summary: Retrieve Intent Data Request
+- openapi: bombora-intent-api-openapi.yml
+  api: Intent API
+  capability: SignalDefinition
+  operations:
+  - ref: GET /signal-definition/{signalDefinitionId}
+    method: GET
+    path: /signal-definition/{signalDefinitionId}
+    operationId: null
+    summary: Retrieve Signal Definition
+  - ref: PUT /signal-definition/{signalDefinitionId}
+    method: PUT
+    path: /signal-definition/{signalDefinitionId}
+    operationId: null
+    summary: Replace Signal Definition
+  - ref: DELETE /signal-definition/{signalDefinitionId}
+    method: DELETE
+    path: /signal-definition/{signalDefinitionId}
+    operationId: null
+    summary: Delete Signal Definition
+  - ref: POST /signal-definition
+    method: POST
+    path: /signal-definition
+    operationId: null
+    summary: Create a Signal Definition
+  - ref: GET /signal-definitions
+    method: GET
+    path: /signal-definitions
+    operationId: null
+    summary: Get List of Signal Definitions
+  - ref: GET /signal-definition/{signalDefinitionId}/metadata
+    method: GET
+    path: /signal-definition/{signalDefinitionId}/metadata
+    operationId: null
+    summary: Gets the metadata of a signal definition.
+  - ref: PUT /signal-definition/{signalDefinitionId}/metadata
+    method: PUT
+    path: /signal-definition/{signalDefinitionId}/metadata
+    operationId: null
+    summary: Updates the metadata of a signal definition.
+  - ref: GET /signal-definition/{signalDefinitionId}/product-definition
+    method: GET
+    path: /signal-definition/{signalDefinitionId}/product-definition
+    operationId: null
+    summary: Retrieves product definition for a signal
+  - ref: PUT /signal-definition/{signalDefinitionId}/product-definition
+    method: PUT
+    path: /signal-definition/{signalDefinitionId}/product-definition
+    operationId: null
+    summary: Updates the product definition for a signal
+- openapi: bombora-reference-api-openapi.yml
+  api: Reference API
+  capability: Demographic
+  operations:
+  - ref: GET /demographic/functional-area
+    method: GET
+    path: /demographic/functional-area
+    operationId: null
+    summary: Returns a list of employee functional areas.
+  - ref: GET /demographic/seniority
+    method: GET
+    path: /demographic/seniority
+    operationId: null
+    summary: Returns a list of employee seniority attributes.
+  - ref: GET /demographic/professional-group
+    method: GET
+    path: /demographic/professional-group
+    operationId: null
+    summary: Returns a list of employee professional group attributes.
+  - ref: GET /demographic/b2b-personas
+    method: GET
+    path: /demographic/b2b-personas
+    operationId: null
+    summary: Returns a list of B2B persona attributes.
+- openapi: bombora-reference-api-openapi.yml
+  api: Reference API
+  capability: Firmographic
+  operations:
+  - ref: GET /firmographic/company-size
+    method: GET
+    path: /firmographic/company-size
+    operationId: null
+    summary: Returns a list of company size attributes.
+  - ref: GET /firmographic/industry
+    method: GET
+    path: /firmographic/industry
+    operationId: null
+    summary: Returns a list of industry attributes.
+  - ref: GET /firmographic/revenue
+    method: GET
+    path: /firmographic/revenue
+    operationId: null
+    summary: Returns a list of company revenue attributes.
+- openapi: bombora-reference-api-openapi.yml
+  api: Reference API
+  capability: Geographic
+  operations:
+  - ref: GET /geographic/country
+    method: GET
+    path: /geographic/country
+    operationId: null
+    summary: Returns a list of country attributes.
+  - ref: GET /geographic/state
+    method: GET
+    path: /geographic/state
+    operationId: null
+    summary: Returns a list of state attributes.
+  - ref: GET /geographic/metro-area
+    method: GET
+    path: /geographic/metro-area
+    operationId: null
+    summary: Returns a list of metropolitan area attributes.
+- openapi: bombora-reference-api-openapi.yml
+  api: Reference API
+  capability: Install Data
+  operations:
+  - ref: GET /install-data/products
+    method: GET
+    path: /install-data/products
+    operationId: null
+    summary: Returns a list of supported Install Data Products.
+- openapi: bombora-reference-api-openapi.yml
+  api: Reference API
+  capability: Intent
+  operations:
+  - ref: GET /topics
+    method: GET
+    path: /topics
+    operationId: null
+    summary: Returns a list of topics with optional filtering by attributes.
+  - ref: GET /b2c-interest
+    method: GET
+    path: /b2c-interest
+    operationId: null
+    summary: Returns a list of topic attributes related to B2C interest.
+  - ref: GET /b2b-interest-groups
+    method: GET
+    path: /b2b-interest-groups
+    operationId: null
+    summary: Returns a list of B2B interest group attributes.
+- openapi: bombora-webhooks-api-openapi.yml
+  api: Webhooks API
+  capability: Destinations
+  operations:
+  - ref: GET /destinations
+    method: GET
+    path: /destinations
+    operationId: null
+    summary: Returns list of webhook destinations.
+  - ref: POST /destination
+    method: POST
+    path: /destination
+    operationId: null
+    summary: Create a webhook destination that can be used with event type subscriptions.
+  - ref: GET /destination/{destinationId}
+    method: GET
+    path: /destination/{destinationId}
+    operationId: null
+    summary: Retrieve the destination object (excluding “auth”).
+  - ref: PUT /destination/{destinationId}
+    method: PUT
+    path: /destination/{destinationId}
+    operationId: null
+    summary: Replaces the destination document (excluding “auth” object).
+  - ref: DELETE /destination/{destinationId}
+    method: DELETE
+    path: /destination/{destinationId}
+    operationId: null
+    summary: Deletes the destination and all related subscriptions, if all events are disabled; otherwise, fails
+      with a message indicating that events mu
+  - ref: PUT /destination/{destinationId}/auth
+    method: PUT
+    path: /destination/{destinationId}/auth
+    operationId: null
+    summary: Replaces the specified destination’s auth object.
+- openapi: bombora-webhooks-api-openapi.yml
+  api: Webhooks API
+  capability: Events
+  operations:
+  - ref: GET /destination/{destinationId}/events
+    method: GET
+    path: /destination/{destinationId}/events
+    operationId: null
+    summary: Returns list of subscribable events, along with a status.
+  - ref: GET /destination/{destinationId}/event/{eventType}
+    method: GET
+    path: /destination/{destinationId}/event/{eventType}
+    operationId: null
+    summary: Retrieve the configuration and related stats for the specified event type.
+  - ref: PUT /destination/{destinationId}/event/{eventType}
+    method: PUT
+    path: /destination/{destinationId}/event/{eventType}
+    operationId: null
+    summary: Replaces the event document for the specified webhook destination.
+  - ref: DELETE /destination/{destinationId}/event/{eventType}
+    method: DELETE
+    path: /destination/{destinationId}/event/{eventType}
+    operationId: null
+    summary: Deletes the event from the subscription list.
+coverage:
+  tools_named: 0
+  tools_bound: 0
+  mcp_only: 0
+  rest_operations_total: 54
+  rest_operations_with_tool: 0
+  rest_operations_without_tool: 54
+  operation_ids_declared: 1
+  operation_ids_missing: 53
+  note: 53 of 54 operations declare no operationId, so REST operations are referenced by METHOD + path throughout
+    this repo.

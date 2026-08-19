@@ -1,0 +1,3630 @@
+{
+  "item": [
+    {
+      "id": "ef668674-56b1-4d69-bd7c-2971e6b7c0b5",
+      "name": "AccountLists",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "35ef8b05-8eb9-44d7-ab17-e3fc47d7ab2a",
+          "name": "Get Account Lists",
+          "request": {
+            "name": "Get Account Lists",
+            "description": {
+              "content": "Returns an array of AccountListSummary for all account lists.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5dbf61b6-fa5a-4f79-bf87-20ec6dd08522",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountLists\": [\n    {\n      \"id\": \"3e19d5f7-98f0-4c76-a859-c8707b57d9d2\",\n      \"type\": \"Manual\",\n      \"name\": \"My manually uploaded accounts\",\n      \"description\": \"All the accounts I care about\",\n      \"accountsLastModified\": \"2024-01-27T05:06:07\",\n      \"accountTotal\": 100,\n      \"pendingUpdate\": false,\n      \"createdDate\": \"2024-01-27T05:06:07\",\n      \"modifiedDate\": \"2024-01-29T07:03:02\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6108db3-87f8-40f1-bf68-a7cfb6a1caa0",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ebaf911f-bb32-4152-8fbe-d2d22d2f0b07",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5a097f7-a120-4093-ae93-953319f4edbd",
+          "name": "Create New Account List",
+          "request": {
+            "name": "Create New Account List",
+            "description": {
+              "content": "Creates a new account list given the AccountListDefinition provided in the request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6004d13-cad4-4076-b214-62685b4cbefb",
+              "name": "Success - The request has been processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"3e19d5f7-98f0-4c76-a859-c8707b57d9d2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "261613c7-aa77-450d-a3b7-c6fd934a2be7",
+              "name": "Success - The request has been accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"3e19d5f7-98f0-4c76-a859-c8707b57d9d2\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d73c546-f9a1-42cf-8002-7731c877c131",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "058f6358-9123-4742-bf75-2f2ddf6a6eec",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ca520bd5-9f70-4ca0-a116-0d6a9ceb84ec",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "40842fb7-7bc1-4538-b29c-814b7c96f4b6",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "074f46d2-4d6c-4439-9057-627f54cbb11c",
+          "name": "Get Account List",
+          "request": {
+            "name": "Get Account List",
+            "description": {
+              "content": "Retrieves the account list definition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8ddfe556-8420-4cc3-9a9d-938810d61115",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"Manual\",\n  \"metadata\": {\n    \"name\": \"US Accounts\",\n    \"description\": \"All US Accounts\"\n  },\n  \"specification\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e41258e-db01-4be9-b3ca-94b5f820bf8e",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "39e1bb6b-dbbf-4b4d-b185-d6f3a0e07da3",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "10644b16-09a6-4dde-8248-f5ed471c0efc",
+          "name": "Update Account List",
+          "request": {
+            "name": "Update Account List",
+            "description": {
+              "content": "Updates the account list definition.\n- ParentId and type are not modifiable.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e7b71712-6931-482e-844c-9a6849ce7e5f",
+              "name": "Success - The response body includes the updated resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"accountTotal\": 5863,\n    \"pendingUpdate\": false\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2f4f15a-4eab-4911-a94f-d809663b3d14",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "419172ed-7e14-44e5-bd7b-8ea30620e8d8",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4b8beb9b-adbe-4311-8039-0c655d2046e6",
+              "name": "The resource could at this path does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"specification\": \"<object>\",\n  \"accountsLastModified\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44eb0229-918d-457c-ac1d-796c9c6f9eb1",
+          "name": "Delete Account List",
+          "request": {
+            "name": "Delete Account List",
+            "description": {
+              "content": "Deletes the specified account list.\n- A 409 Conflict error will be returned if the account list is used as a parent of a derived account list.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "504f67f9-969c-43c4-8446-ad4b2c5a9326",
+              "name": "Success - The request has been processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9ae7f40c-c521-4f97-8eb7-6e28ae0aeba2",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "27238861-047f-45a6-ade5-fb58bb4e81cd",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6a3a0d58-3901-4a7a-b3f8-b20a5f243d6d",
+              "name": "The resource could at this path does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "48680677-8c9e-4e1a-ba05-3970f5e5fab2",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "472efa17-5596-49b7-977b-ace762133626",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "db6c594a-5f69-44d5-abee-f3c898ee8ddc",
+      "name": "Accounts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f94dec55-d951-48df-96a8-9f37b1dce7a9",
+          "name": "Add/Update Accounts",
+          "request": {
+            "name": "Add/Update Accounts",
+            "description": {
+              "content": "Adds or updates accounts in the account list. \n- Only valid for Manual Account List Type.\n- If id is not specified for an account, the domain is used as the account identifier.\n- If the account identifier does not match an existing account in the account list, the account will be inserted. \n- If the account identifier matches an existing account in the account list, the existing account will be updated.\n- If there are duplicate account identifiers in the request body, the request will be rejected.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId",
+                "accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"domain\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": \"<object>\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": \"<object>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7dfebeb9-976b-4954-9e25-eed1ca7d7e64",
+              "name": "Success - The request has been processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1e0f9707-4788-452d-878b-f7fe2a95b169",
+              "name": "Success - The request has been accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24b7717d-cb9c-46e6-a33c-0e47c29bff89",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a572a803-49d9-4549-8c07-c2de3e03fce1",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b956f4f6-31fb-41e8-9e42-72de05d9be47",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aff416ca-d665-4d63-8fb1-8c5e887d88e2",
+              "name": "The resource could at this path does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fac67e98-667c-44c3-b6cc-b477f2683941",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"domain\": \"google.com\"\n  },\n  {\n    \"domain\": \"bombora.com\",\n    \"id\": \"Custom provided ID\"\n  },\n  {\n    \"domain\": \"bing.com\",\n    \"attributes\": {\n      \"ceoTShirtSize\": \"M\",\n      \"rank\": 4\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "30a7c6b6-5b6d-48de-9ec4-b263cf0e94e8",
+          "name": "Delete Account List Contents",
+          "request": {
+            "name": "Delete Account List Contents",
+            "description": {
+              "content": "This idempotent endpoint deletes all accounts within the account list, but does not delete the account list itself.\n- Only valid for Manual Account List Type.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId",
+                "accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f924c943-e43f-406f-a2f9-c0ef87624a51",
+              "name": "Success - The request has been processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9fbae97d-f032-4ad4-9abf-8762f37aab8f",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8c8af157-869e-4092-80f3-0e8a99ac8ee7",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e3fb16a9-9fe6-42d8-b5dd-682c79fc3d53",
+              "name": "The resource could at this path does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8fbfda11-60e0-4128-b3d1-e2f3de44cede",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e28f252-6ad0-4e8e-8495-1fe71c028514",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e266699-ecc4-4f2f-948b-49cd6c931beb",
+          "name": "Get Account Domains",
+          "request": {
+            "name": "Get Account Domains",
+            "description": {
+              "content": "Returns all distinct domains in an account list\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId",
+                "accounts",
+                "domains"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b861a5eb-e17e-40a4-bba4-bd90488911ff",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"bombora.com\",\n  \"starbucks.com\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08213366-a9a6-4849-8cb0-bf76d91bfbdf",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b588ab2-aaf4-46a7-917b-2b4551b07f81",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ef66b7c0-5783-45f2-b118-d989e977d292",
+              "name": "The resource could at this path does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5ddc9c9-5cea-4243-b30f-c61cf80ec132",
+          "name": "Retrieve Account Data Request",
+          "request": {
+            "name": "Retrieve Account Data Request",
+            "description": {
+              "content": "The POST is used before the corresponding GET endpoint to describe the required attributes and filters in the request body.\nA prefix of `attributes.` is necessary if attempting to filter by optional account attributes in your list.\nWhen attributes is empty or unspecified, the id is returned by default.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId",
+                "accounts",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attributes\": \"<object>\",\n  \"filters\": {\n    \"a\": \"<string>\",\n    \"eq\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ca65a456-8407-48d7-b8ab-2c68ec0a8eec",
+              "name": "Success - The response body includes the pageToken that must be supplied to the GET endpoint to retrieve results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": [\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pageToken\": \"nSA21gW\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e09ae467-ee79-4138-b102-725b199f89aa",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": [\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "82f2305d-3093-4fb9-9142-96ea9650f475",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": [\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d6255c12-1e1d-417b-8dcc-39f475937666",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": [\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "073e26d4-cc37-4b3e-9a31-d93d2f2ac392",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": [\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "878c847e-0496-4163-855e-8c243718f61e",
+          "name": "Retrieve Account Data",
+          "request": {
+            "name": "Retrieve Account Data",
+            "description": {
+              "content": "Allows paginated account data to be retrieved for an Account List.\n\nData is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the next page.\nAll results have been returned when nextPageToken is null.\n\nExample URL with query parameters\n```\nhttps://api.bombora.com/account-list/v1/account-list/{accountListId}?pageToken={pageToken}&limit=100\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId",
+                "accounts",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageToken",
+                  "value": "<string>",
+                  "description": "(Required) Page token for paginated retrieval."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10000"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b0d354d4-64d7-4f06-94c4-70567b5f3d42",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accounts\": [\n    {\n      \"domain\": \"bombora.com\",\n      \"id\": \"123456\",\n      \"attributes\": {\n        \"customObjectId\": \"12389367\",\n        \"Country\": \"US\"\n      },\n      \"company\": {\n        \"size\": \"Medium-Small (50 - 199 Employees)\",\n        \"hq\": {\n          \"city\": \"New York\",\n          \"state\": \"NY\",\n          \"country\": \"US\",\n          \"address\": \"115 E 23RD ST\",\n          \"address2\": \"7TH FL\",\n          \"zip\": \"10010\"\n        }\n      }\n    },\n    \"...\"\n  ],\n  \"nextPageToken\": \"nSA21gW\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33dd9202-e0a8-488e-af96-50d0473c4a0a",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b5f7c0d7-2e80-40d2-bafd-06426a743058",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e5e98eb7-a2d6-4a45-8bec-fd14a5373d35",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b8693c13-aba8-4fa5-a1dc-6030b98a26fc",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "accounts",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cbbb6375-980c-4241-8a24-2c9fd20c8c66",
+          "name": "Delete Accounts",
+          "request": {
+            "name": "Delete Accounts",
+            "description": {
+              "content": "Deletes the specified accounts from the account list.\n- Only valid for Manual Account List Type.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-list",
+                ":accountListId",
+                "delete-accounts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "accountListId",
+                  "description": "(Required) The unique identifier (AccountListId) of the account list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4d40de55-d9cf-4b65-8140-93e68725e4db",
+              "name": "Success - The request has been processed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "delete-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"Top Account\",\n    \"bombora.com\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f3c2d182-ecf8-4ef6-8e87-a0fc498d96f9",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "delete-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"Top Account\",\n    \"bombora.com\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "59c03524-f8e0-45ef-9354-c92c1fd7c50b",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "delete-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"Top Account\",\n    \"bombora.com\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "df62ea0f-9c40-4c9f-8960-f8cd2a27c047",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "delete-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"Top Account\",\n    \"bombora.com\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ff11d745-94ae-4ce5-becf-9fe295668ba9",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "delete-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"Top Account\",\n    \"bombora.com\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c06fbbc-e67c-4ad9-ad82-38ef70b26b20",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-list",
+                    ":accountListId",
+                    "delete-accounts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "accountListId",
+                      "description": "(Required) The unique identifier (AccountListId) of the account list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"Top Account\",\n    \"bombora.com\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bombora.com/account-list/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e544e086-120f-44c1-bcdb-f93f6ccdd924",
+    "name": "Account List API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Account List API provides the ability to define and maintain lists of accounts. Lists can be manually curated, \nsynchronized from external systems, sourced from Bombora's data, or segmented from other account lists.\n\n### **Security**\nAll API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.\nGo to the [Get Started](/get-started) page for additional details.\n\n### **Error Handling**\nThe API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.\n\n### **Reference Data**\nThe API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+generated: '2026-08-13'
+method: searched
+source: https://bombora.com/
+docs: null
+plan_count: 0
+plans: []
+pricing_model: enterprise-contract
+public_pricing: false
+free_tier: false
+trial: false
+self_serve_signup: false
+note: >-
+  Bombora publishes no plans, tiers, or prices. https://bombora.com/pricing does not exist —
+  it resolves to the "Our Data" marketing page — and no /plans, /pricing or cost page appears in
+  bombora.com's Yoast sitemap index. The developer portal at developer.bombora.com has no pricing
+  page either: its entire navigation is Home / APIs / My Apps / Support / Sign In, and sign-in is
+  SAML SSO restricted to existing Bombora customers ("You must be an existing Bombora User to
+  login"). Access is sold as an annual data contract through sales, and API products are approved
+  per application by Bombora Support — Intent and Digital Audience are marked approvalType:
+  manual in the portal, Reference, Authentication, Account List and Webhooks approvalType: auto,
+  but all still require an existing customer relationship.
+commercial_gates:
+- gate: sales-contract
+  detail: Annual data agreement negotiated with Bombora; no published rate card.
+- gate: manual-product-approval
+  detail: >-
+    Apigee API-product approval per app. Intent API and Digital Audience API are approvalType
+    manual; the remaining four are auto but still require a provisioned developer team.
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - url: https://bombora.com/pricing
+    status: 200
+    note: redirects to the "Our Data" page; not a pricing page
+  - url: https://developer.bombora.com/get-started
+    status: 200
+    note: sign-in is SAML SSO for existing Bombora users only
+  - url: https://developer.bombora.com/portals/api/sites/astute-harbor-103715-developerportalbombora/liveportal/apis
+    status: 200
+    note: lists six API products with approvalType auto|manual and no price fields

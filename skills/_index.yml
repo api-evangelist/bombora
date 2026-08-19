@@ -1,0 +1,60 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  openapi/ — six Bombora OpenAPI 3.0 documents harvested verbatim from the Apigee developer portal
+  at developer.bombora.com on 2026-08-13, plus https://developer.bombora.com/get-started and
+  https://developer.bombora.com/api-change-policy
+note: >-
+  Steps are grounded in real, verified request paths from the harvested specs. Bombora declares an
+  operationId on exactly ONE of its 54 operations (`updateAccounts`, POST
+  /account-list/{accountListId}/accounts), so operations are referenced by METHOD + path
+  throughout. No operationId is invented.
+skills:
+- file: bombora-authenticate.md
+  name: Authenticate against the Bombora APIs
+  api: openapi/bombora-authentication-api-openapi.yml
+  operations:
+  - POST /oauth/token
+- file: bombora-reference-data.md
+  name: Resolve Bombora reference attributes
+  api: openapi/bombora-reference-api-openapi.yml
+  operations:
+  - GET /topics
+  - GET /firmographic/industry
+  - GET /demographic/seniority
+  - GET /geographic/country
+  - GET /install-data/products
+- file: bombora-signal-definition-and-intent.md
+  name: Define a Bombora intent signal and pull its data
+  api: openapi/bombora-intent-api-openapi.yml
+  operations:
+  - POST /signal-definition
+  - GET /signal-definitions
+  - PUT /signal-definition/{signalDefinitionId}/product-definition
+  - GET /data
+  - POST /data
+- file: bombora-account-lists.md
+  name: Build and maintain a Bombora account list
+  api: openapi/bombora-account-list-api-openapi.yml
+  operations:
+  - POST /account-list
+  - updateAccounts
+  - GET /account-list/{accountListId}/accounts/search
+  - DELETE /account-list/{accountListId}/accounts
+- file: bombora-digital-audience.md
+  name: Build, estimate and activate a Bombora digital audience
+  api: openapi/bombora-digital-audience-api-openapi.yml
+  operations:
+  - POST /{dataexchange}/estimate
+  - POST /{dataexchange}
+  - PUT /{dataexchange}/{externalId}/{partnerId}/activate
+  - PUT /{dataexchange}/{externalId}/{partnerId}/suspend
+- file: bombora-webhook-destinations.md
+  name: Receive Bombora events over webhooks
+  api: openapi/bombora-webhooks-api-openapi.yml
+  operations:
+  - POST /destination
+  - PUT /destination/{destinationId}/auth
+  - GET /destination/{destinationId}/events
+  - PUT /destination/{destinationId}/event/{eventType}
+skill_count: 6

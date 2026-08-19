@@ -1,0 +1,55 @@
+generated: '2026-08-13'
+method: searched
+source: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/869761025/API+Release+Notes
+docs: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/869761025/API+Release+Notes
+scheme: dated-entries
+current_version: v1
+maintained: false
+note: >-
+  Bombora's only dated release-notes page lives on the partner Confluence wiki and covers the
+  legacy Bombora/Company Surge API, not the six current v1 APIs on api.bombora.com. Its most
+  recent entry is from March 2020. The current developer portal (developer.bombora.com) publishes
+  a change POLICY (see lifecycle/bombora-lifecycle.yml) but no changelog, no release notes page,
+  and no version history — its sitemap contains exactly three non-reference pages: /get-started,
+  /index and /api-change-policy. Spec-level change is only observable through the OpenAPI
+  info.version fields and the portal's snapshot timestamps, recorded below.
+entries:
+- date: '2020-03-23'
+  api: Bombora API (Company Surge)
+  breaking: true
+  additions: []
+  highlights:
+  - >-
+    Industry filter value "Finance > Venture Capital Private Equity" renamed to
+    "Finance > Venture Capital Private Equity & Fund Raising".
+- date: '2020-02-26'
+  api: Bombora API (Company Surge)
+  breaking: false
+  additions:
+  - Topic Suggestion endpoint introduced.
+  highlights:
+  - New Topic Suggestion endpoint added to the Bombora API.
+spec_versions_observed:
+  note: >-
+    info.version plus the Apigee portal's snapshot-modified timestamp for each published spec,
+    read 2026-08-13. These are the closest thing to a change record for the current APIs.
+  apis:
+  - api: Reference API
+    info_version: 1.0.1
+    spec_snapshot_modified: '2026-06-05'
+  - api: Account List API
+    info_version: '1.1'
+    spec_snapshot_modified: '2026-03-11'
+  - api: Webhooks API
+    info_version: 1.0.1
+    spec_snapshot_modified: '2026-03-11'
+  - api: Intent API
+    info_version: '1.0'
+    spec_snapshot_modified: '2025-09-29'
+  - api: Digital Audience Builder (DAB) API
+    info_version: v1
+    spec_snapshot_modified: '2025-09-29'
+  - api: Authentication API
+    info_version: 1.0.0
+    spec_snapshot_modified: '2024-08-06'
+change_policy: https://developer.bombora.com/api-change-policy

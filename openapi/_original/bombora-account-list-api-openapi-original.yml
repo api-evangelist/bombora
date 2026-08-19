@@ -1,0 +1,1181 @@
+openapi: 3.0.1
+servers:
+- url: https://api.bombora.com/account-list/v1
+info:
+  title: Account List API
+  description: "The Account List API provides the ability to define and maintain lists of accounts. Lists\
+    \ can be manually curated, \nsynchronized from external systems, sourced from Bombora's data, or segmented\
+    \ from other account lists.\n\n### **Security**\nAll API endpoints are secured with OAuth 2.0 bearer\
+    \ token authentication. Developers must include a valid Bearer token in the Authorization request\
+    \ header to access endpoints.\nGo to the [Get Started](/get-started) page for additional details.\n\
+    \n### **Error Handling**\nThe API returns appropriate HTTP status codes and error messages in case\
+    \ of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure\
+    \ and reliable interaction.\n\n### **Reference Data**\nThe API may utilize reference attribute data\
+    \ within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete\
+    \ list of supported reference attributes.\n"
+  version: '1.1'
+paths:
+  /account-list:
+    get:
+      tags:
+      - AccountLists
+      summary: Get Account Lists
+      description: Returns an array of AccountListSummary for all account lists.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountListSummary'
+              example:
+                accountLists:
+                - id: 3e19d5f7-98f0-4c76-a859-c8707b57d9d2
+                  type: Manual
+                  name: My manually uploaded accounts
+                  description: All the accounts I care about
+                  accountsLastModified: '2024-01-27T05:06:07'
+                  accountTotal: 100
+                  pendingUpdate: false
+                  createdDate: '2024-01-27T05:06:07'
+                  modifiedDate: '2024-01-29T07:03:02'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - AccountLists
+      summary: Create New Account List
+      description: Creates a new account list given the AccountListDefinition provided in the request
+        body.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountListDefinition'
+            examples:
+              Manual:
+                summary: Create a manual account list.
+                value:
+                  type: Manual
+                  metadata:
+                    name: US Accounts
+                    description: All US Accounts
+                  specification: {}
+              Derived:
+                summary: Create a derived account list.
+                value:
+                  type: Derived
+                  metadata:
+                    name: European Accounts
+                    description: All European Accounts
+                  specification:
+                    parentId: 4623e082-e34c-4ef5-ab10-59136f149799
+                    filter:
+                      a: company.hq.country
+                      eq: EMEA
+              Surge:
+                summary: Create a Surge connected account list.
+                value:
+                  type: Surge
+                  metadata:
+                    name: US Accounts for Product X
+                    description: All US Accounts Surging on Product X
+                  specification:
+                    signalDefinitionId: 4623e082-e34c-4ef5-ab10-59136f149799
+                    attributes:
+                    - domain
+                    - score
+                    filter:
+                      and:
+                      - a: company.hq.country
+                        eq: US
+                      - a: score
+                        gte: 80
+              VisitorInsights:
+                summary: Create a Visitor Insights connected account list.
+                value:
+                  type: VisitorInsights
+                  metadata:
+                    name: Visitors of my website in the last 30 days
+                    description: All Accounts which visited my site in the last 30 days
+                  specification:
+                    attributes:
+                    - domain
+                    - uniqueVisitorCount
+                    - totalVisitCount
+                    filter:
+                      and:
+                      - a: visitedWithinDays
+                        eq: 30
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+              example:
+                id: 3e19d5f7-98f0-4c76-a859-c8707b57d9d2
+        '202':
+          description: Success - The request has been accepted for processing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+              example:
+                id: 3e19d5f7-98f0-4c76-a859-c8707b57d9d2
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /account-list/{accountListId}:
+    get:
+      tags:
+      - AccountLists
+      summary: Get Account List
+      description: Retrieves the account list definition.
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountListDefinition'
+              examples:
+                Manual:
+                  summary: Manual account list.
+                  value:
+                    type: Manual
+                    metadata:
+                      name: US Accounts
+                      description: All US Accounts
+                    specification: {}
+                Derived:
+                  summary: Derived account list.
+                  value:
+                    type: Derived
+                    metadata:
+                      name: European Accounts
+                      description: All European Accounts
+                    specification:
+                      parentId: 4623e082-e34c-4ef5-ab10-59136f149799
+                      filter:
+                        a: company.hq.country
+                        eq: EMEA
+                Surge:
+                  summary: Surge connected account list.
+                  value:
+                    type: Surge
+                    metadata:
+                      name: US Accounts for Product X
+                      description: All US Accounts Surging on Product X
+                    specification:
+                      signalDefinitionId: 4623e082-e34c-4ef5-ab10-59136f149799
+                      attributes:
+                      - domain
+                      - score
+                      filter:
+                        and:
+                        - a: company.hq.country
+                          eq: US
+                        - a: score
+                          gte: 80
+                VisitorInsights:
+                  summary: Create a Visitor Insights connected account list.
+                  value:
+                    type: VisitorInsights
+                    metadata:
+                      name: Visitors of my website in the last 30 days
+                      description: All Accounts which visited my site in the last 30 days
+                    specification:
+                      attributes:
+                      - domain
+                      - uniqueVisitorCount
+                      - totalVisitCount
+                      filter:
+                        and:
+                        - a: visitedWithinDays
+                          eq: 30
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - AccountLists
+      summary: Update Account List
+      description: 'Updates the account list definition.
+
+        - ParentId and type are not modifiable.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountListDefinition'
+      responses:
+        '200':
+          description: Success - The response body includes the updated resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountListDefinition'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - AccountLists
+      summary: Delete Account List
+      description: 'Deletes the specified account list.
+
+        - A 409 Conflict error will be returned if the account list is used as a parent of a derived account
+        list.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /account-list/{accountListId}/accounts:
+    post:
+      tags:
+      - Accounts
+      operationId: updateAccounts
+      summary: Add/Update Accounts
+      description: "Adds or updates accounts in the account list. \n- Only valid for Manual Account List\
+        \ Type.\n- If id is not specified for an account, the domain is used as the account identifier.\n\
+        - If the account identifier does not match an existing account in the account list, the account\
+        \ will be inserted. \n- If the account identifier matches an existing account in the account list,\
+        \ the existing account will be updated.\n- If there are duplicate account identifiers in the request\
+        \ body, the request will be rejected.\n"
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                - domain
+                properties:
+                  domain:
+                    $ref: '#/components/schemas/domain'
+                  id:
+                    $ref: '#/components/schemas/id'
+                  attributes:
+                    $ref: '#/components/schemas/attributes'
+            example:
+            - domain: google.com
+            - domain: bombora.com
+              id: Custom provided ID
+            - domain: bing.com
+              attributes:
+                ceoTShirtSize: M
+                rank: 4
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+        '202':
+          description: Success - The request has been accepted for processing.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Accounts
+      summary: Delete Account List Contents
+      description: 'This idempotent endpoint deletes all accounts within the account list, but does not
+        delete the account list itself.
+
+        - Only valid for Manual Account List Type.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /account-list/{accountListId}/accounts/domains:
+    get:
+      tags:
+      - Accounts
+      summary: Get Account Domains
+      description: 'Returns all distinct domains in an account list
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: The domain name
+              example:
+              - bombora.com
+              - starbucks.com
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+      - bearerAuth: []
+  /account-list/{accountListId}/accounts/search:
+    post:
+      tags:
+      - Accounts
+      summary: Retrieve Account Data Request
+      description: 'The POST is used before the corresponding GET endpoint to describe the required attributes
+        and filters in the request body.
+
+        A prefix of `attributes.` is necessary if attempting to filter by optional account attributes
+        in your list.
+
+        When attributes is empty or unspecified, the id is returned by default.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 'An optional body that specifies attributes to be returned or filters that
+                should be applied to the data returned by the GET endpoint.
+
+                '
+              properties:
+                attributes:
+                  $ref: '#/components/schemas/attributes'
+                filters:
+                  nullable: true
+                  oneOf:
+                  - $ref: '#/components/schemas/Eq'
+                  - $ref: '#/components/schemas/Neq'
+                  - $ref: '#/components/schemas/In'
+                  - $ref: '#/components/schemas/Nin'
+                  - $ref: '#/components/schemas/Gt'
+                  - $ref: '#/components/schemas/Gte'
+                  - $ref: '#/components/schemas/Lt'
+                  - $ref: '#/components/schemas/Lte'
+                  - $ref: '#/components/schemas/And'
+                  - $ref: '#/components/schemas/Or'
+            examples:
+              Example with Domain Filter:
+                summary: Defines a collection of attributes to be returned in the GET response body, along
+                  with a filter that excludes .edu domains.
+                value:
+                  attributes:
+                  - company.size
+                  - company.hq
+                  filter:
+                    a: domain
+                    neq: '*.edu'
+              Example with Optional Account Attributes:
+                summary: Includes optional account attributes as a return (if available) and as a filter
+                  requirement.
+                value:
+                  attributes:
+                  - attributes.ceoTShirtSize
+                  - company.hq
+                  filter:
+                    a: attributes.rank
+                    gt: '1'
+              Example with Country Filter:
+                summary: Defines a filter that restricts the domains returned to accounts in London, United
+                  Kingdom  SW1A 1AA.
+                value:
+                  filter:
+                    and:
+                    - a: company.hq.country
+                      eq: GB
+                    - a: company.hq.city
+                      eq: London
+                    - a: company.hq.zip
+                      eq: SW1A 1AA
+      responses:
+        '200':
+          description: Success - The response body includes the pageToken that must be supplied to the
+            GET endpoint to retrieve results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pageToken:
+                    type: string
+                    nullable: false
+              example:
+                pageToken: nSA21gW
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    get:
+      tags:
+      - Accounts
+      summary: Retrieve Account Data
+      description: "Allows paginated account data to be retrieved for an Account List.\n\nData is retrieved\
+        \ by first calling the POST endpoint with a request body that describes the data to be retrieved\
+        \ through this GET endpoint. \nThe response from the POST endpoint will include a page token that\
+        \ should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will\
+        \ return an object including the data requested and the next page token, which can be supplied\
+        \ to a subsequent call to retrieve the next page.\nAll results have been returned when nextPageToken\
+        \ is null.\n\nExample URL with query parameters\n```\nhttps://api.bombora.com/account-list/v1/account-list/{accountListId}?pageToken={pageToken}&limit=100\n\
+        ```\n"
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      - name: pageToken
+        in: query
+        required: true
+        description: Page token for paginated retrieval.
+        schema:
+          type: string
+        example: nSA21gW
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 10000
+          description: Number of results to return per page, maximum 10000.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      description: The returned object will contain the data attributes specified in the
+                        attributes array in the POST request body.
+                  nextPageToken:
+                    type: string
+                    nullable: true
+                    description: The page token to retrieve the next page of data. When null, there are
+                      no more pages available.
+              example:
+                accounts:
+                - domain: bombora.com
+                  id: '123456'
+                  attributes:
+                    customObjectId: '12389367'
+                    Country: US
+                  company:
+                    size: Medium-Small (50 - 199 Employees)
+                    hq:
+                      city: New York
+                      state: NY
+                      country: US
+                      address: 115 E 23RD ST
+                      address2: 7TH FL
+                      zip: '10010'
+                - '...'
+                nextPageToken: nSA21gW
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /account-list/{accountListId}/delete-accounts:
+    post:
+      tags:
+      - Accounts
+      summary: Delete Accounts
+      description: 'Deletes the specified accounts from the account list.
+
+        - Only valid for Manual Account List Type.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/accountListId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ids
+              properties:
+                ids:
+                  type: array
+                  description: An array of Ids used to identify which accounts to delete from account
+                    list.
+                  items:
+                    type: string
+                    description: The account identifiers to be deleted from the account list.
+            example:
+              ids:
+              - Top Account
+              - bombora.com
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+components:
+  parameters:
+    accountListId:
+      name: accountListId
+      in: path
+      required: true
+      description: The unique identifier (AccountListId) of the account list.
+      schema:
+        type: string
+        format: uuid
+      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+  schemas:
+    AccountListDefinition:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AccountListType'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        specification:
+          type: object
+          description: The specification for the account list. The provided account list specification
+            must match the account list type specified in the type attribute.
+          oneOf:
+          - $ref: '#/components/schemas/ManualAccountListSpecification'
+          - $ref: '#/components/schemas/DerivedAccountListSpecification'
+          - $ref: '#/components/schemas/SurgeAccountListSpecification'
+          - $ref: '#/components/schemas/VisitorInsightsAccountListSpecification'
+        accountsLastModified:
+          type: string
+          description: Datetime that the accounts in the account list were last updated.
+    Metadata:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the account list.
+        description:
+          type: string
+          description: An optional description for the account list.
+        accountTotal:
+          readOnly: true
+          type: integer
+          description: The number of accounts in the account list.
+        pendingUpdate:
+          readOnly: true
+          type: boolean
+          description: When set to true, an asynchronous account list update job is queued for processing.
+    ManualAccountListSpecification:
+      type: object
+      description: Specification object for a Manual Type account list.
+    DerivedAccountListSpecification:
+      type: object
+      description: Specification object for a Derived Type account list which allows for the creation
+        of an account list based on a parent account list.
+      required:
+      - parentId
+      properties:
+        parentId:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the parent account list.
+        filter:
+          nullable: true
+          description: 'An optional filter that can be applied to the parent account list to derive the
+            accounts in this account list.
+
+            The filter must be a valid condition object, such as an Eq, Neq, In, Nin, Gt, Gte, Lt, or
+            Lte condition.
+
+            If no filter is specified, all accounts in the parent account list will be included in this
+            account list.
+
+            See [Company Attributes](/docs/account-list-api/1/types/company) for a list of filterable
+            firmographic attributes.
+
+            '
+          oneOf:
+          - $ref: '#/components/schemas/Eq'
+          - $ref: '#/components/schemas/Neq'
+          - $ref: '#/components/schemas/In'
+          - $ref: '#/components/schemas/Nin'
+          - $ref: '#/components/schemas/Gt'
+          - $ref: '#/components/schemas/Gte'
+          - $ref: '#/components/schemas/Lt'
+          - $ref: '#/components/schemas/Lte'
+          - $ref: '#/components/schemas/And'
+          - $ref: '#/components/schemas/Or'
+    SurgeAccountListSpecification:
+      type: object
+      description: Specification object for a Surge Type account list which allows for the creation of
+        an account list based on Intent Surge data (see [Intent API](/docs/intent-api/1/overview)).
+      properties:
+        signalDefinitionId:
+          description: Unique identifier of a Signal Definition. It is mutually exclusive with topics.
+          type: string
+          format: UUID
+        topics:
+          description: A collection of topic names to retrieve data for. It is mutually exclusive with
+            signalDefinitionId.
+          type: array
+          items:
+            type: string
+            maximum: 50
+        attributes:
+          type: array
+          nullable: true
+          description: "An optional array of attributes to be returned in the response. \nSupported attributes\
+            \ include `domain`, `score`, and `scoreLabel`.\n"
+        filters:
+          nullable: true
+          description: 'An optional filter that can be applied to surge data to derive the accounts in
+            this account list.
+
+            The filter must be a valid condition object, such as an Eq, Neq, In, Nin, Gt, Gte, Lt, or
+            Lte condition.
+
+            If no filter is specified, all accounts that are showing activity on the signal will be included
+            in this account list.
+
+            See [Intent API - Attributes](/docs/intent-api/1/types/Attributes) for a list of supported
+            attributes.
+
+            '
+          oneOf:
+          - $ref: '#/components/schemas/Eq'
+          - $ref: '#/components/schemas/Neq'
+          - $ref: '#/components/schemas/In'
+          - $ref: '#/components/schemas/Nin'
+          - $ref: '#/components/schemas/Gt'
+          - $ref: '#/components/schemas/Gte'
+          - $ref: '#/components/schemas/Lt'
+          - $ref: '#/components/schemas/Lte'
+          - $ref: '#/components/schemas/And'
+          - $ref: '#/components/schemas/Or'
+    VisitorInsightsAccountListSpecification:
+      type: object
+      description: 'Specification object for a VisitorInsights Type account list which allows for the
+        creation of an account list based on first party website visitor data.
+
+        Please speak with your Bombora representative if you''d like to enable access to [Visitor Insights
+        Data](https://bombora.com/resources/bombora-visitor-insights-identity-and-enrichment/).
+
+        '
+      properties:
+        attributes:
+          type: array
+          nullable: true
+          description: "An optional array of attributes to be returned in the response. \n\nAttribute\
+            \ | Description\n----------------|-------------\ndomain | The account domain\nuniqueVisitorCount\
+            \ | Number of unique visitors\ntotalVisitCount | Number of total visits\n"
+        filters:
+          nullable: true
+          description: "An optional filter that can be applied to visitor data to derive the accounts\
+            \ in this account list.\nThe filter must be a valid condition object and reference one of\
+            \ the supported filterable visitor attributes.\n\nAttribute | Description\n----------------|-------------\n\
+            domain | The account domain\ncompany.* | [Company Attributes](/docs/account-list-api/1/types/company)\n\
+            urlVisited | Visited page URL\nvisitedWithinDays | Visited within the last X number of days\n\
+            country | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\n\
+            state | [State](/docs/reference-api/1/routes/geographic/state/get) (for US and CA only) \n\
+            city | City\nmetro | [Metropolitan Area](/docs/reference-api/1/routes/geographic/metro-area/get)\n\
+            functionalArea | [Functional Area](/docs/reference-api/1/routes/demographic/functional-area/get)\n\
+            seniority | [Seniority](/docs/reference-api/1/routes/demographic/seniority/get)\nprofessionalGroup\
+            \ | [Professional Group](/docs/reference-api/1/routes/demographic/professional-group/get)\n"
+          oneOf:
+          - $ref: '#/components/schemas/Eq'
+          - $ref: '#/components/schemas/Neq'
+          - $ref: '#/components/schemas/In'
+          - $ref: '#/components/schemas/Nin'
+          - $ref: '#/components/schemas/Gt'
+          - $ref: '#/components/schemas/Gte'
+          - $ref: '#/components/schemas/Lt'
+          - $ref: '#/components/schemas/Lte'
+          - $ref: '#/components/schemas/And'
+          - $ref: '#/components/schemas/Or'
+    AccountListSummary:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the account list.
+          example:
+          - 4623e082-e34c-4ef5-ab10-59136f149799
+        parentId:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the parent account list if supported by
+            the account list type.
+          example:
+          - d5dacdb6-71a9-475f-b353-cbb53b6c8022
+        type:
+          $ref: '#/components/schemas/AccountListType'
+        name:
+          type: string
+          description: The name of the account list.
+        description:
+          type: string
+          description: An optional description for the account list.
+        accountsLastModified:
+          type: string
+          description: Datetime that the accounts in the list were last updated.
+        accountTotal:
+          type: integer
+          description: The number of accounts in the account list.
+        pendingUpdate:
+          type: boolean
+          description: When set to true, an asynchronous account list update job is queued for processing.
+        createdDate:
+          type: string
+          description: Datetime that the account list definition was created.
+        modifiedDate:
+          type: string
+          description: Datetime that the account list definition was last modified.
+    AccountListType:
+      type: string
+      description: The type of account list
+      enum:
+      - Manual
+      - Derived
+      - Surge
+      - VisitorInsights
+    Account:
+      type: object
+      properties:
+        domain:
+          $ref: '#/components/schemas/domain'
+        id:
+          $ref: '#/components/schemas/id'
+        attributes:
+          $ref: '#/components/schemas/attributes'
+        company:
+          $ref: '#/components/schemas/company'
+    domain:
+      type: string
+      description: Domain name associated with the account.
+    id:
+      type: string
+      nullable: true
+      description: The unique identifier of an account within an account list. When null, the value in
+        the domain attribute is used as a unique identifier for the account.
+      example: '123456'
+    attributes:
+      type: object
+      nullable: true
+      description: "Any optional attributes provided for the account represented as a string. \nUnsupported\
+        \ characters: '\"'\n"
+      example:
+        attributes:
+          external_id: A34231
+          account_rep: Adam Smith
+    company:
+      type: array
+      items:
+        type: string
+        enum:
+        - company
+        - company.name
+        - company.industry
+        - company.size
+        - company.revenue
+        - company.hq
+        - company.hq.address
+        - company.hq.address2
+        - company.hq.country
+        - company.hq.state
+        - company.hq.city
+        - company.hq.zip
+      description: "Firmographic information that Bombora has associated with the domain.\n\nAttributes\
+        \ | Descriptions\n----------------|-------------\ncompany | Includes all nested company.* attributes.\n\
+        company.name  | The company name\ncompany.industry  | The [company industry](/docs/reference-api/1/routes/firmographic/industry/get)\n\
+        company.size  | The [company size](/docs/reference-api/1/routes/firmographic/company-size/get)\n\
+        company.revenue | The [company revenue](/docs/reference-api/1/routes/firmographic/revenue/get)\n\
+        company.hq  | The company HQ geographic information in a nested structure\ncompany.hq.address\
+        \  | First line of address\ncompany.hq.address2 | Second line of address\ncompany.hq.country \
+        \ | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\ncompany.hq.state\
+        \  | [State](/docs/reference-api/1/routes/geographic/state/get) (returned for US and CA only)\
+        \ \ncompany.hq.city | City\ncompany.hq.zip  | Postal code\n"
+      example:
+        attributes:
+        - company.size
+        - company.hq
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: true
+    Eq:
+      type: object
+      description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for\
+        \ example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - eq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        eq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be US.
+          value:
+            a: company.hq.country
+            eq: US
+        Wildcard:
+          summary: This example shows where a domain must be an .edu domain.
+          value:
+            a: domain
+            eq: '*.edu'
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported,\
+        \ for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
+    In:
+      type: object
+      description: In operator. The data value must appear in this collection of values.
+      required:
+      - a
+      - in
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be in US or CA.
+          value:
+            a: company.hq.country
+            in:
+            - US
+            - CA
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
+          type: array
+          description: The collection of values which the attribute is evaluated.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be in US or CA.
+          value:
+            a: company.hq.country
+            nin:
+            - US
+            - CA
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+    Gte:
+      type: object
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to
+        this value.
+      required:
+      - a
+      - gte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
+    Lt:
+      type: object
+      description: Less Than operator. The data value must be less than this value.
+      required:
+      - a
+      - lt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than 75.
+          value:
+            a: score
+            lt: 75
+    Lte:
+      type: object
+      description: Less Than or Equal To operator. The data value must be less than or equal to this value.
+      required:
+      - a
+      - lte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than or equal to 75.
+          value:
+            a: score
+            lte: 75
+    And:
+      type: object
+      description: And operator, allowing for multiple filters to be joined.
+      required:
+      - and
+      properties:
+        and:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 AND the company HQ country
+            must be equal to US.
+          value:
+            and:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+    Or:
+      type: object
+      description: Or operator, allowing for multiple filters to be joined.
+      required:
+      - or
+      properties:
+        or:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 OR the company HQ country
+            must be equal to US.
+          value:
+            or:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+        Complex:
+          summary: This example shows where [the score must be greater than 80 AND the company HQ country
+            must be equal to US] OR [the score must be greater than 70 AND the company HQ country must
+            be equal to CA].
+          value:
+            or:
+            - and:
+              - a: score
+                gt: 80
+              - a: company.hq.country
+                eq: US
+            - and:
+              - a: score
+                gt: 70
+              - a: company.hq.country
+                eq: CA
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    BadRequestError:
+      description: The request is syntactically invalid.
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource
+        (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation
+        errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'

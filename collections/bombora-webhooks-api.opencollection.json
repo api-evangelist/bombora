@@ -1,0 +1,273 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Webhooks API",
+    "version": "1.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Destinations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /destinations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/webhooks/v1/destinations",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns list of webhook destinations."
+        },
+        {
+          "info": {
+            "name": "POST /destination",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/webhooks/v1/destination",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a webhook destination that can be used with event type subscriptions."
+        },
+        {
+          "info": {
+            "name": "GET /destination/{destinationId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the destination object (excluding “auth”)."
+        },
+        {
+          "info": {
+            "name": "PUT /destination/{destinationId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replaces the destination document (excluding “auth” object).\n* To update the \"auth\" use the PUT ```/destination/{destinationId}/auth``` endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "DELETE /destination/{destinationId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes the destination and all related subscriptions, if all events are disabled; otherwise, fails with a message indicating that events must be first disabled."
+        },
+        {
+          "info": {
+            "name": "PUT /destination/{destinationId}/auth",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId/auth",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replaces the specified destination’s auth object."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /destination/{destinationId}/events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId/events",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns list of subscribable events, along with a status."
+        },
+        {
+          "info": {
+            "name": "GET /destination/{destinationId}/event/{eventType}",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId/event/:eventType",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              },
+              {
+                "name": "eventType",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the configuration and related stats for the specified event type."
+        },
+        {
+          "info": {
+            "name": "PUT /destination/{destinationId}/event/{eventType}",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId/event/:eventType",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              },
+              {
+                "name": "eventType",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replaces the event document for the specified webhook destination."
+        },
+        {
+          "info": {
+            "name": "DELETE /destination/{destinationId}/event/{eventType}",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bombora.com/webhooks/v1/destination/:destinationId/event/:eventType",
+            "params": [
+              {
+                "name": "destinationId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "An identifier for the destination."
+              },
+              {
+                "name": "eventType",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes the event from the subscription list."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

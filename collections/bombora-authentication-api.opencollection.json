@@ -1,0 +1,25 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Authentication API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OAuth Token",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://api.bombora.com/oauth/token",
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "By providing valid client credentials (client ID and client secret), this endpoint will return \nan OAuth 2.0 bearer token that can be provided in the Authorization header to make authenticated API calls to Bombora's APIs. \n\nExample Authorization Header:\nAuthorization: Bearer <bearer token>\n"
+    }
+  ],
+  "bundled": true
+}

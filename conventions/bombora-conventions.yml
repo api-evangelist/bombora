@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://developer.bombora.com/get-started, https://developer.bombora.com/api-change-policy,
+  openapi/ (6 OpenAPI 3.0 documents), https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+authentication:
+  style: oauth2-client-credentials -> http bearer (JWT)
+  scheme: bearerAuth
+  header: 'Authorization: Bearer <access_token>'
+  token_endpoint: https://api.bombora.com/oauth/token
+  credential_issuance: >-
+    Credentials are not self-service. A Bombora user signs in to developer.bombora.com with SAML
+    SSO, is associated by Bombora Support with an organisation's developer team, and reads a
+    ClientId (key) and ClientSecret (secret) off the app page. The Authentication API must itself
+    be enabled for the app or /oauth/token calls fail.
+  scopes: none
+  scopes_note: >-
+    No oauth2 securityScheme and no scope map appears in any spec. Access is granted per API
+    product (Apigee products: Reference, Authentication, Intent, Digital Audience, Account List,
+    Webhooks), not per scope. Approval is automatic for Reference/Authentication/Account
+    List/Webhooks and manual for Intent and Digital Audience.
+  legacy: >-
+    The partner Company Surge API (v4) on sentry.bombora.com uses HTTP Basic — a base64
+    username:password authorization key — not the bearer model above.
+  detail: authentication/bombora-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    Bombora publishes no idempotency contract. No Idempotency-Key header or parameter appears in
+    any of the six specs, and the docs contain no idempotency section. The single use of the word
+    in the corpus is the description of DELETE /account-list/{accountListId}/accounts ("This
+    idempotent endpoint deletes all accounts within the account list"), which is the inherent
+    semantics of DELETE and not a replay-safety guarantee for writes. Retrying POST
+    /account-list, POST /signal-definition or POST /{dataexchange} may create duplicates.
+pagination:
+  style: cursor
+  applies_to:
+  - openapi/bombora-intent-api-openapi.yml
+  - openapi/bombora-account-list-api-openapi.yml
+  request_params:
+  - name: limit
+    in: query
+    description: Maximum number of items to return in the page.
+  - name: pageToken
+    in: query
+    description: Opaque continuation token identifying the next page.
+  token_opacity: >-
+    The API Change Policy states page tokens "should be considered opaque and variable in length"
+    and that changes to them are non-breaking — do not parse or persist them as identifiers.
+  not_paginated:
+  - openapi/bombora-reference-api-openapi.yml
+  - openapi/bombora-digital-audience-api-openapi.yml
+  - openapi/bombora-webhooks-api-openapi.yml
+filtering:
+  reference_api:
+    params: [id, name, description, category, theme, s, maxTopics]
+    note: >-
+      Reference API list endpoints filter by attribute; `s` is a free-text search and `maxTopics`
+      caps topic expansion.
+  intent_api:
+    style: structured-predicate
+    operators: [Eq, Neq, In, Nin, Gt, Gte, Lt, Lte, And, Or]
+    note: >-
+      The Intent API's signal definitions are built from a documented predicate vocabulary
+      (developer.bombora.com/docs/intent-api/1/types/*) rather than flat query parameters.
+field_expansion:
+  supported: false
+metadata:
+  supported: true
+  note: >-
+    Signal definitions carry a first-class metadata sub-resource
+    (GET/PUT /signal-definition/{signalDefinitionId}/metadata) and a product-definition
+    sub-resource. This is domain metadata, not arbitrary customer key/value tagging.
+request_tracing:
+  request_id_header: null
+  note: No request-id / correlation-id header is documented or declared in any spec.
+versioning:
+  style: uri-path
+  current: v1
+  policy: https://developer.bombora.com/api-change-policy
+  detail: lifecycle/bombora-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  schema: 'ErrorMessageResponse { message: string | null }'
+  rfc9457: false
+  codes: none
+  guidance: >-
+    The Change Policy instructs consumers to branch on HTTP status codes and never to parse error
+    message text, which Bombora reserves the right to change without notice.
+  detail: errors/bombora-problem-types.yml
+rate_limit_signalling:
+  headers: none_documented
+  status_on_exhaustion: 429
+  documented_limit: 60 calls per minute per endpoint (partner Company Surge API)
+  note: >-
+    No RateLimit-* / X-RateLimit-* / Retry-After headers are documented anywhere, and none are
+    declared in the six OpenAPI documents. An agent cannot read remaining quota from a response.
+  detail: rate-limits/bombora-rate-limits.yml
+webhooks:
+  signature_header: X-Bombora-Signature-256
+  algorithm: HMAC-SHA256 over the UTF-8 body, keyed by the destination's auth.secret
+  detail: asyncapi/bombora-webhooks.yml
+media_types:
+  request: [application/json]
+  response: [application/json]

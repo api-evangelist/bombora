@@ -1,0 +1,213 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/ 4xx/5xx responses across all six Bombora OpenAPI documents
+format: vendor
+note: 'Bombora does NOT use RFC 9457 application/problem+json. Every documented error returns application/json with
+  a single-field envelope, ErrorMessageResponse: {"message": string|null}. There is no machine-readable error code,
+  type URI, or remediation field anywhere in the six specs, and Bombora publishes no error-code reference page —
+  so no codes are listed here. The API descriptions state only: "The API returns appropriate HTTP status codes and
+  error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden)."'
+envelope:
+  schema: ErrorMessageResponse
+  media_type: application/json
+  fields:
+  - name: message
+    type: string
+    nullable: true
+    description: Human-readable error message. Not a stable identifier.
+  sources:
+  - openapi/bombora-account-list-api-openapi.yml
+  - openapi/bombora-intent-api-openapi.yml
+  - openapi/bombora-reference-api-openapi.yml
+  - openapi/bombora-webhooks-api-openapi.yml
+rate_limit_error:
+  status: 429
+  documented_at: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+  message: Too many API calls to this endpoint in 1 minute time period. Try again later.
+  note: Documented for the partner Company Surge API on sentry.bombora.com only; 429 is not declared in any of the
+    six OpenAPI documents.
+problems:
+- status: 400
+  title: The request is syntactically invalid.
+  content_types:
+  - application/json
+  occurrences: 29
+  source_operations:
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/search
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/accounts/search
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/delete-accounts
+  - openapi/bombora-intent-api-openapi.yml#DELETE /signal-definition/{signalDefinitionId}
+- status: 401
+  title: The access token is missing or invalid.
+  content_types:
+  - application/json
+  occurrences: 32
+  source_operations:
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/domains
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/search
+- status: 401
+  title: Unauthorized
+  content_types:
+  - application/json
+  occurrences: 4
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#GET /{dataexchange}/{externalId}/{partnerId}
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}/estimate
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}
+- status: 401
+  title: Unauthorized - Request was not properly authorized
+  content_types:
+  - application/json
+  occurrences: 2
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}/activate
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}/suspend
+- status: 403
+  title: Forbidden
+  content_types:
+  - application/json
+  occurrences: 3
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#GET /{dataexchange}/{externalId}/{partnerId}
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}
+- status: 403
+  title: Forbidden - Request for segment activation was not properly authorized
+  content_types:
+  - application/json
+  occurrences: 2
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}/activate
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}/suspend
+- status: 403
+  title: The access token does not have permission to access this API.
+  content_types:
+  - application/json
+  occurrences: 32
+  source_operations:
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/domains
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/search
+- status: 404
+  title: Not Found
+  content_types:
+  - application/json
+  occurrences: 2
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#GET /{dataexchange}/{externalId}/{partnerId}
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}
+- status: 404
+  title: Not Found - Segment does not exist
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}/suspend
+- status: 404
+  title: The resource could at this path does not exist.
+  content_types:
+  - application/json
+  occurrences: 12
+  source_operations:
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/domains
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#PUT /account-list/{accountListId}
+  - openapi/bombora-webhooks-api-openapi.yml#DELETE /destination/{destinationId}
+- status: 409
+  title: Conflict
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}
+- status: 409
+  title: Conflict - Segment does not have prerequired "Suspended" status
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}/activate
+- status: 409
+  title: Resource could not be retrieved due to a conflict with the current state of the resource (pending update
+    or currently in use).
+  content_types:
+  - application/json
+  occurrences: 4
+  source_operations:
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/delete-accounts
+  - openapi/bombora-webhooks-api-openapi.yml#DELETE /destination/{destinationId}
+- status: 409
+  title: Resource could not be retrieved due to a conflict with the current state of the resource.
+  content_types:
+  - application/json
+  occurrences: 4
+  source_operations:
+  - openapi/bombora-intent-api-openapi.yml#DELETE /signal-definition/{signalDefinitionId}
+  - openapi/bombora-intent-api-openapi.yml#GET /signal-definition/{signalDefinitionId}
+  - openapi/bombora-intent-api-openapi.yml#PUT /signal-definition/{signalDefinitionId}
+  - openapi/bombora-intent-api-openapi.yml#PUT /signal-definition/{signalDefinitionId}/product-definition
+- status: 422
+  title: Invalid
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}
+- status: 422
+  title: The request body is syntactically correct but semantically incorrect, such as validation errors.
+  content_types:
+  - application/json
+  occurrences: 32
+  source_operations:
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}
+  - openapi/bombora-account-list-api-openapi.yml#DELETE /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#GET /account-list/{accountListId}/accounts/search
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/accounts
+  - openapi/bombora-account-list-api-openapi.yml#POST /account-list/{accountListId}/accounts/search
+- status: 422
+  title: Unprocessable Entity
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#PUT /{dataexchange}/{externalId}/{partnerId}
+- status: 422
+  title: Unprocessable Entity - Request was invalid
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}/estimate
+- status: 502
+  title: Bad Gateway
+  content_types:
+  - application/json
+  occurrences: 1
+  source_operations:
+  - openapi/bombora-digital-audience-api-openapi.yml#POST /{dataexchange}/estimate
+coverage:
+  distinct_status_descriptions: 19
+  statuses:
+  - 400
+  - 401
+  - 403
+  - 404
+  - 409
+  - 422
+  - 502
+  rfc9457: false

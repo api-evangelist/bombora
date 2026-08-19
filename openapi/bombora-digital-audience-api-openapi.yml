@@ -1,0 +1,1752 @@
+openapi: 3.0.1
+info:
+  title: Digital Audience Builder (DAB) API
+  description: 'The Digital Audience Builder (DAB) API provides customers
+
+    the ability to programmatically create and edit custom audiences.
+
+
+    ### **Security**
+
+    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include
+    a valid Bearer token in the Authorization request header to access endpoints.
+
+    Go to the [Get Started](/get-started) page for additional details.
+
+
+    ### **Error Handling**
+
+    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401
+    Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
+
+
+    ### **Reference Data**
+
+    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview)
+    for a complete list of supported reference attributes.
+
+    '
+  version: v1
+servers:
+- url: https://api.bombora.com/digital-audiences/v1
+paths:
+  /{dataexchange}:
+    post:
+      summary: Create a digital audience.
+      description: The Create endpoint allows customers to generate a new DAB custom audience.
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - endDate
+              description: 'Required Fields based on DataExchange.
+
+
+                * Adobe: `name`,`endDate`,`partnerId`
+
+                * Xandr (AppNexus): `name`,`endDate`,`externalId`,`partnerId`,`cpmPrice`
+
+                * BlueKai: `name`,`endDate`
+
+                * Eyeota: `name`,`endDate`
+
+                * LiveRamp: `name`,`endDate`
+
+                * Lotame: `name`,`endDate`
+
+                * MediaMathDirect: `name`,`endDate`
+
+                * Taboola: `name`,`endDate`
+
+                * theTradeDesk: `name`,`endDate`,`partnerId`,`cpmPrice`
+
+                * Visitor Insights w/ Real Time Capabilities: `name`,`endDate`
+
+                * Test Only: `name`,`endDate`
+
+                * For any data exchange: At least one of the following is required. `topics`,`domains`,`filters`,`surgeId`,`granularInstallData`
+
+                '
+              properties:
+                externalId:
+                  $ref: '#/components/schemas/externalId'
+                partnerId:
+                  $ref: '#/components/schemas/partnerId'
+                cpmPrice:
+                  $ref: '#/components/schemas/cpmPrice'
+                name:
+                  $ref: '#/components/schemas/name'
+                endDate:
+                  $ref: '#/components/schemas/endDate'
+                topics:
+                  $ref: '#/components/schemas/topics'
+                domains:
+                  $ref: '#/components/schemas/domains'
+                filters:
+                  $ref: '#/components/schemas/filters'
+                surgeId:
+                  $ref: '#/components/schemas/surgeId'
+                granularInstallData:
+                  $ref: '#/components/schemas/granularInstallData'
+                filterOr:
+                  $ref: '#/components/schemas/filterOr'
+                entityParty:
+                  $ref: '#/components/schemas/entityParty'
+            example:
+              partnerId: '123'
+              externalId: testaudience123
+              name: My Test Audience
+              endDate: '2021-12-23T19:53:35.984Z'
+              topics:
+              - '1503561'
+              - '1503565'
+              filterOr: false
+              domains:
+              - bombora.com
+              - spotify.com
+              entityParty: '3'
+              filters:
+              - id: ccm_industry
+                values:
+                - Software
+              - id: functional_area
+                values:
+                - Marketing
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              example:
+                message: Given External Id is already in use. Please retry with a new External Id.
+        '422':
+          description: Invalid
+          content:
+            application/json:
+              example:
+                errors:
+                  cpmPrice:
+                  - CPM price 0.25 provided is not supported for eyeota.
+                  externalId:
+                  - External id containing only numbers, letters, - or _ expected for creating eyeota
+                    digital audience.
+                message: One or more validation errors occurred.
+  /{dataexchange}/{externalId}/{partnerId}:
+    get:
+      summary: Get a digital audience.
+      description: The Get endpoint allows users to retrieve an existing Digital Audience.
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      - $ref: '#/components/parameters/externalId'
+      - $ref: '#/components/parameters/partnerId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  externalId:
+                    $ref: '#/components/schemas/externalId'
+                  partnerId:
+                    $ref: '#/components/schemas/partnerId'
+                  cpmPrice:
+                    $ref: '#/components/schemas/cpmPrice'
+                  name:
+                    $ref: '#/components/schemas/name'
+                  endDate:
+                    $ref: '#/components/schemas/endDate'
+                  topics:
+                    $ref: '#/components/schemas/topics'
+                  domains:
+                    $ref: '#/components/schemas/domains'
+                  filters:
+                    $ref: '#/components/schemas/filters'
+                  surgeId:
+                    $ref: '#/components/schemas/surgeId'
+                  granularInstallData:
+                    $ref: '#/components/schemas/granularInstallData'
+                  filterOr:
+                    $ref: '#/components/schemas/filterOr'
+                  entityParty:
+                    $ref: '#/components/schemas/entityParty'
+                  status:
+                    $ref: '#/components/schemas/status'
+              example:
+                externalId: audience123
+                partnerId: '123'
+                name: Example Audience
+                endDate: '2021-12-23T19:53:35.984Z'
+                filterOr: false
+                topics:
+                - topic1
+                - topic2
+                domains:
+                - url1.com
+                - url2.com
+                entityParty: '3'
+                surgeId: '123'
+                cpmPrice: '1.00'
+                filters:
+                - id: filter1
+                  values:
+                  - value1
+                - id: filter2
+                  values:
+                  - value2
+                granularInstallData:
+                - '10000'
+                - '10001'
+                - '10002'
+                status: ACTIVE
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      summary: Update a digital audience.
+      description: "The Edit endpoint allows customers to modify an existing DAB custom audience. \nThis\
+        \ endpoint is a full overwrite of the existing custom audience settings.\n\n* The Last Modified\
+        \ By column for the Digital Audience will be set as DAB API.\n"
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      - $ref: '#/components/parameters/externalId'
+      - $ref: '#/components/parameters/partnerId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - endDate
+              description: 'Required Fields based on DataExchange.
+
+
+                * Adobe: `name`,`endDate`
+
+                * Xandr (AppNexus): `name`,`endDate`,`cpmPrice`
+
+                * BlueKai: `name`,`endDate`
+
+                * Eyeota: `name`,`endDate`
+
+                * LiveRamp: `name`,`endDate`
+
+                * Lotame: `name`,`endDate`
+
+                * MediaMathDirect: `name`,`endDate`
+
+                * Taboola: `name`,`endDate`
+
+                * theTradeDesk: `name`,`endDate`,`cpmPrice`
+
+                * Visitor Insights w/ Real Time Capabilities: `name`,`endDate`
+
+                * Test Only: `name`,`endDate`
+
+                * For any data exchange: At least one of the following is required. `topics`,`domains`,`filters`,`surgeId`,`granularInstallData`
+
+                '
+              properties:
+                cpmPrice:
+                  $ref: '#/components/schemas/cpmPrice'
+                name:
+                  $ref: '#/components/schemas/name'
+                endDate:
+                  $ref: '#/components/schemas/endDate'
+                topics:
+                  $ref: '#/components/schemas/topics'
+                domains:
+                  $ref: '#/components/schemas/domains'
+                filters:
+                  $ref: '#/components/schemas/filters'
+                surgeId:
+                  $ref: '#/components/schemas/surgeId'
+                granularInstallData:
+                  $ref: '#/components/schemas/granularInstallData'
+                filterOr:
+                  $ref: '#/components/schemas/filterOr'
+                entityParty:
+                  $ref: '#/components/schemas/entityParty'
+            example:
+              name: My Test Audience
+              endDate: '2021-12-27T19:53:35.984Z'
+              topics:
+              - '1503561'
+              filterOr: false
+              domains:
+              - bombora.com
+              - spotify.com
+              entityParty: '3'
+              filters:
+              - id: ccm_industry
+                values:
+                - Software
+              - id: functional_area
+                values:
+                - Marketing
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              example:
+                errors:
+                  filters:
+                  - Filters are expected to have both an id and a list of values.
+                message: One or more validation errors occurred.
+    delete:
+      summary: Delete a digital audience.
+      description: The Delete endpoint allows users to delete an existing Digital Audience.
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      - $ref: '#/components/parameters/externalId'
+      - $ref: '#/components/parameters/partnerId'
+      responses:
+        '200':
+          description: The resource no longer exists.
+        '204':
+          description: No Content
+  /{dataexchange}/{externalId}/{partnerId}/activate:
+    put:
+      summary: Activate a digital audience.
+      description: 'The Activate endpoint allows users to activate an existing suspended Digital Audience.
+
+        * The Last Modified By column for the Digital Audience will be set as DAB API.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      - $ref: '#/components/parameters/externalId'
+      - $ref: '#/components/parameters/partnerId'
+      responses:
+        '204':
+          description: No Content - Request was successful
+        '401':
+          description: Unauthorized - Request was not properly authorized
+        '403':
+          description: Forbidden - Request for segment activation was not properly authorized
+        '409':
+          description: Conflict - Segment does not have prerequired "Suspended" status
+  /{dataexchange}/{externalId}/{partnerId}/suspend:
+    put:
+      summary: Suspend a digital audience.
+      description: 'The Suspend endpoint allows users to suspend an existing Digital Audience.
+
+        * The Last Modified By column for the Digital Audience will be set as DAB API.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      - $ref: '#/components/parameters/externalId'
+      - $ref: '#/components/parameters/partnerId'
+      responses:
+        '204':
+          description: No Content - Request was successful
+        '401':
+          description: Unauthorized - Request was not properly authorized
+        '403':
+          description: Forbidden - Request for segment activation was not properly authorized
+        '404':
+          description: Not Found - Segment does not exist
+  /{dataexchange}/estimate:
+    post:
+      summary: Estimate the size of a digital audience.
+      description: The Estimate endpoint allows customers to estimate the size of an audience.
+      parameters:
+      - $ref: '#/components/parameters/dataexchange'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 'The request body includes the following data in a form-data structure:
+
+                *  Requires either domains, topics or filters
+
+                '
+              properties:
+                topics:
+                  $ref: '#/components/schemas/topics'
+                domains:
+                  $ref: '#/components/schemas/domains'
+                filters:
+                  $ref: '#/components/schemas/filters'
+                surgeId:
+                  $ref: '#/components/schemas/surgeId'
+                granularInstallData:
+                  $ref: '#/components/schemas/granularInstallData'
+                filterOr:
+                  $ref: '#/components/schemas/filterOr'
+                entityParty:
+                  $ref: '#/components/schemas/entityParty'
+            example:
+              topics:
+              - '1503561'
+              - '1503565'
+              filterOr: false
+              domains:
+              - www.bombora.com
+              - www.spotify.com
+              entityParty: '3'
+              filters:
+              - id: ccm_industry
+                values:
+                - Agriculture
+              - id: functional_area
+                values:
+                - Building & Grounds Maintenance
+      responses:
+        '200':
+          description: OK - Request was successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Estimated size of the audience
+              example:
+                count: 3904
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity - Request was invalid
+          content:
+            application/json:
+              example:
+                errors:
+                  granularInstallData:
+                  - 'Invalid ids: 23'
+                message: One or more validation errors occurred.
+        '502':
+          description: Bad Gateway
+components:
+  parameters:
+    externalId:
+      name: externalId
+      in: path
+      required: true
+      description: The external ID of the digital audience.
+      schema:
+        type: string
+    dataexchange:
+      name: dataexchange
+      in: path
+      required: true
+      description: Data exchange which owns the digital audience.
+      schema:
+        $ref: '#/components/schemas/DataExchanges'
+    partnerId:
+      name: partnerId
+      in: path
+      required: false
+      description: "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus),\
+        \ and theTradeDesk.\n"
+      schema:
+        type: string
+  schemas:
+    DataExchanges:
+      type: string
+      description: '
+
+        Available data exchanges.
+
+
+        * `adobe` - Adobe
+
+        * `appnexus` - Xandr (AppNexus)
+
+        * `blue_kai` - BlueKai
+
+        * `eyeota` - Eyeota
+
+        * `liveramp` - LiveRamp
+
+        * `lotame` - Lotame
+
+        * `measure` - Test Only
+
+        * `media_math_direct` - MediaMathDirect
+
+        * `taboola_direct` - Taboola
+
+        * `trade_desk_direct` - theTradeDesk
+
+        * `rtvi` - Visitor Insights w/ Real Time Capabilities
+
+        '
+      enum:
+      - adobe
+      - appnexus
+      - blue_kai
+      - eyeota
+      - liveramp
+      - lotame
+      - measure
+      - media_math_direct
+      - taboola_direct
+      - trade_desk_direct
+      - rtvi
+    status:
+      type: string
+      description: Status of the audience
+      enum:
+      - Pending
+      - Active
+      - Suspended
+    externalId:
+      type: string
+      description: "Unique identifier to associate with this segment.\n\n* Only letters, numbers, dashes\
+        \ `-`, and underscores `_` are accepted. \n* If MediaMathDirect, must be a numeric value with\
+        \ 7 or more digits.\n"
+    partnerId:
+      type: string
+      description: "Partner or Member ID. \n\n* Adobe and Xandr (AppNexus) partner IDs must be numeric\
+        \ values. \n* For theTradeDesk partner IDs, only letters, numbers, dashes `-`, and underscores\
+        \ `_` are accepted.\n"
+    cpmPrice:
+      type: string
+      description: "CPM associated with the segment. \n* Must be in $0.25 increments for Xandr.\n"
+    name:
+      type: string
+      description: Name of custom audience
+    endDate:
+      type: string
+      format: date-time
+      description: "Date when the audience is suspended. \n* Must be no more than 13 months in the future.\n"
+    topics:
+      type: array
+      description: List of [topic IDs](/docs/reference-api/1/routes/topics/get) of your audience's interest
+      items:
+        type: string
+    domains:
+      type: array
+      description: List of domains of your audience
+      items:
+        type: string
+    filters:
+      type: array
+      description: List of filter objects to filter your audience
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/b2c_interest'
+        - $ref: '#/components/schemas/ccm_company_revenue'
+        - $ref: '#/components/schemas/ccm_company_size'
+        - $ref: '#/components/schemas/ccm_industry'
+        - $ref: '#/components/schemas/ccm_seniority'
+        - $ref: '#/components/schemas/country'
+        - $ref: '#/components/schemas/functional_area'
+        - $ref: '#/components/schemas/install_data'
+        - $ref: '#/components/schemas/intent_category'
+        - $ref: '#/components/schemas/professional_group'
+        - $ref: '#/components/schemas/state'
+        example:
+        - id: ccm_industry
+          values:
+          - Software
+        - id: functional_area
+          values:
+          - Marketing
+    surgeId:
+      type: string
+      description: "ID of Company Surge &reg; Report to link \n* If provided it will disregard supplied\
+        \ domains.\n"
+    granularInstallData:
+      type: array
+      description: List of granular install products for your audience
+      items:
+        type: string
+    filterOr:
+      type: boolean
+      default: false
+      description: "Combine filter conditions with OR \n* `\"Show me user profiles in finance or located\
+        \ in Japan\"`\n"
+    entityParty:
+      type: integer
+      default: 3
+      description: "* Options are `1` (First) or `3` (Third). \n* Select First Party to only include your\
+        \ First Party Audience in the segment.\n"
+    b2c_interest:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - b2c_interest
+        values:
+          type: array
+          description: 'The following values are allowed.
+
+
+            `Acura`, `Aston Martin`, `Audi`, `BMW`, `Baseball`, `Basketball`, `Bentley`, `Boats and Watercraft`,
+            `Bugatti`, `Buick`, `Cadillac`, `Camping`,`Chevrolet`, `Chocolate`, `Chrysler`, `Cigars`,
+            `Concerts`, `Cooking`, `Craft and Microbrewed Beer`, `Dining and Restaurants`, `Dodge`, `Fantasy
+            Sports`, `Fashion`, `Ferrari`, `Fiat`, `Fine Spirits and Liqueurs`, `Fishing`, `Football`,
+            `Ford`, `Gardening`, `General Motors (GMC)`, `Golfing`, `Hiking`, `Hockey`, `Home Repair`,
+            `Honda`, `Hunting`, `Hyundai`, `Infiniti`, `Jaguar`, `Jeep`, `Kia`, `Lamborghini`, `Land Rover`,
+            `Lexus`, `Lincoln`, `Live Theater`, `Lotus`, `Maserati`, `Mazda`, `McLaren`, `Mercedes-Benz`,
+            `Motor Vehicles`, `Nissan`, `Opel`, `Organic Foods`, `Parenting`, `Peugeot`, `Photography`,
+            `Porsche`, `Range Rover`, `Renault`, `Rolls Royce`, `Saab`, `Scion`, `Smart Automobile`, `Snow
+            Skiing`, `Soccer`, `Subaru`, `Surfing`, `Tata Motors`, `Tennis`, `Tesla`, `Toyota`, `Travel`,
+            `Video Games`, `Volkswagen`, `Volvo`, `Wine`, `Yoga`
+
+            '
+          items:
+            type: string
+            enum:
+            - Acura
+            - Aston Martin
+            - Audi
+            - BMW
+            - Baseball
+            - Basketball
+            - Bentley
+            - Boats and Watercraft
+            - Bugatti
+            - Buick
+            - Cadillac
+            - Camping
+            - Chevrolet
+            - Chocolate
+            - Chrysler
+            - Cigars
+            - Concerts
+            - Cooking
+            - Craft and Microbrewed Beer
+            - Dining and Restaurants
+            - Dodge
+            - Fantasy Sports
+            - Fashion
+            - Ferrari
+            - Fiat
+            - Fine Spirits and Liqueurs
+            - Fishing
+            - Football
+            - Ford
+            - Gardening
+            - General Motors (GMC)
+            - Golfing
+            - Hiking
+            - Hockey
+            - Home Repair
+            - Honda
+            - Hunting
+            - Hyundai
+            - Infiniti
+            - Jaguar
+            - Jeep
+            - Kia
+            - Lamborghini
+            - Land Rover
+            - Lexus
+            - Lincoln
+            - Live Theater
+            - Lotus
+            - Maserati
+            - Mazda
+            - McLaren
+            - Mercedes-Benz
+            - Motor Vehicles
+            - Nissan
+            - Opel
+            - Organic Foods
+            - Parenting
+            - Peugeot
+            - Photography
+            - Porsche
+            - Range Rover
+            - Renault
+            - Rolls Royce
+            - Saab
+            - Scion
+            - Smart Automobile
+            - Snow Skiing
+            - Soccer
+            - Subaru
+            - Surfing
+            - Tata Motors
+            - Tennis
+            - Tesla
+            - Toyota
+            - Travel
+            - Video Games
+            - Volkswagen
+            - Volvo
+            - Wine
+            - Yoga
+          required:
+          - id
+          - values
+    ccm_seniority:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - ccm_seniority
+        values:
+          type: array
+          description: 'The following values are allowed.
+
+
+            `Board and Ownership`,`Csuite`,`Management`,`Non-management`
+
+            '
+          items:
+            type: string
+            enum:
+            - Board and Ownership
+            - Csuite
+            - Management
+      required:
+      - id
+      - values
+    ccm_company_revenue:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - ccm_company_revenue
+        values:
+          type: array
+          description: 'The following values are allowed.
+
+
+            `Large ($100MM-$200MM)`,`Medium-Large ($50MM-$100MM)`,`Medium-Small ($10MM-$50MM)`,`Micro
+            (<$1MM)`,`Small ($1MM-$10MM)`,`XLarge ($200MM-$1B)`,`XXLarge ($1B+)`
+
+            '
+          items:
+            type: string
+            enum:
+            - Large ($100MM-$200MM)
+            - Medium-Large ($50MM-$100MM)
+            - Medium-Small ($10MM-$50MM)
+            - Micro (<$1MM)
+            - Small ($1MM-$10MM)
+            - XLarge ($200MM-$1B)
+            - XXLarge ($1B+)
+      required:
+      - id
+      - values
+    ccm_company_size:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - ccm_company_size
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Large (1,000 - 4,999 Employees)`,`Medium\
+            \ (200 - 499 Employees)`,`Medium-Large (500 - 999 Employees)`,`Medium-Small (50 - 199 Employees)`,`Micro\
+            \ (1 - 9 Employees)`,`Small (10 - 49 Employees)`,`XLarge (5,000 - 10,000 Employees)`,`XXLarge\
+            \ (10,000+ Employees)`\n"
+          items:
+            type: string
+            enum:
+            - Large (1,000 - 4,999 Employees)
+            - Medium (200 - 499 Employees)
+            - Medium-Large (500 - 999 Employees)
+            - Medium-Small (50 - 199 Employees)
+            - Micro (1 - 9 Employees)
+            - Small (10 - 49 Employees)
+            - XLarge (5,000 - 10,000 Employees)
+            - XXLarge (10,000+ Employees)
+      required:
+      - id
+      - values
+    state:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - state
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `AB`,`Alabama`,`Alaska`,`Arizona`,`Arkansas`,`BC`,`California`,`Colorado`,`Connecticut`,`Delaware`,`District\
+            \ of Columbia`,`Florida`,`Georgia`,`Hawaii`,`Idaho`,`Illinois`,`Indiana`,`Iowa`,`Kansas`,`Kentucky`,`Louisiana`,`MB`,`Maine`,`Maryland`,`Massachusetts`,`Michigan`,`Minnesota`,`Mississippi`,`Missouri`,`Montana`,`NB`,`NL`,`NS`,`NT`,`NU`,`Nebraska`,`Nevada`,`New\
+            \ Hampshire`,`New Jersey`,`New Mexico`,`New York`,`North Carolina`,`North Dakota`,`ON`,`Ohio`,`Oklahoma`,`Oregon`,`PE`,`Pennsylvania`,`QC`,`Rhode\
+            \ Island`,`SK`,`South Carolina`,`South Dakota`,`Tennessee`,`Texas`,`Utah`,`Vermont`,`Virginia`,`Washington`,`West\
+            \ Virginia`,`Wisconsin`,`Wyoming`,`YT`\n"
+          items:
+            type: string
+            enum:
+            - AB
+            - Alabama
+            - Alaska
+            - Arizona
+            - Arkansas
+            - BC
+            - California
+            - Colorado
+            - Connecticut
+            - Delaware
+            - District of Columbia
+            - Florida
+            - Georgia
+            - Hawaii
+            - Idaho
+            - Illinois
+            - Indiana
+            - Iowa
+            - Kansas
+            - Kentucky
+            - Louisiana
+            - MB
+            - Maine
+            - Maryland
+            - Massachusetts
+            - Michigan
+            - Minnesota
+            - Mississippi
+            - Missouri
+            - Montana
+            - NB
+            - NL
+            - NS
+            - NT
+            - NU
+            - Nebraska
+            - Nevada
+            - New Hampshire
+            - New Jersey
+            - New Mexico
+            - New York
+            - North Carolina
+            - North Dakota
+            - true
+            - Ohio
+            - Oklahoma
+            - Oregon
+            - PE
+            - Pennsylvania
+            - QC
+            - Rhode Island
+            - SK
+            - South Carolina
+            - South Dakota
+            - Tennessee
+            - Texas
+            - Utah
+            - Vermont
+            - Virginia
+            - Washington
+            - West Virginia
+            - Wisconsin
+            - Wyoming
+            - YT
+      required:
+      - id
+      - values
+    professional_group:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - professional_group
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Business Professional`,`Business Traveler`,`Finance\
+            \ Professional`,`Fortune 500 Employee`,`Healthcare Professional`,`High Income Professional`,`Human\
+            \ Resources Professional`,`IT Professional`,`Marketing Professional`,`Small Business Professional`\n"
+          items:
+            type: string
+            enum:
+            - Business Professional
+            - Business Traveler
+            - Finance Professional
+            - Fortune 500 Employee
+            - Healthcare Professional
+            - High Income Professional
+            - Human Resources Professional
+            - IT Professional
+            - Marketing Professional
+            - Small Business Professional
+      required:
+      - id
+      - values
+    intent_category:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - intent_category
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Accounting`,`Administration`,`Agencies\
+            \ & Branding`,`Application & Software Development`,`Benefits`,`Budgeting, Planning & Strategy`,`Business\
+            \ Analytics & Applications`,`CRM & Marketing Automation`,`Capital Procurement`,`Cloud Computing`,`Compliance\
+            \ & Governance`,`Computers & Laptops`,`Construction Management`,`Content`,`Corporate Finance`,`Creativity\
+            \ Software`,`Data Centers`,`Databases & Storage`,`Demand Generation`,`Disease Control`,`Diversity`,`Email\
+            \ Marketing`,`Emissions`,`Employee Services`,`Finance IT`,`Gadgets & Wearables`,`Graphics,\
+            \ Multimedia & Web design`,`Green Energy`,`Hardware`,`Health Insurance`,`Health Tech`,`IT\
+            \ Administration`,`Legal & Regulatory`,`Materials`,`Medical Research`,`Mobility & Wireless`,`Networking\
+            \ & VOIP`,`Online Advertising`,`Operating Systems`,`Patient Management`,`Payroll & Compensation`,`Performance`,`Personal\
+            \ Finance`,`Personal Protective Equipment`,`Plant Management`,`Policy & Culture`,`Productivity\
+            \ Software`,`Programmatic Advertising`,`Recruitment, Hiring & Onboarding`,`Renewables`,`Sales`,`Search\
+            \ Marketing`,`Security`,`Servers`,`Smartphone & Mobile`,`Social Networks`,`Strategy & Analysis`,`Supply\
+            \ Chain`,`Tablets & Readers`,`Tools & Electronics`,`Trading & Investing`,`Training & Development`,`Virtualization`,`Website\
+            \ Publishing`\n"
+          items:
+            type: string
+            enum:
+            - Accounting
+            - Administration
+            - Agencies & Branding
+            - Application & Software Development
+            - Benefits
+            - Budgeting, Planning & Strategy
+            - Business Analytics & Applications
+            - CRM & Marketing Automation
+            - Capital Procurement
+            - Cloud Computing
+            - Compliance & Governance
+            - Computers & Laptops
+            - Construction Management
+            - Content
+            - Corporate Finance
+            - Creativity Software
+            - Data Centers
+            - Databases & Storage
+            - Demand Generation
+            - Disease Control
+            - Diversity
+            - Email Marketing
+            - Emissions
+            - Employee Services
+            - Finance IT
+            - Gadgets & Wearables
+            - Graphics, Multimedia & Web design
+            - Green Energy
+            - Hardware
+            - Health Insurance
+            - Health Tech
+            - IT Administration
+            - Legal & Regulatory
+            - Materials
+            - Medical Research
+            - Mobility & Wireless
+            - Networking & VOIP
+            - Online Advertising
+            - Operating Systems
+            - Patient Management
+            - Payroll & Compensation
+            - Performance
+            - Personal Finance
+            - Personal Protective Equipment
+            - Plant Management
+            - Policy & Culture
+            - Productivity Software
+            - Programmatic Advertising
+            - Recruitment, Hiring & Onboarding
+            - Renewables
+            - Sales
+            - Search Marketing
+            - Security
+            - Servers
+            - Smartphone & Mobile
+            - Social Networks
+            - Strategy & Analysis
+            - Supply Chain
+            - Tablets & Readers
+            - Tools & Electronics
+            - Trading & Investing
+            - Training & Development
+            - Virtualization
+            - Website Publishing
+      required:
+      - id
+      - values
+    install_data:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - install_data
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Cloud Services > Cloud Infrastructure Computing`,`Cloud\
+            \ Services > Infrastructure as a Service (IaaS)`,`Cloud Services > Platform as a Service (PaaS)`,`Communications\
+            \ Technologies > Mobile Enterprise Management`,`Communications Technologies > Telephony`,`Customer\
+            \ Relationship Management > Contact Center Management`,`Customer Relationship Management >\
+            \ Customer Relationship Management (CRM)`,`Customer Relationship Management > Help Desk Management`,`Data\
+            \ Center Solutions > Data Archiving Back-Up & Recovery`,`Data Center Solutions > Data Management\
+            \ & Storage (Hardware)`,`Data Center Solutions > Database Management Software`,`Data Center\
+            \ Solutions > Disaster Recovery (DR)`,`Data Center Solutions > IT Infrastructure & Operations\
+            \ Management`,`Data Center Solutions > Security Information and Event Management (SIEM)`,`Data\
+            \ Center Solutions > System Analytics & Monitoring`,`Data Center Solutions > System Security\
+            \ Services`,`Enterprise Applications > Business Process Management (BPM)`,`Enterprise Applications\
+            \ > Commerce`,`Enterprise Applications > Enterprise Business Solutions (EBS)`,`Enterprise\
+            \ Applications > Enterprise Performance Management (EPM)`,`Enterprise Applications > Enterprise\
+            \ Resource Planning (ERP)`,`Enterprise Applications > HR Management Systems (HRMS)/Human Capital\
+            \ Management (HCM)`,`Enterprise Applications > Inventory Management`,`Enterprise Applications\
+            \ > Partner Management`,`Enterprise Applications > Procurement`,`Enterprise Applications >\
+            \ Supplier Relationship Management (SRM)`,`Enterprise Applications > Supply Chain Management\
+            \ (SCM)`,`Enterprise Content > Case Management`,`Enterprise Content > Enterprise Content Management\
+            \ (ECM)`,`Enterprise Content > Information Technology Management`,`Enterprise Content > Product\
+            \ Lifecycle Management (PLM)`,`Hardware (Basic) > Mainframe Computers`,`Hardware (Basic) >\
+            \ Server Technologies (Hardware)`,`IT Governance > Application Development & Management`,`IT\
+            \ Governance > Software Configuration Management (SCM)`,`Marketing Performance Management\
+            \ > Business Intelligence`,`Marketing Performance Management > Marketing Performance Measurement`,`Network\
+            \ Computing > Middleware Software`,`Network Computing > Network Management (Hardware)`,`Network\
+            \ Computing > Network Management (Software)`,`Productivity Solutions > Collaboration`,`Productivity\
+            \ Solutions > Productivity Solutions`,`Software (Basic) > Server Technologies (Software)`,`Vertical\
+            \ Markets > Construction`,`Vertical Markets > Manufacturing/Engineering`,`Web-Oriented Architecture\
+            \ > Hypervisor`,`Web-Oriented Architecture > Remote Computer/Server Solutions`,`Web-Oriented\
+            \ Architecture > Virtualization: Application & Desktop`,`Web-Oriented Architecture > Virtualization:\
+            \ Platform Management`,`Web-Oriented Architecture > Virtualization: Server & Data Center`,`Web-Oriented\
+            \ Architecture > Web & Portal Technology`,`Web-Oriented Architecture > Web Content Management\
+            \ System (WCMS)`\n"
+          items:
+            type: string
+            enum:
+            - Cloud Services > Cloud Infrastructure Computing
+            - Cloud Services > Infrastructure as a Service (IaaS)
+            - Cloud Services > Platform as a Service (PaaS)
+            - Communications Technologies > Mobile Enterprise Management
+            - Communications Technologies > Telephony
+            - Customer Relationship Management > Contact Center Management
+            - Customer Relationship Management > Customer Relationship Management (CRM)
+            - Customer Relationship Management > Help Desk Management
+            - Data Center Solutions > Data Archiving Back-Up & Recovery
+            - Data Center Solutions > Data Management & Storage (Hardware)
+            - Data Center Solutions > Database Management Software
+            - Data Center Solutions > Disaster Recovery (DR)
+            - Data Center Solutions > IT Infrastructure & Operations Management
+            - Data Center Solutions > Security Information and Event Management (SIEM)
+            - Data Center Solutions > System Analytics & Monitoring
+            - Data Center Solutions > System Security Services
+            - Enterprise Applications > Business Process Management (BPM)
+            - Enterprise Applications > Commerce
+            - Enterprise Applications > Enterprise Business Solutions (EBS)
+            - Enterprise Applications > Enterprise Performance Management (EPM)
+            - Enterprise Applications > Enterprise Resource Planning (ERP)
+            - Enterprise Applications > HR Management Systems (HRMS)/Human Capital Management (HCM)
+            - Enterprise Applications > Inventory Management
+            - Enterprise Applications > Partner Management
+            - Enterprise Applications > Procurement
+            - Enterprise Applications > Supplier Relationship Management (SRM)
+            - Enterprise Applications > Supply Chain Management (SCM)
+            - Enterprise Content > Case Management
+            - Enterprise Content > Enterprise Content Management (ECM)
+            - Enterprise Content > Information Technology Management
+            - Enterprise Content > Product Lifecycle Management (PLM)
+            - Hardware (Basic) > Mainframe Computers
+            - Hardware (Basic) > Server Technologies (Hardware)
+            - IT Governance > Application Development & Management
+            - IT Governance > Software Configuration Management (SCM)
+            - Marketing Performance Management > Business Intelligence
+            - Marketing Performance Management > Marketing Performance Measurement
+            - Network Computing > Middleware Software
+            - Network Computing > Network Management (Hardware)
+            - Network Computing > Network Management (Software)
+            - Productivity Solutions > Collaboration
+            - Productivity Solutions > Productivity Solutions
+            - Software (Basic) > Server Technologies (Software)
+            - Vertical Markets > Construction
+            - Vertical Markets > Manufacturing/Engineering
+            - Web-Oriented Architecture > Hypervisor
+            - Web-Oriented Architecture > Remote Computer/Server Solutions
+            - Web-Oriented Architecture > Virtualization: Application & Desktop
+            - Web-Oriented Architecture > Virtualization: Platform Management
+            - Web-Oriented Architecture > Virtualization: Server & Data Center
+            - Web-Oriented Architecture > Web & Portal Technology
+            - Web-Oriented Architecture > Web Content Management System (WCMS)
+      required:
+      - id
+      - values
+    functional_area:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - functional_area
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Building & Grounds Maintenance`,`Building\
+            \ & Grounds Maintenance > Cleaners, Housekeepers, & Janitors`,`Building & Grounds Maintenance\
+            \ > Gardeners & Landscapers`,`Compliance, Governance, and Risk`,`Consultants`,`Creative`,`Education`,`Education\
+            \ > Management & Administrators`,`Education > Professors & Teachers`,`Engineering`,`Engineering\
+            \ > Biomedical`,`Engineering > Chemical`,`Engineering > Civil`,`Engineering > Electrical`,`Engineering\
+            \ > Electronics`,`Engineering > Industrial`,`Engineering > Mechanical`,`Finance`,`Finance\
+            \ > Accounting`,`Finance > Banking`,`Finance > Investment Banking`,`Finance > Wealth Management`,`Government`,`Government\
+            \ > Elected Officials`,`Government > Employees`,`HR`,`HR > Benefits`,`HR > Diversity`,`HR\
+            \ > Generalist`,`HR > Recruiting`,`Information Technology`,`Information Technology > Database`,`Information\
+            \ Technology > Hardware`,`Information Technology > Networking`,`Information Technology > Operations`,`Information\
+            \ Technology > Product Design & UX Design`,`Information Technology > Product Management`,`Information\
+            \ Technology > QA`,`Information Technology > Security`,`Information Technology > Software`,`Information\
+            \ Technology > Systems and Business Analysts`,`Information Technology > Web Development`,`Legal`,`Marketing`,`Marketing\
+            \ > Advertising`,`Marketing > Branding`,`Marketing > Creative`,`Marketing > Media Buyers`,`Marketing\
+            \ > PR`,`Marketing > Product`,`Marketing > Research`,`Medical/Health`,`Medical/Health > Adolescent\
+            \ Medicine`,`Medical/Health > Allergies & Immunology`,`Medical/Health > Anesthesiology`,`Medical/Health\
+            \ > Cardiology`,`Medical/Health > Clinical Laboratory`,`Medical/Health > Cosmetic`,`Medical/Health\
+            \ > Critical Care Medicine`,`Medical/Health > Dentist`,`Medical/Health > Dermatology`,`Medical/Health\
+            \ > Emergency Medicine`,`Medical/Health > Endocrinology`,`Medical/Health > Gastroenterology`,`Medical/Health\
+            \ > General/Family Practitioner`,`Medical/Health > Genetics`,`Medical/Health > Geriatrics`,`Medical/Health\
+            \ > Health Professional`,`Medical/Health > Hematology`,`Medical/Health > Hepatology`,`Medical/Health\
+            \ > Imaging & Radiology`,`Medical/Health > Infectious Disease`,`Medical/Health > Integrative\
+            \ Alternative & Complimentary Medicine`,`Medical/Health > Internal Medicine`,`Medical/Health\
+            \ > Nephrology`,`Medical/Health > Neurology`,`Medical/Health > Nursing`,`Medical/Health >\
+            \ Ob/Gyn`,`Medical/Health > Oncology`,`Medical/Health > Ophthalmology`,`Medical/Health > Orthopedic`,`Medical/Health\
+            \ > Otolaryngology`,`Medical/Health > Pathology`,`Medical/Health > Pediatrics & Adolescent\
+            \ Medicine`,`Medical/Health > Pharmacy`,`Medical/Health > Phlebology`,`Medical/Health > Physical\
+            \ Medicine & Rehabilitation`,`Medical/Health > Physicians Assistants`,`Medical/Health > Psychiatry\
+            \ & Mental Health`,`Medical/Health > Pulmonology`,`Medical/Health > Rheumatology`,`Medical/Health\
+            \ > Sports Medicine`,`Medical/Health > Surgeon`,`Medical/Health > Urology`,`Operations`,`Operations\
+            \ > Administration`,`Operations > Buyers`,`Operations > Change Management`,`Operations > Compliance`,`Operations\
+            \ > Customer Relations`,`Operations > Facilities`,`Operations > Logistics`,`Public Interest`,`Research`,`Sales`,`Sales\
+            \ > Account Management`,`Sales > Business Development`,`Sales > Support`,`Scientists`,`Service\
+            \ Industry`\n"
+          items:
+            type: string
+            enum:
+            - Building & Grounds Maintenance
+            - Building & Grounds Maintenance > Cleaners, Housekeepers, & Janitors
+            - Building & Grounds Maintenance > Gardeners & Landscapers
+            - Compliance, Governance, and Risk
+            - Consultants
+            - Creative
+            - Education
+            - Education > Management & Administrators
+            - Education > Professors & Teachers
+            - Engineering
+            - Engineering > Biomedical
+            - Engineering > Chemical
+            - Engineering > Civil
+            - Engineering > Electrical
+            - Engineering > Electronics
+            - Engineering > Industrial
+            - Engineering > Mechanical
+            - Finance
+            - Finance > Accounting
+            - Finance > Banking
+            - Finance > Investment Banking
+            - Finance > Wealth Management
+            - Government
+            - Government > Elected Officials
+            - Government > Employees
+            - HR
+            - HR > Benefits
+            - HR > Diversity
+            - HR > Generalist
+            - HR > Recruiting
+            - Information Technology
+            - Information Technology > Database
+            - Information Technology > Hardware
+            - Information Technology > Networking
+            - Information Technology > Operations
+            - Information Technology > Product Design & UX Design
+            - Information Technology > Product Management
+            - Information Technology > QA
+            - Information Technology > Security
+            - Information Technology > Software
+            - Information Technology > Systems and Business Analysts
+            - Information Technology > Web Development
+            - Legal
+            - Marketing
+            - Marketing > Advertising
+            - Marketing > Branding
+            - Marketing > Creative
+            - Marketing > Media Buyers
+            - Marketing > PR
+            - Marketing > Product
+            - Marketing > Research
+            - Medical/Health
+            - Medical/Health > Adolescent Medicine
+            - Medical/Health > Allergies & Immunology
+            - Medical/Health > Anesthesiology
+            - Medical/Health > Cardiology
+            - Medical/Health > Clinical Laboratory
+            - Medical/Health > Cosmetic
+            - Medical/Health > Critical Care Medicine
+            - Medical/Health > Dentist
+            - Medical/Health > Dermatology
+            - Medical/Health > Emergency Medicine
+            - Medical/Health > Endocrinology
+            - Medical/Health > Gastroenterology
+            - Medical/Health > General/Family Practitioner
+            - Medical/Health > Genetics
+            - Medical/Health > Geriatrics
+            - Medical/Health > Health Professional
+            - Medical/Health > Hematology
+            - Medical/Health > Hepatology
+            - Medical/Health > Imaging & Radiology
+            - Medical/Health > Infectious Disease
+            - Medical/Health > Integrative Alternative & Complimentary Medicine
+            - Medical/Health > Internal Medicine
+            - Medical/Health > Nephrology
+            - Medical/Health > Neurology
+            - Medical/Health > Nursing
+            - Medical/Health > Ob/Gyn
+            - Medical/Health > Oncology
+            - Medical/Health > Ophthalmology
+            - Medical/Health > Orthopedic
+            - Medical/Health > Otolaryngology
+            - Medical/Health > Pathology
+            - Medical/Health > Pediatrics & Adolescent Medicine
+            - Medical/Health > Pharmacy
+            - Medical/Health > Phlebology
+            - Medical/Health > Physical Medicine & Rehabilitation
+            - Medical/Health > Physicians Assistants
+            - Medical/Health > Psychiatry & Mental Health
+            - Medical/Health > Pulmonology
+            - Medical/Health > Rheumatology
+            - Medical/Health > Sports Medicine
+            - Medical/Health > Surgeon
+            - Medical/Health > Urology
+            - Operations
+            - Operations > Administration
+            - Operations > Buyers
+            - Operations > Change Management
+            - Operations > Compliance
+            - Operations > Customer Relations
+            - Operations > Facilities
+            - Operations > Logistics
+            - Public Interest
+            - Research
+            - Sales
+            - Sales > Account Management
+            - Sales > Business Development
+            - Sales > Support
+            - Scientists
+            - Service Industry
+      required:
+      - id
+      - values
+    ccm_industry:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - ccm_industry
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Agriculture`,`Agriculture > Animals & Livestock`,`Agriculture\
+            \ > Crops`,`Agriculture > Forestry`,`Business Services`,`Business Services > Accounting`,`Business\
+            \ Services > Advertising & Marketing`,`Business Services > Commercial Printing`,`Business\
+            \ Services > Graphic Design`,`Business Services > HR & Recruiting`,`Business Services > Import/Export`,`Business\
+            \ Services > Management Consulting`,`Business Services > Waste Management`,`Construction`,`Construction\
+            \ > Architecture`,`Construction > Commercial Building`,`Construction > Contractors`,`Construction\
+            \ > Heavy Construction`,`Construction > Residential Building`,`Consumer Services`,`Consumer\
+            \ Services > Auto Repair`,`Consumer Services > Car Rental`,`Consumer Services > Laundry &\
+            \ Dry Cleaning`,`Consumer Services > Non-Auto Repair`,`Consumer Services > Veterinary`,`Consumer\
+            \ Services > Weight Health Management`,`Cultural`,`Cultural > Libraries`,`Cultural > Museums\
+            \ & Art Galleries`,`Cultural > Performance Arts`,`Education`,`Education > Colleges & Universities`,`Education\
+            \ > K-12 Schools`,`Education > Professional, Technical & Trade Schools`,`Energy, Utilities\
+            \ & Waste`,`Energy, Utilities & Waste > Energy`,`Energy, Utilities & Waste > Utilities`,`Energy,\
+            \ Utilities & Waste > Waste Treatment`,`Finance`,`Finance > Banking`,`Finance > Credit Card\
+            \ Transaction Processing`,`Finance > Investment Banking`,`Finance > Portfolio Management &\
+            \ Financial Advice`,`Finance > Trade & Development`,`Finance > Venture Capital Private Equity\
+            \ & Fund Raising`,`Gaming`,`Government`,`Government > Federal`,`Government > Public Safety`,`Government\
+            \ > State & Province`,`Government > Towns, Cities & Municipalities`,`Healthcare`,`Healthcare\
+            \ > Hospitals & Clinics`,`Healthcare > Medical Offices`,`Healthcare > Pharmaceuticals`,`Hospitality\
+            \ & Hotels`,`Hospitality & Hotels > Lodging & Resorts`,`Hospitality & Hotels > Restaurants`,`Insurance`,`Insurance\
+            \ > Accident & Health`,`Insurance > Property & Casualty`,`Legal`,`Manufacturing`,`Manufacturing\
+            \ > Aerospace & Defense`,`Manufacturing > Automobile`,`Manufacturing > Boats & Marine`,`Manufacturing\
+            \ > Building Materials`,`Manufacturing > Chemicals & Gases`,`Manufacturing > Computer Equipment`,`Manufacturing\
+            \ > Consumer Goods`,`Manufacturing > Electronics`,`Manufacturing > Food & Beverage`,`Manufacturing\
+            \ > Furniture`,`Manufacturing > Industrial Engineering`,`Manufacturing > Machinery`,`Manufacturing\
+            \ > Metals & Mining`,`Manufacturing > Plastics, Synthetics & Rubber`,`Manufacturing > Semiconductors`,`Manufacturing\
+            \ > Textiles & Apparel`,`Manufacturing > Wood & Paper Products`,`Media & Internet`,`Media\
+            \ & Internet > Info Collection & Delivery`,`Media & Internet > Media Broadcasting`,`Media\
+            \ & Internet > Movie & Video`,`Media & Internet > Music`,`Media & Internet > Newspapers &\
+            \ News Services`,`Media & Internet > Publishing`,`Media & Internet > Search Engines & Internet\
+            \ Portals`,`Military`,`Non-Profit`,`Real Estate`,`Real Estate > Commercial`,`Real Estate >\
+            \ Residential`,`Recreation`,`Resource Extraction`,`Resource Extraction > Metals & Mining`,`Resource\
+            \ Extraction > Oil & Gas`,`Retail`,`Retail > Apparel & Fashion`,`Retail > Consumer Electronics`,`Retail\
+            \ > Department Stores & Super Stores`,`Retail > Drug Stores & Pharmacies`,`Retail > Furniture`,`Retail\
+            \ > Gas Stations & Convenience`,`Retail > Grocery`,`Retail > Home Improvement & Hardware`,`Retail\
+            \ > Jewelry`,`Retail > Motor Vehicles`,`Retail > Office Products`,`Retail > Pet Products`,`Retail\
+            \ > eCommerce`,`Software`,`Software > Business Intelligence`,`Software > Database & File Management`,`Software\
+            \ > Financial/Legal/HR`,`Software > Healthcare`,`Software > Security`,`Sports`,`Telecommunications`,`Telecommunications\
+            \ > Cable & Satellite`,`Telecommunications > ISPs`,`Telecommunications > Telephony & Wireless`,`Transportation\
+            \ & Travel`,`Transportation & Travel > Aviation & Aerospace`,`Transportation & Travel > Marine\
+            \ Shipping`,`Transportation & Travel > Transit & Non-Aviation Passengers`,`Transportation\
+            \ & Travel > Travel Agencies & Reservation Services`,`Transportation & Travel > Trucking &\
+            \ Logistics`,`Transportation & Travel > Warehousing`,`Wholesalers`,`Wholesalers > Durable\
+            \ Goods`,`Wholesalers > Non-Durable Goods`\n"
+          items:
+            type: string
+            enum:
+            - Agriculture
+            - Agriculture > Animals & Livestock
+            - Agriculture > Crops
+            - Agriculture > Forestry
+            - Business Services
+            - Business Services > Accounting
+            - Business Services > Advertising & Marketing
+            - Business Services > Commercial Printing
+            - Business Services > Graphic Design
+            - Business Services > HR & Recruiting
+            - Business Services > Import/Export
+            - Business Services > Management Consulting
+            - Business Services > Waste Management
+            - Construction
+            - Construction > Architecture
+            - Construction > Commercial Building
+            - Construction > Contractors
+            - Construction > Heavy Construction
+            - Construction > Residential Building
+            - Consumer Services
+            - Consumer Services > Auto Repair
+            - Consumer Services > Car Rental
+            - Consumer Services > Laundry & Dry Cleaning
+            - Consumer Services > Non-Auto Repair
+            - Consumer Services > Veterinary
+            - Consumer Services > Weight Health Management
+            - Cultural
+            - Cultural > Libraries
+            - Cultural > Museums & Art Galleries
+            - Cultural > Performance Arts
+            - Education
+            - Education > Colleges & Universities
+            - Education > K-12 Schools
+            - Education > Professional, Technical & Trade Schools
+            - Energy, Utilities & Waste
+            - Energy, Utilities & Waste > Energy
+            - Energy, Utilities & Waste > Utilities
+            - Energy, Utilities & Waste > Waste Treatment
+            - Finance
+            - Finance > Banking
+            - Finance > Credit Card Transaction Processing
+            - Finance > Investment Banking
+            - Finance > Portfolio Management & Financial Advice
+            - Finance > Trade & Development
+            - Finance > Venture Capital Private Equity & Fund Raising
+            - Gaming
+            - Government
+            - Government > Federal
+            - Government > Public Safety
+            - Government > State & Province
+            - Government > Towns, Cities & Municipalities
+            - Healthcare
+            - Healthcare > Hospitals & Clinics
+            - Healthcare > Medical Offices
+            - Healthcare > Pharmaceuticals
+            - Hospitality & Hotels
+            - Hospitality & Hotels > Lodging & Resorts
+            - Hospitality & Hotels > Restaurants
+            - Insurance
+            - Insurance > Accident & Health
+            - Insurance > Property & Casualty
+            - Legal
+            - Manufacturing
+            - Manufacturing > Aerospace & Defense
+            - Manufacturing > Automobile
+            - Manufacturing > Boats & Marine
+            - Manufacturing > Building Materials
+            - Manufacturing > Chemicals & Gases
+            - Manufacturing > Computer Equipment
+            - Manufacturing > Consumer Goods
+            - Manufacturing > Electronics
+            - Manufacturing > Food & Beverage
+            - Manufacturing > Furniture
+            - Manufacturing > Industrial Engineering
+            - Manufacturing > Machinery
+            - Manufacturing > Metals & Mining
+            - Manufacturing > Plastics, Synthetics & Rubber
+            - Manufacturing > Semiconductors
+            - Manufacturing > Textiles & Apparel
+            - Manufacturing > Wood & Paper Products
+            - Media & Internet
+            - Media & Internet > Info Collection & Delivery
+            - Media & Internet > Media Broadcasting
+            - Media & Internet > Movie & Video
+            - Media & Internet > Music
+            - Media & Internet > Newspapers & News Services
+            - Media & Internet > Publishing
+            - Media & Internet > Search Engines & Internet Portals
+            - Military
+            - Non-Profit
+            - Real Estate
+            - Real Estate > Commercial
+            - Real Estate > Residential
+            - Recreation
+            - Resource Extraction
+            - Resource Extraction > Metals & Mining
+            - Resource Extraction > Oil & Gas
+            - Retail
+            - Retail > Apparel & Fashion
+            - Retail > Consumer Electronics
+            - Retail > Department Stores & Super Stores
+            - Retail > Drug Stores & Pharmacies
+            - Retail > Furniture
+            - Retail > Gas Stations & Convenience
+            - Retail > Grocery
+            - Retail > Home Improvement & Hardware
+            - Retail > Jewelry
+            - Retail > Motor Vehicles
+            - Retail > Office Products
+            - Retail > Pet Products
+            - Retail > eCommerce
+            - Software
+            - Software > Business Intelligence
+            - Software > Database & File Management
+            - Software > Financial/Legal/HR
+            - Software > Healthcare
+            - Software > Security
+            - Sports
+            - Telecommunications
+            - Telecommunications > Cable & Satellite
+            - Telecommunications > ISPs
+            - Telecommunications > Telephony & Wireless
+            - Transportation & Travel
+            - Transportation & Travel > Aviation & Aerospace
+            - Transportation & Travel > Marine Shipping
+            - Transportation & Travel > Transit & Non-Aviation Passengers
+            - Transportation & Travel > Travel Agencies & Reservation Services
+            - Transportation & Travel > Trucking & Logistics
+            - Transportation & Travel > Warehousing
+            - Wholesalers
+            - Wholesalers > Durable Goods
+            - Wholesalers > Non-Durable Goods
+      required:
+      - id
+      - values
+    country:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - country
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Afghanistan`, `Aland Islands`, `Albania`,\
+            \ `Algeria`, `American Samoa`, `Andorra`, `Angola`, `Anguilla`, `Antarctica`, `Antigua and\
+            \ Barbuda`, `Argentina`, `Armenia`, `Aruba`, `Australia`, `Austria`, `Azerbaijan`, `Bahamas`,\
+            \ `Bahrain`, `Bangladesh`, `Barbados`, `Belarus`, `Belgium`, `Belize`, `Benin`, `Bermuda`,\
+            \ `Bhutan`, `Bolivia`, `Bosnia and Herzegovina`, `Botswana`, `Bouvet Island`, `Brazil`, `British\
+            \ Indian Ocean Territory`, `British Virgin Islands`, `Brunei Darussalam`, `Bulgaria`, `Burkina\
+            \ Faso`, `Burundi`, `Cambodia`, `Cameroon`, `Canada`, `Cape Verde`, `Cayman Islands`, `Central\
+            \ African Republic`, `Chad`, `Chile`, `China`, `Christmas Island`, `Cocos (Keeling) Islands`,\
+            \ `Colombia`, `Comoros`, `Congo`, `Cook Islands`, `Costa Rica`, `Cote Divoire`, `Croatia`,\
+            \ `Cuba`, `Cyprus`, `Czech Republic`, `Democratic Republic of the Congo`, `Denmark`, `Djibouti`,\
+            \ `Dominica`, `Dominican Republic`, `East Timor`, `Ecuador`, `Egypt`, `El Salvador`, `Equatorial\
+            \ Guinea`, `Eritrea`, `Estonia`, `Ethiopia`, `Falkland Islands (Malvinas)`, `Faroe Islands`,\
+            \ `Fiji`, `Finland`, `France`, `France, Metropolitan`, `French Guiana`, `French Polynesia`,\
+            \ `French Southern Territories`, `Gabon`, `Gambia`, `Georgia`, `Germany`, `Ghana`, `Gibraltar`,\
+            \ `Greece`, `Greenland`, `Grenada`, `Guadeloupe`, `Guam`, `Guatemala`, `Guinea`, `Guinea-Bissau`,\
+            \ `Guyana`, `Haiti`, `Heard and McDonald Islands`, `Honduras`, `Hong Kong`, `Hungary`, `Iceland`,\
+            \ `India`, `Indonesia`, `Iraq`, `Ireland`, `Islamic Republic of Iran`, `Israel`, `Italy`,\
+            \ `Jamaica`, `Japan`, `Jordan`, `Kazakhstan`, `Kenya`, `Kiribati`, `Korea (North)`, `Korea\
+            \ (South)`, `Kuwait`, `Kyrgyzstan`, `Laos`, `Latvia`, `Lebanon`, `Lesotho`, `Liberia`, `Libyan\
+            \ Arab Jamahiriya`, `Liechtenstein`, `Lithuania`, `Luxembourg`, `Macau`, `Macedonia`, `Madagascar`,\
+            \ `Malawi`, `Malaysia`, `Maldives`, `Mali`, `Malta`, `Marshall Islands`, `Martinique`, `Mauritania`,\
+            \ `Mauritius`, `Mayotte`, `Mexico`, `Micronesia`, `Moldova, Republic of`, `Monaco`, `Mongolia`,\
+            \ `Montenegro`, `Montserrat`, `Morocco`, `Mozambique`, `Myanmar`, `Namibia`, `Nauru`, `Nepal`,\
+            \ `Netherlands`, `Netherlands Antilles`, `New Caledonia`, `New Zealand`, `Nicaragua`, `Niger`,\
+            \ `Nigeria`, `Niue`, `Norfolk Island`, `Northern Mariana Islands`, `Norway`, `Oman`, `Pakistan`,\
+            \ `Palau`, `Palestinian Territory`, `Panama`, `Papua New Guinea`, `Paraguay`, `Peru`, `Philippines`,\
+            \ `Pitcairn`, `Poland`, `Portugal`, `Puerto Rico`, `Qatar`, `Reunion`, `Romania`, `Russian\
+            \ Federation`, `Rwanda`, `S. Georgia and S. Sandwich Islands`, `Saint Lucia`, `Samoa`, `San\
+            \ Marino`, `Sao Tome and Principe`, `Saudi Arabia`, `Senegal`, `Serbia`, `Seychelles`, `Sierra\
+            \ Leone`, `Singapore`, `Slovakia`, `Slovenia`, `Solomon Islands`, `Somalia`, `South Africa`,\
+            \ `Spain`, `Sri Lanka`, `St. Helena`, `St. Kitts and Nevis`, `St. Pierre and Miquelon`, `St.\
+            \ Vincent and the Grenadines`, `Sudan`, `Suriname`, `Svalbard and Jan Mayen Islands`, `Swaziland`,\
+            \ `Sweden`, `Switzerland`, `Syrian Arab Republic`, `Taiwan`, `Tajikistan`, `Tanzania, United\
+            \ Republic of`, `Thailand`, `Timor-Leste`, `Togo`, `Tokelau`, `Tonga`, `Trinidad and Tobago`,\
+            \ `Tunisia`, `Turkey`, `Turkmenistan`, `Turks and Caicos Islands`, `Tuvalu`, `USSR (former)`,\
+            \ `Uganda`, `Ukraine`, `United Arab Emirates`, `United Kingdom (Great Britain)`, `United States`,\
+            \ `United States Minor Outlying Islands`, `United States Virgin Islands`, `Uruguay`, `Uzbekistan`,\
+            \ `Vanuatu`, `Vatican City State`, `Venezuela`, `Vietnam`, `Wallis And Futuna Islands`, `Western\
+            \ Sahara`, `Yemen`, `Zaire`, `Zambia`, `Zimbabwe`\n"
+          items:
+            type: string
+            enum:
+            - Afghanistan
+            - Aland Islands
+            - Albania
+            - Algeria
+            - American Samoa
+            - Andorra
+            - Angola
+            - Anguilla
+            - Antarctica
+            - Antigua and Barbuda
+            - Argentina
+            - Armenia
+            - Aruba
+            - Australia
+            - Austria
+            - Azerbaijan
+            - Bahamas
+            - Bahrain
+            - Bangladesh
+            - Barbados
+            - Belarus
+            - Belgium
+            - Belize
+            - Benin
+            - Bermuda
+            - Bhutan
+            - Bolivia
+            - Bosnia and Herzegovina
+            - Botswana
+            - Bouvet Island
+            - Brazil
+            - British Indian Ocean Territory
+            - British Virgin Islands
+            - Brunei Darussalam
+            - Bulgaria
+            - Burkina Faso
+            - Burundi
+            - Cambodia
+            - Cameroon
+            - Canada
+            - Cape Verde
+            - Cayman Islands
+            - Central African Republic
+            - Chad
+            - Chile
+            - China
+            - Christmas Island
+            - Cocos (Keeling) Islands
+            - Colombia
+            - Comoros
+            - Congo
+            - Cook Islands
+            - Costa Rica
+            - Cote Divoire
+            - Croatia
+            - Cuba
+            - Cyprus
+            - Czech Republic
+            - Democratic Republic of the Congo
+            - Denmark
+            - Djibouti
+            - Dominica
+            - Dominican Republic
+            - East Timor
+            - Ecuador
+            - Egypt
+            - El Salvador
+            - Equatorial Guinea
+            - Eritrea
+            - Estonia
+            - Ethiopia
+            - Falkland Islands (Malvinas)
+            - Faroe Islands
+            - Fiji
+            - Finland
+            - France
+            - France, Metropolitan
+            - French Guiana
+            - French Polynesia
+            - French Southern Territories
+            - Gabon
+            - Gambia
+            - Georgia
+            - Germany
+            - Ghana
+            - Gibraltar
+            - Greece
+            - Greenland
+            - Grenada
+            - Guadeloupe
+            - Guam
+            - Guatemala
+            - Guinea
+            - Guinea-Bissau
+            - Guyana
+            - Haiti
+            - Heard and McDonald Islands
+            - Honduras
+            - Hong Kong
+            - Hungary
+            - Iceland
+            - India
+            - Indonesia
+            - Iraq
+            - Ireland
+            - Islamic Republic of Iran
+            - Israel
+            - Italy
+            - Jamaica
+            - Japan
+            - Jordan
+            - Kazakhstan
+            - Kenya
+            - Kiribati
+            - Korea (North)
+            - Korea (South)
+            - Kuwait
+            - Kyrgyzstan
+            - Laos
+            - Latvia
+            - Lebanon
+            - Lesotho
+            - Liberia
+            - Libyan Arab Jamahiriya
+            - Liechtenstein
+            - Lithuania
+            - Luxembourg
+            - Macau
+            - Macedonia
+            - Madagascar
+            - Malawi
+            - Malaysia
+            - Maldives
+            - Mali
+            - Malta
+            - Marshall Islands
+            - Martinique
+            - Mauritania
+            - Mauritius
+            - Mayotte
+            - Mexico
+            - Micronesia
+            - Moldova, Republic of
+            - Monaco
+            - Mongolia
+            - Montenegro
+            - Montserrat
+            - Morocco
+            - Mozambique
+            - Myanmar
+            - Namibia
+            - Nauru
+            - Nepal
+            - Netherlands
+            - Netherlands Antilles
+            - New Caledonia
+            - New Zealand
+            - Nicaragua
+            - Niger
+            - Nigeria
+            - Niue
+            - Norfolk Island
+            - Northern Mariana Islands
+            - Norway
+            - Oman
+            - Pakistan
+            - Palau
+            - Palestinian Territory
+            - Panama
+            - Papua New Guinea
+            - Paraguay
+            - Peru
+            - Philippines
+            - Pitcairn
+            - Poland
+            - Portugal
+            - Puerto Rico
+            - Qatar
+            - Reunion
+            - Romania
+            - Russian Federation
+            - Rwanda
+            - S. Georgia and S. Sandwich Islands
+            - Saint Lucia
+            - Samoa
+            - San Marino
+            - Sao Tome and Principe
+            - Saudi Arabia
+            - Senegal
+            - Serbia
+            - Seychelles
+            - Sierra Leone
+            - Singapore
+            - Slovakia
+            - Slovenia
+            - Solomon Islands
+            - Somalia
+            - South Africa
+            - Spain
+            - Sri Lanka
+            - St. Helena
+            - St. Kitts and Nevis
+            - St. Pierre and Miquelon
+            - St. Vincent and the Grenadines
+            - Sudan
+            - Suriname
+            - Svalbard and Jan Mayen Islands
+            - Swaziland
+            - Sweden
+            - Switzerland
+            - Syrian Arab Republic
+            - Taiwan
+            - Tajikistan
+            - Tanzania, United Republic of
+            - Thailand
+            - Timor-Leste
+            - Togo
+            - Tokelau
+            - Tonga
+            - Trinidad and Tobago
+            - Tunisia
+            - Turkey
+            - Turkmenistan
+            - Turks and Caicos Islands
+            - Tuvalu
+            - USSR (former)
+            - Uganda
+            - Ukraine
+            - United Arab Emirates
+            - United Kingdom (Great Britain)
+            - United States
+            - United States Minor Outlying Islands
+            - United States Virgin Islands
+            - Uruguay
+            - Uzbekistan
+            - Vanuatu
+            - Vatican City State
+            - Venezuela
+            - Vietnam
+            - Wallis And Futuna Islands
+            - Western Sahara
+            - Yemen
+            - Zaire
+            - Zambia
+            - Zimbabwe
+      required:
+      - id
+      - values
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+security:
+- bearerAuth: []

@@ -1,0 +1,754 @@
+openapi: 3.0.1
+servers:
+- url: https://api.bombora.com/reference/v1
+info:
+  title: Reference API
+  description: The Reference API is used to retrieve reference data that is used throughout Bombora's
+    APIs.
+  version: 1.0.1
+security:
+- bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: true
+  responses:
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    BadRequestError:
+      description: The request is syntactically invalid.
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource
+        (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation
+        errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  parameters:
+    accountListId:
+      name: accountListId
+      in: path
+      required: true
+      description: The unique identifier (AccountListId) of the account list.
+      schema:
+        type: string
+        format: uuid
+      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+paths:
+  /topics:
+    get:
+      tags:
+      - Intent
+      summary: Returns a list of topics with optional filtering by attributes.
+      description: 'This endpoint returns a collection of intent topics, each with detailed information
+        including id, name, theme, and category.
+
+
+        Filtering:
+
+        The list of topics can be filtered using query parameters, allowing for dynamic topic retrieval
+        without loading the full list of topics. Each filter is applied independently with OR logic, meaning
+        a topic will be included if it matches any of the specified criteria. Filters accept multiple
+        comma-separated, case-insensitive values, providing flexibility for broad and inclusive searches.
+
+        '
+      parameters:
+      - name: id
+        in: query
+        description: Filters results by topic IDs. Accepts a comma-separated list of IDs, returning topics
+          that match any of the specified IDs.
+        required: false
+        schema:
+          type: string
+        examples:
+          Return topics by ID matching:
+            value: 1505708,1502758
+            summary: Return all topics with ID of 1050708 or 10502758
+      - name: name
+        in: query
+        description: Filters results by topic name. Accepts a comma-separated list of strings, returning
+          topics where the name contains any of the specified strings (case-insensitive).
+        required: false
+        schema:
+          type: string
+        examples:
+          Return topics by name search:
+            value: Exchange,Finance
+            summary: Return all topics with a name that contains "Exchange" or "Finance" (case-insensitive)
+      - name: theme
+        in: query
+        description: Filters results by topic theme. Accepts a comma-separated list of strings, returning
+          topics where the theme contains any of the specified strings (case-insensitive).
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        description: Filters results by topic category. Accepts a comma-separated list of strings, returning
+          topics where the category contains any of the specified strings (case-insensitive).
+        required: false
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Filters results by topic description. Accepts a comma-separated list of strings,
+          returning topics where the description contains any of the specified strings (case-insensitive).
+        required: false
+        schema:
+          type: string
+        examples:
+          Return topics by description search:
+            value: SEC
+            summary: Return all topics with a description  that contains "SEC" (case-insensitive)
+      - name: s
+        in: query
+        description: Returns similar topics. Accepts a comma-separated list of IDs, returning topics that
+          are similar to the topics represented by the specified IDs. By default, up to 50 topics are
+          returned. This limit can be modified by the 'maxTopics' parameter.
+        required: false
+        schema:
+          type: string
+        examples:
+          Example with similar topic filtering:
+            value: 1505708,1502758
+            summary: The topic is similar to topic 1505708 or 1502758
+      - name: maxTopics
+        in: query
+        description: Modifies the maximum number of topics returned when the 's' query parameter is used.
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          nullable: false
+                          format: int32
+                          description: The unique identifier of the topic.
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the topic.
+                        theme:
+                          type: string
+                          nullable: false
+                          description: The theme to which the topic belongs.
+                        category:
+                          type: string
+                          nullable: false
+                          description: The category to which the topic belongs.
+                        description:
+                          type: string
+                          nullable: false
+                          description: Provides a detailed description of the topic.
+              example:
+                topics:
+                - id: 1333532
+                  name: Local Government
+                  theme: Government
+                  category: Other
+                  description: The administration of a particular town, county, or district, with representatives
+                    elected by those who live there.
+                - id: 1333536
+                  name: Legal
+                  theme: Legal
+                  category: Legal Services
+                  description: Of, based on, or concerned with the law.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /b2c-interest:
+    get:
+      tags:
+      - Intent
+      summary: Returns a list of topic attributes related to B2C interest.
+      description: Returns a list of supported B2C Interest Attributes. B2C interest represents the B2C
+        topics a given device has shown interest in.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  b2cInterest:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the B2C interest topic.
+              example:
+                b2cInterest:
+                - name: Acura
+                - name: Aston Martin
+                - name: Audi
+                - name: Baseball
+                - name: Basketball
+                - name: Bentley
+                - name: BMW
+                - name: Boats and Watercraft
+                - name: Organic Foods
+                - name: Parenting
+                - name: Peugeot
+                - name: Photography
+                - name: Wine
+                - name: Yoga
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /b2b-interest-groups:
+    get:
+      tags:
+      - Intent
+      summary: Returns a list of B2B interest group attributes.
+      description: Returns a list of supported B2B Interest Attributes. B2B interest represents the B2B
+        topics (from Bombora’s Topic Taxonomy) a given device has shown interest in.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  b2bInterestGroups:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the B2B interest group.
+              example:
+                b2bInterestGroups:
+                - name: Accounting
+                - name: Administration
+                - name: Agencies & Branding
+                - name: Application & Software Development
+                - name: Benefits
+                - name: Budgeting, Planning & Strategy
+                - name: Business Analytics & Applications
+                - name: Capital Procurement
+                - name: Networking & VOIP
+                - name: Online Advertising
+                - name: Training & Development
+                - name: Virtualization
+                - name: Website Publishing
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /install-data/products:
+    get:
+      tags:
+      - Install Data
+      summary: Returns a list of supported Install Data Products.
+      description: Returns a list of supported Products that we have Install Data for. These represent
+        a list of technologies installed by members of an audience.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the product.
+              example:
+                products:
+                - name: Cloud Services > Cloud Infrastructure Computing
+                - name: Cloud Services > Infrastructure as a Service (IaaS)
+                - name: Cloud Services > Platform as a Service (PaaS)
+                - name: Data Center Solutions > System Security Services
+                - name: Enterprise Applications > Business Process Management (BPM)
+                - name: Web-Oriented Architecture > Web Content Management System (WCMS)
+                - name: Web-Oriented Architecture > Web & Portal Technology
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /firmographic/company-size:
+    get:
+      tags:
+      - Firmographic
+      summary: Returns a list of company size attributes.
+      description: This endpoint returns a collection of company size attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  companySize:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: A name description of the company size.
+              example:
+                companySize:
+                - name: Large (1,000 - 4,999 Employees)
+                - name: Medium (200 - 499 Employees)
+                - name: Medium-Large (500 - 999 Employees)
+                - name: Medium-Small (50 - 199 Employees)
+                - name: Micro (1 - 9 Employees)
+                - name: Small (10 - 49 Employees)
+                - name: XLarge (5,000 - 10,000 Employees)
+                - name: XXLarge (10,000+ Employees)
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /firmographic/industry:
+    get:
+      tags:
+      - Firmographic
+      summary: Returns a list of industry attributes.
+      description: This endpoint returns a collection of industry attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  industry:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the industry.
+              example:
+                industry:
+                - name: Agriculture
+                - name: Agriculture > Animals & Livestock
+                - name: Finance
+                - name: Finance > Banking
+                - name: Healthcare
+                - name: Manufacturing > Machinery
+                - name: Retail
+                - name: Retail > Apparel & Fashion
+                - name: Software
+                - name: Software > Business Intelligence
+                - name: Wholesalers
+                - name: Wholesalers > Durable Goods
+                - name: Wholesalers > Non-Durable Goods
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /firmographic/revenue:
+    get:
+      tags:
+      - Firmographic
+      summary: Returns a list of company revenue attributes.
+      description: This endpoint returns a collection of company revenue attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revenue:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: A name description of the company revenue
+              example:
+                revenue:
+                - name: Large ($100MM-$200MM)
+                - name: Medium-Large ($50MM-$100MM)
+                - name: Medium-Small ($10MM-$50MM)
+                - name: Micro (<$1MM)
+                - name: Small ($1MM-$10MM)
+                - name: XLarge ($200MM-$1B)
+                - name: XXLarge ($1B+)
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/functional-area:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of employee functional areas.
+      description: This endpoint returns a collection of functional area attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  functionalAreas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the functional area.
+              example:
+                functionalArea:
+                - name: Building & Grounds Maintenance
+                - name: Compliance, Governance, and Risk
+                - name: Consultants
+                - name: Education
+                - name: Education > Management & Administrators
+                - name: Education > Professors & Teachers
+                - name: Engineering
+                - name: Engineering > Biomedical
+                - name: Marketing
+                - name: Marketing > Advertising
+                - name: Medical/Health
+                - name: Medical/Health > Adolescent Medicine
+                - name: Sales
+                - name: Sales > Support
+                - name: Scientists
+                - name: Service Industry
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/seniority:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of employee seniority attributes.
+      description: This endpoint returns a collection of employee seniority attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  seniority:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the seniority.
+              example:
+                seniority:
+                - name: Board and Ownership
+                - name: Csuite
+                - name: Management
+                - name: Non-management
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/professional-group:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of employee professional group attributes.
+      description: This endpoint returns a collection of employee professional group attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  professionalGroup:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the professional group.
+              example:
+                professionalGroup:
+                - name: Business Professional
+                - name: Business Traveler
+                - name: Finance Professional
+                - name: Fortune 500 Employee
+                - name: Healthcare Professional
+                - name: High Income Professional
+                - name: Human Resources Professional
+                - name: IT Professional
+                - name: Marketing Professional
+                - name: Small Business Professional
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/b2b-personas:
+    get:
+      tags:
+      - Demographic
+      - Intent
+      summary: Returns a list of B2B persona attributes.
+      description: 'This endpoint returns a collection of B2B persona''s which represent demographic attributes
+        and are used to identify employees showing [positive Intent](/docs/intent-api/1/types/Attributes).
+
+        '
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  b2bPersonas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the persona.
+              example:
+                b2bPersonas:
+                - name: Board and Ownership
+                - name: Consultants
+                - name: C-Suite
+                - name: Education
+                - name: Engineering
+                - name: Finance
+                - name: Finance Decision Maker
+                - name: Government
+                - name: HR Decision Maker
+                - name: Human Resources
+                - name: Information Technology
+                - name: IT Decision Maker
+                - name: Legal
+                - name: Management
+                - name: Marketing
+                - name: Marketing Decision Maker
+                - name: Operations
+                - name: Sales
+                - name: Software and Web Development
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /geographic/country:
+    get:
+      tags:
+      - Geographic
+      summary: Returns a list of country attributes.
+      description: This endpoint returns a collection of country attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the country.
+                        isoCode:
+                          type: string
+                          nullable: false
+                          description: The ISO code of the country.
+              example:
+                country:
+                - name: Afghanistan
+                  isoCode: AF
+                - name: Aland Islands
+                  isoCode: AX
+                - name: Albania
+                  isoCode: AL
+                - name: Ecuador
+                  isoCode: EC
+                - name: Egypt
+                  isoCode: EG
+                - name: El Salvador
+                  isoCode: SV
+                - name: Vietnam
+                  isoCode: VN
+                - name: Wallis And Futuna Islands
+                  isoCode: WF
+                - name: Western Sahara
+                  isoCode: EH
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /geographic/state:
+    get:
+      tags:
+      - Geographic
+      summary: Returns a list of state attributes.
+      description: This endpoint returns a collection of state attributes (returned for US and CA only).
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the state.
+                        stateCode:
+                          type: string
+                          nullable: false
+                          description: The 2-letter code of the state.
+                        countryIsoCode:
+                          type: string
+                          nullable: false
+                          description: The ISO code of the country to which the state belongs.
+              example:
+                state:
+                - name: Alabama
+                  stateCode: AL
+                  countryIsoCode: US
+                - name: Alaska
+                  stateCode: AK
+                  countryIsoCode: US
+                - name: Alberta
+                  stateCode: AB
+                  countryIsoCode: CA
+                - name: Manitoba
+                  stateCode: MB
+                  countryIsoCode: CA
+                - name: Maryland
+                  stateCode: MD
+                  countryIsoCode: US
+                - name: Massachusetts
+                  stateCode: MA
+                  countryIsoCode: US
+                - name: Wyoming
+                  stateCode: WY
+                  countryIsoCode: US
+                - name: Yukon
+                  stateCode: YT
+                  countryIsoCode: CA
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /geographic/metro-area:
+    get:
+      tags:
+      - Geographic
+      summary: Returns a list of metropolitan area attributes.
+      description: This endpoint returns a collection of metropolitan area attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metroArea:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                          description: The name of the metropolitan area.
+              example:
+                metroArea:
+                - name: Aba(Ngawa) Tibetan And Qiang Autonomous Prefecture, CN-51
+                - name: Abbotsford / Mission, BC
+                - name: Abilene / Sweetwater, TX
+                - name: Bavaria
+                - name: Bayan Nur City, CN-15
+                - name: Central / Wales and West, ENG
+                - name: Central West, NSW
+                - name: Jung-Gu Incheon
+                - name: Jung-Gu Seoul
+                - name: Jung-Gu Ulsan
+                - name: Portland, ME / Auburn, NH
+                - name: Portland, OR
+                - name: Ziyang, CN-51
+                - name: Zunyi, CN-52
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'

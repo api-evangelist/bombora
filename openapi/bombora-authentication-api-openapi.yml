@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Authentication API
+  description: The OAuth 2.0 Authentication API is used to retrieve the bearer tokens that are necessary
+    to make calls to Bombora's APIs.
+  version: 1.0.0
+servers:
+- url: https://api.bombora.com
+paths:
+  /oauth/token:
+    post:
+      summary: OAuth Token
+      description: "By providing valid client credentials (client ID and client secret), this endpoint\
+        \ will return \nan OAuth 2.0 bearer token that can be provided in the Authorization header to\
+        \ make authenticated API calls to Bombora's APIs. \n\nExample Authorization Header:\nAuthorization:\
+        \ Bearer <bearer token>\n"
+      requestBody:
+        description: Required credentials to generate token
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                  description: The Client ID (also referred to as Key) of your application. This is available
+                    through the Apps section of the Bombora Developer Portal.
+                  example: oarpYdHYNqNTHGA6VcoMHl4Rm7iV5XAJeY6aaLoInagrP6yj
+                client_secret:
+                  type: string
+                  description: The Client Secret that corresponds with the Client ID.
+                  example: x8mBvy9Xb4oHWVbyeageVhXpD8SlIoe65ETDjUs5KQM6Ki1dMcZciotgjyEYVCBf
+            examples:
+              Example request:
+                summary: Example of a the request body
+                value:
+                  client_id: oarpYdHYNqNTHGA6VcoMHl4Rm7iV5XAJeY6aaLoInagrP6yj
+                  client_secret: x8mBvy9Xb4oHWVbyeageVhXpD8SlIoe65ETDjUs5KQM6Ki1dMcZciotgjyEYVCBf
+      responses:
+        '200':
+          description: The json response body includes the requested access token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    description: The bearer token value that should be appended after the word 'Bearer'
+                      in the Authorization header of API calls.
+                    type: string
+                  token_type:
+                    type: string
+                    description: The type of token being returned.
+                  expires_in:
+                    type: number
+                    description: The time in seconds that the token is valid for.
+              example:
+                value:
+                  access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                  token_type: Bearer
+                  expires_in: 86400

@@ -1,0 +1,72 @@
+generated: '2026-08-13'
+method: searched
+source: openapi/bombora-webhooks-api-openapi.yml (harvested verbatim from developer.bombora.com)
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >-
+  Bombora publishes no AsyncAPI document. The Apigee portal's own API-doc records report
+  asyncApiSpecContent: null and asyncApiSpecId: null for all six APIs, and no /asyncapi.yaml or
+  event-catalogue page exists on developer.bombora.com or bombora.com. The event surface below is
+  real and is captured from Bombora's published Webhooks API OpenAPI — it is NOT a fabricated
+  AsyncAPI.
+surface: webhooks
+transport: https-post
+management_api:
+  name: Webhooks API
+  server: https://api.bombora.com/webhooks/v1
+  docs: https://developer.bombora.com/docs/webhooks-api/1/overview
+  spec: openapi/bombora-webhooks-api-openapi.yml
+  auth: 'Bearer JWT (Authorization header)'
+delivery:
+  direction: outbound
+  destination: >-
+    Customer-registered HTTPS URL (Destination.address, format uri). Bombora POSTs the event body
+    to it.
+  custom_headers: >-
+    Arbitrary static headers may be attached per destination (Destination.headers) and per event
+    subscription (Event.headers) — e.g. X-Source: Bombora, X-Message-Type: signal-is-ready.
+  signature:
+    header: X-Bombora-Signature-256
+    algorithm: HMAC-SHA256
+    computed_over: the UTF-8 HTTP body
+    key: >-
+      The destination's auth.secret, set via PUT /destination/{destinationId}/auth. The secret is
+      write-only — GET /destination/{destinationId} explicitly excludes the auth object.
+  retries:
+    documented: false
+    note: >-
+      No retry schedule or backoff policy is published. Per-event delivery statistics are readable
+      instead: GET /destination/{destinationId}/event/{eventType} returns successful, failed,
+      lastError, lastErrorAction and lastErrorTimestamp.
+events:
+- name: SignalDefinitionCreated
+  source_api: Intent API
+  description: A signal definition was created.
+  evidence: openapi/bombora-webhooks-api-openapi.yml GET /destination/{destinationId}/events example
+- name: SignalDefinitionUpdated
+  source_api: Intent API
+  description: A signal definition was updated.
+  evidence: openapi/bombora-webhooks-api-openapi.yml GET /destination/{destinationId}/events example
+- name: SignalDefinitionDeleted
+  source_api: Intent API
+  description: A signal definition was deleted.
+  evidence: openapi/bombora-webhooks-api-openapi.yml GET /destination/{destinationId}/events example
+- name: AccountListAccountsUpdated
+  source_api: Account List API
+  description: The account membership of an account list changed.
+  evidence: openapi/bombora-webhooks-api-openapi.yml GET /destination/{destinationId}/events example
+event_count: 4
+event_count_note: >-
+  These four are the event types Bombora publishes in its own response example. The eventType path
+  parameter is an open string with no enum, so the live subscribable list is whatever
+  GET /destination/{destinationId}/events returns for an authenticated destination — it may be
+  longer. No payload schema is published for any event; the specs describe only the subscription
+  management resources, not the delivered message bodies.
+message_schemas_published: false
+lifecycle:
+  subscribe: 'PUT /destination/{destinationId}/event/{eventType} with {enabled: true}'
+  unsubscribe: DELETE /destination/{destinationId}/event/{eventType}
+  list_subscribable: GET /destination/{destinationId}/events
+  destination_delete_rule: >-
+    DELETE /destination/{destinationId} fails with 409 unless every event on the destination is
+    first disabled.

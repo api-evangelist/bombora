@@ -1,0 +1,1058 @@
+openapi: 3.0.1
+servers:
+- url: https://api.bombora.com/intent/v1
+info:
+  title: Intent API
+  description: 'The Intent API allows signals to be seamlessly defined and managed, while also providing
+    efficient access to actionable intent data.
+
+
+    ### **Security**
+
+    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include
+    a valid Bearer token in the Authorization request header to access endpoints.
+
+    Go to the [Get Started](/get-started) page for additional details.
+
+
+    ### **Error Handling**
+
+    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401
+    Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
+
+
+    ### **Reference Data**
+
+    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview)
+    for a complete list of supported reference attributes.
+
+    '
+  version: '1.0'
+security:
+- bearerAuth: []
+paths:
+  /data:
+    get:
+      tags:
+      - Data
+      summary: Retrieve Intent Data
+      description: "Allows paginated intent data to be retrieved.\n* Response body size will not exceed\
+        \ 10MB.\n\nData is retrieved by first calling the POST endpoint with a request body that describes\
+        \ the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will\
+        \ include a page token that should be supplied to this endpoint as a query parameter.\n\nEach\
+        \ call to the GET endpoint will return an object including the data requested and the next page\
+        \ token, which can be supplied to a subsequent call to retrieve the next page.\nAll results have\
+        \ been returned when nextPageToken is null.\n\nExample URL with query parameters\n```\nhttps://api.bombora.com/intent/v1/data?pageToken={pageToken}&limit=100\n\
+        ```\n"
+      parameters:
+      - name: pageToken
+        in: query
+        required: true
+        description: Page token for paginated retrieval.
+        schema:
+          type: string
+        example: nSA21gW
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 100
+          maximum: 10000
+          description: Number of results to return per page. If result size exceeds 10MB response body
+            limit, the number of returned results will be lower than the specified limit.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      description: The returned object will contain the data attributes specified in the
+                        attributes array in the POST request body.
+                  nextPageToken:
+                    type: string
+                    nullable: true
+                    description: The page token to retrieve the next page of data. When null, there are
+                      no more pages available.
+              example:
+                data:
+                - domain: nasa.gov
+                  score: 95
+                  scoreLabel: Strong
+                - domain: ast-science.com
+                  score: 93
+                  scoreLabel: Strong
+                - domain: he360.com
+                  score: 87
+                  scoreLabel: Strong
+                nextPageToken: nSA21gW
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Data
+      summary: Retrieve Intent Data Request
+      description: 'The POST is used before the corresponding GET endpoint to describe the required attributes
+        and filters in the request body.
+
+        When attributes is empty or unspecified, the domain, score, and scoreLabel attributes are returned
+        by default.
+
+        The request body must contain either a `signalDefinitionId` OR `topics`, but cannot contain both.
+
+        '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: 'An optional body that specifies attributes to be returned or filters that
+                should be applied to the data returned by the GET endpoint.
+
+                '
+              properties:
+                signalDefinitionId:
+                  description: Unique identifier of a Signal Definition.
+                  type: string
+                  format: UUID
+                topics:
+                  description: A collection of [topic names](/docs/reference-api/1/routes/topics/get)
+                    to retrieve data for.
+                  type: array
+                  items:
+                    type: string
+                    maximum: 50
+                attributes:
+                  $ref: '#/components/schemas/Attributes'
+                filters:
+                  nullable: true
+                  oneOf:
+                  - $ref: '#/components/schemas/Eq'
+                  - $ref: '#/components/schemas/Neq'
+                  - $ref: '#/components/schemas/In'
+                  - $ref: '#/components/schemas/Nin'
+                  - $ref: '#/components/schemas/Gt'
+                  - $ref: '#/components/schemas/Gte'
+                  - $ref: '#/components/schemas/Lt'
+                  - $ref: '#/components/schemas/Lte'
+                  - $ref: '#/components/schemas/And'
+                  - $ref: '#/components/schemas/Or'
+            examples:
+              Domain Filter using Signal Definition:
+                summary: Defines a collection of attributes to be returned in the GET response body, along
+                  with a filter that excludes .edu domains.
+                value:
+                  signalDefinitionId: 517134f7-4451-4941-9491-8c5c7750d49a
+                  attributes:
+                  - areasOfInterest
+                  - company.size
+                  - company.hq
+                  filter:
+                    a: domain
+                    neq: '*.edu'
+              Account List Filter using List of Topics:
+                summary: Defines a collection of attributes to be returned in the GET response body, along
+                  with a filter that restricts the domains returned to accounts in the specified account
+                  list.
+                value:
+                  topics:
+                  - Bombora
+                  - B2B Marketing
+                  attributes:
+                  - areasOfInterest
+                  - company.size
+                  - company.hq
+                  filter:
+                    a: domain
+                    eq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+              Example wih Country Filter:
+                summary: Defines a combination of attributes to be returned in the GET response body,
+                  along with a filter that restricts the domains returned to accounts in London, United
+                  Kingdom  SW1A 1AA.
+                value:
+                  filter:
+                    and:
+                    - a: company.hq.country
+                      eq: GB
+                    - a: company.hq.city
+                      eq: London
+                    - a: company.hq.zip
+                      eq: SW1A 1AA
+      responses:
+        '200':
+          description: Success - The response body includes the pageToken that must be supplied to the
+            GET endpoint to retrieve results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pageToken:
+                    type: string
+                    nullable: false
+              example:
+                pageToken: nSA21gW
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /signal-definition/{signalDefinitionId}:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Retrieve Signal Definition
+      description: Retrieves the specified Signal Definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Success - The response body includes the requested Signal Definition.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalDefinition'
+              examples:
+                Successful Response:
+                  value:
+                    metadata:
+                      name: Signal Definition for Product X
+                      description: Definition created by Joe for the Product X sales team.
+                      clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+                    topics:
+                    - id: 12345
+                      name: Wireless Communication
+                      weighting: 0.9
+                    - id: 23456
+                      name: Electric Vehicles (EV)
+                      weighting: 0.9
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - SignalDefinition
+      summary: Replace Signal Definition
+      description: Replaces the signal definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topics:
+                  description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that
+                    info rm the signal
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        nullable: false
+                        format: int32
+                        description: Topic identifier
+                      weighting:
+                        type: number
+                        format: float
+                        description: Weighting of the topic in the signal
+                metadata:
+                  $ref: '#/components/schemas/Metadata'
+            example:
+              metadata:
+                name: Signal For Product X
+                description: Signal created by Joe for the Product X sales team
+                clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+              topics:
+              - id: 12345
+                weighting: 0.9
+              - id: 23456
+                weighting: 0.9
+      responses:
+        '200':
+          description: Success - The response body includes the requested Signal Definition.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - SignalDefinition
+      summary: Delete Signal Definition
+      description: Deletes the Signal Definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Success - The signal Definition has been deleted successfully.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+      security:
+      - bearerAuth: []
+  /signal-definition:
+    post:
+      tags:
+      - SignalDefinition
+      summary: Create a Signal Definition
+      description: A new Signal Definition can be created given one or more data points in the request
+        body.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ProductDefinition'
+              - $ref: '#/components/schemas/Metadata'
+            example:
+              metadata:
+                name: Signal definition for X product
+                description: Definition created by Joe for the sales team.
+                clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+              domain: example.com
+              keywords:
+              - manufacturing
+              - Communications
+              urls:
+              - https://www.example.com/productUrl
+              - https://www.example.com/resources/productTraining.html
+      responses:
+        '202':
+          description: Success - The request has been accepted for processing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  signalDefinitionId:
+                    description: Unique identifier for the new Signal Definition
+                    type: string
+                    format: UUID
+              example:
+                signalDefinitionId: 7030eb5a-311a-4608-b901-8e5d61aad86b
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /signal-definitions:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Get List of Signal Definitions
+      description: Returns a list of all the signal definitions.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  signalDefinitions:
+                    type: array
+                    items:
+                      type: object
+                      description: A collection of signal definitions.
+                      properties:
+                        signalDefinitionId:
+                          description: Unique identifier of a Signal Definition
+                          type: string
+                          format: UUID
+                        status:
+                          description: Processing state
+                          type: string
+                          enum:
+                          - Available
+                          - Processing
+                        topicCount:
+                          description: Number of topics in the Signal Definition
+                          type: integer
+                        createdDate:
+                          description: ISO-8601 (YYYY-MM-DDTHH:MM:SS.TTT-ZZZZ) representation of the time
+                            the signal-definition was created
+                          type: string
+                        modifiedDate:
+                          description: ISO-8601 (YYYY-MM-DDTHH:MM:SS.TTT-ZZZZ) representation of the time
+                            the signal-definition was last modified
+                          type: string
+                        metadata:
+                          $ref: '#/components/schemas/Metadata'
+              example:
+                signalDefinitions:
+                - signalDefinitionId: 7030eb5a-311a-4608-b901-8e5d61aad86b
+                  status: Processing
+                  topicCount: 0
+                  createdDate: '2023-06-28T00:00:00+00:00'
+                  modifiedDate: '2023-06-28T00:00:00+00:00'
+                  metadata:
+                    name: Signal for Product X
+                    description: Created to identify interest in Product X.
+                    clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+                - signalDefinitionId: e2350c4f-3f29-4779-8d6a-d1fc8bfbc95c
+                  status: Available
+                  topicCount: 5
+                  createdDate: '2023-06-28T00:00:00+00:00'
+                  modifiedDate: '2023-06-28T00:00:00+00:00'
+                  metadata:
+                    name: Signal for Product Y
+                    description: Created to identify interest in Product Y.
+                    clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+  /signal-definition/{signalDefinitionId}/metadata:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Gets the metadata of a signal definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - SignalDefinition
+      summary: Updates the metadata of a signal definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+            example:
+              name: Signal definition for X product
+              description: Definition created by Joe for the sales team.
+              clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+      responses:
+        '200':
+          description: The signal definition metadata was updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /signal-definition/{signalDefinitionId}/product-definition:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Retrieves product definition for a signal
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDefinition'
+              example:
+                domain: example.com
+                keywords:
+                - manufacturing
+                - Communications
+                urls:
+                - https://www.example.com/productUrl
+                - https://www.example.com/resources/productTraining.html
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - SignalDefinition
+      summary: Updates the product definition for a signal
+      description: "Replaces the product definition inputs for a signal definition.  \nOnce updated, the\
+        \ signal definition will enter the “Processing” state. \n\n* **Updates to product definition inputs\
+        \ will cause a signal definition’s “topics” collection to be \noverwritten before returning to\
+        \ the “Available” state.**\n"
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDefinition'
+            example:
+              domain: example.com
+              keywords:
+              - manufacturing
+              - Communications
+              urls:
+              - https://www.example.com/productUrl
+              - https://www.example.com/resources/productTraining.html
+      responses:
+        '200':
+          description: Request was successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+      security:
+      - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation
+        errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  parameters:
+    signalDefinitionId:
+      name: signalDefinitionId
+      description: Unique identifier of a Signal Definition
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 517134f7-4451-4941-9491-8c5c7750d49a
+  schemas:
+    Attributes:
+      type: array
+      items:
+        type: string
+        enum:
+        - domain
+        - topic
+        - researchCountry
+        - researchState
+        - researchMetro
+        - score
+        - scoreLabel
+        - topicsCount
+        - topics
+        - topics.id
+        - topics.name
+        - topics.score
+        - topics.personas
+        - areasOfInterest
+        - personas
+        - company
+        - company.name
+        - company.industry
+        - company.size
+        - company.revenue
+        - company.hq
+        - company.hq.address
+        - company.hq.address2
+        - company.hq.country
+        - company.hq.state
+        - company.hq.city
+        - company.hq.zip
+      description: "The available attributes that can be retrieved.\n\nPlease note: Key Attributes form\
+        \ part of the unique identifier for each record when specified. In addition to the domain attribute,\
+        \ the topic, researchCountry, researchState, and researchMetro attributes are Key Attributes.\n\
+        \nAttributes | Descriptions\n----------------|-------------\ndomain | (Key) The domain of the\
+        \ company.\ntopic |  (Key) The intent [topic](/docs/reference-api/1/routes/topics/get). When specified,\
+        \ data will apply at the intent topic level, in addition to domain and any other specified key\
+        \ fields.\nresearchCountry | (Key) ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get)\
+        \ Code that the research originates. When specified, data will apply at the country level, in\
+        \ addition to domain and any other specified key fields.\nresearchState | (Key) The [state](/docs/reference-api/1/routes/geographic/state/get)\
+        \ (US and CA only) that the research originates. When specified, data will apply at the country\
+        \ and state level, in addition to domain and any other specified key fields.\nresearchMetro |\
+        \ (Key) The [metro](/docs/reference-api/1/routes/geographic/metro-area/get) area that the research\
+        \ originates. When specified, data will apply at the metro level, in addition to domain and any\
+        \ other specified key fields. This attribute cannot be specified with researchCountry or researchState.\n\
+        score | The score associated with this record. \nscoreLabel | A categorization label associated\
+        \ with the score.\ntopicsCount | The count of topics associated with this record.\ntopics | An\
+        \ array of [topic data](/docs/reference-api/1/routes/topics/get) associated with this record.\
+        \ Includes all nested topics.* attributes. Cannot be used alongside `topic` attribute.\ntopics.id\
+        \ | A unique topic identifier.\ntopics.name | The topic's name.\ntopics.score | The score associated\
+        \ with the topic.\ntopics.personas | The [personas](/docs/reference-api/1/routes/demographic/b2b-personas/get)\
+        \ associated with the topic. Please reach out to your Bombora representative to find out how to\
+        \ enable access to this attribute.\nareasOfInterest | The topics showing intent, ordered by topic\
+        \ score descending.\npersonas | The [personas](/docs/reference-api/1/routes/demographic/b2b-personas/get)\
+        \ associated with this record. Please reach out to your Bombora representative to find out how\
+        \ to enable access to this attribute.\ncompany | Includes all nested company.* attributes.\ncompany.name\
+        \  | The company name\ncompany.industry  | The [company industry](/docs/reference-api/1/routes/firmographic/industry/get)\n\
+        company.size  | The [company size](/docs/reference-api/1/routes/firmographic/company-size/get)\n\
+        company.revenue | The [company revenue](/docs/reference-api/1/routes/firmographic/revenue/get)\n\
+        company.hq  | The company HQ geographic information in a nested structure\ncompany.hq.address\
+        \  | First line of address\ncompany.hq.address2 | Second line of address\ncompany.hq.country \
+        \ | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\ncompany.hq.state\
+        \  | [State](/docs/reference-api/1/routes/geographic/state/get) (returned for US and CA only)\n\
+        company.hq.city | City\ncompany.hq.zip  | Postal code\n"
+      example:
+        attributes:
+        - areasOfInterest
+        - company.size
+        - company.hq
+    Eq:
+      type: object
+      description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for\
+        \ example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - eq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        eq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be US.
+          value:
+            a: company.hq.country
+            eq: US
+        Wildcard:
+          summary: This example shows where a domain must be an .edu domain.
+          value:
+            a: domain
+            eq: '*.edu'
+        Account List:
+          summary: This example shows where a domain must appear in the specified account list.
+          value:
+            a: domain
+            eq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported,\
+        \ for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list.
+          value:
+            a: domain
+            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    In:
+      type: object
+      description: In operator. The data value must appear in this collection of values.
+      required:
+      - a
+      - in
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be in US or CA.
+          value:
+            a: company.hq.country
+            in:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must appear in the specified account list. This is
+            functionally identical to specifying an accountList with the eq operator.
+          value:
+            a: domain
+            in:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
+          type: array
+          description: The collection of values which the attribute is evaluated.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be in US or CA.
+          value:
+            a: company.hq.country
+            nin:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list. This
+            is functionally identical to specifying an accountList with the neq operator.
+          value:
+            a: domain
+            nin:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+    Gte:
+      type: object
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to
+        this value.
+      required:
+      - a
+      - gte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
+    Lt:
+      type: object
+      description: Less Than operator. The data value must be less than this value.
+      required:
+      - a
+      - lt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than 75.
+          value:
+            a: score
+            lt: 75
+    Lte:
+      type: object
+      description: Less Than or Equal To operator. The data value must be less than or equal to this value.
+      required:
+      - a
+      - lte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than or equal to 75.
+          value:
+            a: score
+            lte: 75
+    And:
+      type: object
+      description: And operator, allowing for multiple filters to be joined.
+      required:
+      - and
+      properties:
+        and:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 AND the company HQ country
+            must be equal to US.
+          value:
+            and:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+    Or:
+      type: object
+      description: Or operator, allowing for multiple filters to be joined.
+      required:
+      - or
+      properties:
+        or:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 OR the company HQ country
+            must be equal to US.
+          value:
+            or:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+        Complex:
+          summary: This example shows where [the score must be greater than 80 AND the company HQ country
+            must be equal to US] OR [the score must be greater than 70 AND the company HQ country must
+            be equal to CA].
+          value:
+            or:
+            - and:
+              - a: score
+                gt: 80
+              - a: company.hq.country
+                eq: US
+            - and:
+              - a: score
+                gt: 70
+              - a: company.hq.country
+                eq: CA
+    SignalDefinition:
+      type: object
+      properties:
+        topics:
+          description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that inform the
+            signal
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                nullable: false
+                format: int32
+                description: Topic identifier
+              name:
+                type: string
+                nullable: true
+                description: Topic name
+              weighting:
+                type: number
+                format: float
+                description: Weighting of the topic in the signal
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+      example:
+        metadata:
+          name: Signal For Product X
+          description: Signal created by Joe for the Product X sales team
+          clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+        topics:
+        - id: 12345
+          name: Wireless Communication
+          weighting: 0.9
+        - id: 23456
+          name: Electric Vehicles (EV)
+          weighting: 0.9
+    Metadata:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+          description: A name for this signal definition.
+          maximum: 255
+          example: Signal definition for X product
+        description:
+          type: string
+          nullable: true
+          maximum: 2048
+          description: A description for this signal definition.
+          example: Definition created by Joe for the sales team.
+        clientId:
+          type: string
+          nullable: true
+          maximum: 255
+          description: Third-party client identifier. Required for channel partners.
+      description: Metadata associated with this signal definition
+      example:
+        name: Signal definition for X product
+        description: Definition created by Joe for the sales team.
+        clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+    ProductDefinition:
+      description: 'The product definition can contain any of the following information to enable an AI-created
+        Signal Definition.
+
+        '
+      properties:
+        keywords:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: A collection of relevant keywords
+          example:
+            keywords:
+            - manufacturing
+            - Communications
+        urls:
+          type: array
+          items:
+            type: string
+            format: uri
+          nullable: true
+          description: A collection of URLs relating to the company, product, or service
+          example:
+            urls:
+            - https://www.example.com/productUrl
+            - https://www.example.com/resources/productTraining.html
+        domain:
+          type: string
+          nullable: true
+          description: The primary domain of the company
+          example:
+            domain: example.com
+      example:
+        domain: example.com
+        keywords:
+        - manufacturing
+        - Communications
+        urls:
+        - https://www.example.com/productUrl
+        - https://www.example.com/resources/productTraining.html
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: true

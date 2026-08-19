@@ -1,0 +1,89 @@
+generated: '2026-08-13'
+method: probed
+status: published
+source: https://bombora.com/.well-known/oauth-protected-resource
+note: >-
+  Bombora serves a real, reachable remote MCP endpoint from its WordPress marketing site
+  (bombora.com), advertised by its own RFC 9728 protected-resource document. It is the WordPress
+  MCP Adapter surface, NOT an intent-data server: none of Bombora's six product APIs
+  (Intent, Reference, Account List, Digital Audience, Webhooks, Authentication) are exposed
+  through it, and nothing in Bombora's developer portal references it. Both endpoints answer
+  401 to anonymous initialize/tools/list, so the live tool list and input schemas could not be
+  read and are NOT guessed here. Recorded as a verified endpoint with an unknown tool surface.
+
+deployment:
+  mode: remote
+  endpoint: https://bombora.com/wp-json/mcp/mcp-oauth-server
+  auth: oauth
+  verified: probed
+
+server:
+  name: bombora-wp-mcp
+  transport: http
+  url: https://bombora.com/wp-json/mcp/mcp-oauth-server
+  discovered_via: https://bombora.com/.well-known/oauth-protected-resource
+  platform: WordPress MCP Adapter (wp-json/mcp namespace)
+
+endpoints:
+- url: https://bombora.com/wp-json/mcp/mcp-oauth-server
+  methods: [POST, GET, DELETE]
+  anonymous_tools_list: 401
+  error: '{"code":"mcp_unauthorized","message":"MCP authentication required."}'
+- url: https://bombora.com/wp-json/mcp/mcp-adapter-default-server
+  methods: [POST, GET, DELETE]
+  anonymous_tools_list: 401
+  error: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that."}'
+
+authorization:
+  protected_resource: https://bombora.com/.well-known/oauth-protected-resource
+  authorization_server: https://bombora.com/.well-known/oauth-authorization-server
+  issuer: https://bombora.com
+  authorization_endpoint: https://bombora.com/oauth/authorize
+  token_endpoint: https://bombora.com/oauth/token
+  revocation_endpoint: https://bombora.com/oauth/revoke
+  grant_types_supported: [authorization_code, refresh_token]
+  code_challenge_methods_supported: [S256]
+  scopes_supported: [mcp]
+  bearer_methods_supported: [header]
+  dynamic_client_registration: client_id_metadata_document_supported
+
+tools:
+  status: gated
+  count: null
+  note: >-
+    tools/list requires an OAuth bearer token. No tool names, descriptions or inputSchemas are
+    recorded because none were observed. Authenticated introspection is required to enumerate them.
+
+product_api_mcp_server: none
+product_api_note: >-
+  Bombora publishes no MCP server for its Intent, Reference, Account List, Digital Audience or
+  Webhooks APIs. Those six OpenAPI documents in openapi/ are the only machine-readable contract
+  for the product surface; see mcp/bombora-tool-crosswalk.yml for the REST-side inventory.
+
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - url: https://bombora.com/.well-known/oauth-protected-resource
+    method: GET
+    status: 200
+  - url: https://bombora.com/.well-known/oauth-authorization-server
+    method: GET
+    status: 200
+  - url: https://bombora.com/wp-json/mcp
+    method: GET
+    status: 200
+  - url: https://bombora.com/wp-json/mcp/mcp-oauth-server
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    status: 401
+  - url: https://bombora.com/wp-json/mcp/mcp-adapter-default-server
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    status: 401
+  - url: https://mcp.bombora.com/mcp
+    method: POST
+    status: 0
+    note: DNS does not resolve
+  - url: https://api.bombora.com/mcp
+    method: POST
+    status: 404

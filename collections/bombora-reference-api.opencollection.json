@@ -1,0 +1,254 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Reference API",
+    "version": "1.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Intent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of topics with optional filtering by attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/topics",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by topic IDs. Accepts a comma-separated list of IDs, returning topics that match any of the specified IDs."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by topic name. Accepts a comma-separated list of strings, returning topics where the name contains any of the specified strings (case-insensitive)."
+              },
+              {
+                "name": "theme",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by topic theme. Accepts a comma-separated list of strings, returning topics where the theme contains any of the specified strings (case-insensitive)."
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by topic category. Accepts a comma-separated list of strings, returning topics where the category contains any of the specified strings (case-insensitive)."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "Filters results by topic description. Accepts a comma-separated list of strings, returning topics where the description contains any of the specified strings (case-insensitive)."
+              },
+              {
+                "name": "s",
+                "value": "",
+                "type": "query",
+                "description": "Returns similar topics. Accepts a comma-separated list of IDs, returning topics that are similar to the topics represented by the specified IDs. By default, up to 50 topics are returned. This limit can be modified by the 'maxTopics' parameter."
+              },
+              {
+                "name": "maxTopics",
+                "value": "",
+                "type": "query",
+                "description": "Modifies the maximum number of topics returned when the 's' query parameter is used."
+              }
+            ]
+          },
+          "docs": "This endpoint returns a collection of intent topics, each with detailed information including id, name, theme, and category.\n\nFiltering:\nThe list of topics can be filtered using query parameters, allowing for dynamic topic retrieval without loading the full list of topics. Each filter is applied independently with OR logic, meaning a topic will be included if it matches any of the specified criteria. Filters accept multiple comma-separated, case-insensitive values, providing flexibility for broa"
+        },
+        {
+          "info": {
+            "name": "Returns a list of topic attributes related to B2C interest.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/b2c-interest"
+          },
+          "docs": "Returns a list of supported B2C Interest Attributes. B2C interest represents the B2C topics a given device has shown interest in."
+        },
+        {
+          "info": {
+            "name": "Returns a list of B2B interest group attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/b2b-interest-groups"
+          },
+          "docs": "Returns a list of supported B2B Interest Attributes. B2B interest represents the B2B topics (from Bombora’s Topic Taxonomy) a given device has shown interest in."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Install Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of supported Install Data Products.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/install-data/products"
+          },
+          "docs": "Returns a list of supported Products that we have Install Data for. These represent a list of technologies installed by members of an audience."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Firmographic",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of company size attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/firmographic/company-size"
+          },
+          "docs": "This endpoint returns a collection of company size attributes."
+        },
+        {
+          "info": {
+            "name": "Returns a list of industry attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/firmographic/industry"
+          },
+          "docs": "This endpoint returns a collection of industry attributes."
+        },
+        {
+          "info": {
+            "name": "Returns a list of company revenue attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/firmographic/revenue"
+          },
+          "docs": "This endpoint returns a collection of company revenue attributes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Demographic",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of employee functional areas.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/demographic/functional-area"
+          },
+          "docs": "This endpoint returns a collection of functional area attributes."
+        },
+        {
+          "info": {
+            "name": "Returns a list of employee seniority attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/demographic/seniority"
+          },
+          "docs": "This endpoint returns a collection of employee seniority attributes."
+        },
+        {
+          "info": {
+            "name": "Returns a list of employee professional group attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/demographic/professional-group"
+          },
+          "docs": "This endpoint returns a collection of employee professional group attributes."
+        },
+        {
+          "info": {
+            "name": "Returns a list of B2B persona attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/demographic/b2b-personas"
+          },
+          "docs": "This endpoint returns a collection of B2B persona's which represent demographic attributes and are used to identify employees showing [positive Intent](/docs/intent-api/1/types/Attributes).\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Geographic",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of country attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/geographic/country"
+          },
+          "docs": "This endpoint returns a collection of country attributes."
+        },
+        {
+          "info": {
+            "name": "Returns a list of state attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/geographic/state"
+          },
+          "docs": "This endpoint returns a collection of state attributes (returned for US and CA only)."
+        },
+        {
+          "info": {
+            "name": "Returns a list of metropolitan area attributes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/reference/v1/geographic/metro-area"
+          },
+          "docs": "This endpoint returns a collection of metropolitan area attributes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

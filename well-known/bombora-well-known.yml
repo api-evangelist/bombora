@@ -1,0 +1,115 @@
+generated: '2026-08-13'
+method: probed
+source: live GET of /.well-known/* on every Bombora host in apis.yml and every OpenAPI servers[] host
+note: >-
+  Two real RFC 8414 / RFC 9728 documents are served from bombora.com. They do NOT belong to
+  Bombora's product APIs (those use Apigee-issued client credentials against
+  https://api.bombora.com/oauth/token) — they are published by the WordPress MCP adapter running
+  on the bombora.com marketing site, and they advertise the MCP endpoint at
+  https://bombora.com/wp-json/mcp/mcp-oauth-server with a single scope, "mcp". Recorded as-is.
+  developer.bombora.com is an Apigee Integrated Developer Portal single-page app that answers HTTP
+  200 with the same 2,138-byte HTML shell for EVERY path, including every /.well-known/* path —
+  those 200s are soft-404s and are recorded below as misses, not hits.
+hosts:
+- host: https://bombora.com
+  documents:
+  - path: /.well-known/oauth-authorization-server   # RFC 8414
+    status: 200
+    content_type: application/json
+    file: bombora-oauth-authorization-server.json
+    document: true
+  - path: /.well-known/oauth-protected-resource     # RFC 9728
+    status: 200
+    content_type: application/json
+    file: bombora-oauth-protected-resource.json
+    document: true
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+- host: https://developer.bombora.com
+  note: >-
+    SPA catch-all. Every path returns HTTP 200 with the identical Angular index shell
+    (text/html, 2138 bytes). No path returned a document; all recorded as misses.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    document: false
+    reason: spa-shell
+- host: https://sentry.bombora.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+- host: https://api.bombora.com
+  note: OpenAPI servers[] host for all six product APIs.
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+    document: false
+summary:
+  documents_served: 2
+  security_txt: false
+  openid_configuration: false
+  api_catalog: false
+  agent_card: false
+x-evidence:
+  fetched: '2026-08-13'
+  urls:
+  - url: https://bombora.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://bombora.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://bombora.com/.well-known/security.txt
+    status: 404
+  - url: https://developer.bombora.com/.well-known/agent-card.json
+    status: 200
+    note: SPA shell, not a document

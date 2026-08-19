@@ -1,0 +1,2663 @@
+{
+  "item": [
+    {
+      "id": "da3fe954-74c2-46c9-887d-ad2cf2dc9ce4",
+      "name": "Intent",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2fab6ba1-e397-44fd-a393-0017f04c4cf7",
+          "name": "Returns a list of topics with optional filtering by attributes.",
+          "request": {
+            "name": "Returns a list of topics with optional filtering by attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of intent topics, each with detailed information including id, name, theme, and category.\n\nFiltering:\nThe list of topics can be filtered using query parameters, allowing for dynamic topic retrieval without loading the full list of topics. Each filter is applied independently with OR logic, meaning a topic will be included if it matches any of the specified criteria. Filters accept multiple comma-separated, case-insensitive values, providing flexibility for broad and inclusive searches.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "topics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>",
+                  "description": "Filters results by topic IDs. Accepts a comma-separated list of IDs, returning topics that match any of the specified IDs."
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filters results by topic name. Accepts a comma-separated list of strings, returning topics where the name contains any of the specified strings (case-insensitive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "theme",
+                  "value": "<string>",
+                  "description": "Filters results by topic theme. Accepts a comma-separated list of strings, returning topics where the theme contains any of the specified strings (case-insensitive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "Filters results by topic category. Accepts a comma-separated list of strings, returning topics where the category contains any of the specified strings (case-insensitive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "description",
+                  "value": "<string>",
+                  "description": "Filters results by topic description. Accepts a comma-separated list of strings, returning topics where the description contains any of the specified strings (case-insensitive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "s",
+                  "value": "<string>",
+                  "description": "Returns similar topics. Accepts a comma-separated list of IDs, returning topics that are similar to the topics represented by the specified IDs. By default, up to 50 topics are returned. This limit can be modified by the 'maxTopics' parameter."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxTopics",
+                  "value": "<integer>",
+                  "description": "Modifies the maximum number of topics returned when the 's' query parameter is used."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23db5667-e806-4af2-bdab-2b19f8fe1210",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "topics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "1505708,1502758"
+                    },
+                    {
+                      "key": "name",
+                      "value": "Exchange,Finance"
+                    },
+                    {
+                      "key": "theme",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "description",
+                      "value": "SEC"
+                    },
+                    {
+                      "key": "s",
+                      "value": "1505708,1502758"
+                    },
+                    {
+                      "key": "maxTopics",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"topics\": [\n    {\n      \"id\": 1333532,\n      \"name\": \"Local Government\",\n      \"theme\": \"Government\",\n      \"category\": \"Other\",\n      \"description\": \"The administration of a particular town, county, or district, with representatives elected by those who live there.\"\n    },\n    {\n      \"id\": 1333536,\n      \"name\": \"Legal\",\n      \"theme\": \"Legal\",\n      \"category\": \"Legal Services\",\n      \"description\": \"Of, based on, or concerned with the law.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7db9196b-20f7-485a-a63f-9f7eba13666d",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "topics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "1505708,1502758"
+                    },
+                    {
+                      "key": "name",
+                      "value": "Exchange,Finance"
+                    },
+                    {
+                      "key": "theme",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "description",
+                      "value": "SEC"
+                    },
+                    {
+                      "key": "s",
+                      "value": "1505708,1502758"
+                    },
+                    {
+                      "key": "maxTopics",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5ebd7b70-96d1-4f4f-96b3-b622310120f6",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "topics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "1505708,1502758"
+                    },
+                    {
+                      "key": "name",
+                      "value": "Exchange,Finance"
+                    },
+                    {
+                      "key": "theme",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "description",
+                      "value": "SEC"
+                    },
+                    {
+                      "key": "s",
+                      "value": "1505708,1502758"
+                    },
+                    {
+                      "key": "maxTopics",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ba88775-7a10-4830-83c7-0636e2dfcddf",
+          "name": "Returns a list of topic attributes related to B2C interest.",
+          "request": {
+            "name": "Returns a list of topic attributes related to B2C interest.",
+            "description": {
+              "content": "Returns a list of supported B2C Interest Attributes. B2C interest represents the B2C topics a given device has shown interest in.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2c-interest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab21fb82-bded-42cd-93d6-bb3fa44b6128",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2c-interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"b2cInterest\": [\n    {\n      \"name\": \"Acura\"\n    },\n    {\n      \"name\": \"Aston Martin\"\n    },\n    {\n      \"name\": \"Audi\"\n    },\n    {\n      \"name\": \"Baseball\"\n    },\n    {\n      \"name\": \"Basketball\"\n    },\n    {\n      \"name\": \"Bentley\"\n    },\n    {\n      \"name\": \"BMW\"\n    },\n    {\n      \"name\": \"Boats and Watercraft\"\n    },\n    {\n      \"name\": \"Organic Foods\"\n    },\n    {\n      \"name\": \"Parenting\"\n    },\n    {\n      \"name\": \"Peugeot\"\n    },\n    {\n      \"name\": \"Photography\"\n    },\n    {\n      \"name\": \"Wine\"\n    },\n    {\n      \"name\": \"Yoga\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ed39366-f317-4e64-80d8-031d839ae376",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2c-interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8bed9dcf-2cd0-4838-956f-00127c2e6cb6",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2c-interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a52a3284-c4c6-441f-919d-7c5e187d4e5d",
+          "name": "Returns a list of B2B interest group attributes.",
+          "request": {
+            "name": "Returns a list of B2B interest group attributes.",
+            "description": {
+              "content": "Returns a list of supported B2B Interest Attributes. B2B interest represents the B2B topics (from Bombora’s Topic Taxonomy) a given device has shown interest in.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2b-interest-groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4414aba4-d082-4f37-8a24-e0a1c9d50e26",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2b-interest-groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"b2bInterestGroups\": [\n    {\n      \"name\": \"Accounting\"\n    },\n    {\n      \"name\": \"Administration\"\n    },\n    {\n      \"name\": \"Agencies & Branding\"\n    },\n    {\n      \"name\": \"Application & Software Development\"\n    },\n    {\n      \"name\": \"Benefits\"\n    },\n    {\n      \"name\": \"Budgeting, Planning & Strategy\"\n    },\n    {\n      \"name\": \"Business Analytics & Applications\"\n    },\n    {\n      \"name\": \"Capital Procurement\"\n    },\n    {\n      \"name\": \"Networking & VOIP\"\n    },\n    {\n      \"name\": \"Online Advertising\"\n    },\n    {\n      \"name\": \"Training & Development\"\n    },\n    {\n      \"name\": \"Virtualization\"\n    },\n    {\n      \"name\": \"Website Publishing\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "39c90d8d-0d63-44cf-85ae-03cfb10c4100",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2b-interest-groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "324b81d8-5756-48ca-9dd8-40e8bb17b859",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2b-interest-groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfa9cabb-a7fa-4810-a103-d16b69bf7d39",
+          "name": "Returns a list of B2B persona attributes.",
+          "request": {
+            "name": "Returns a list of B2B persona attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of B2B persona's which represent demographic attributes and are used to identify employees showing [positive Intent](/docs/intent-api/1/types/Attributes).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "demographic",
+                "b2b-personas"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a516993f-ca6c-4963-84fb-da2b804b56b5",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "b2b-personas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"b2bPersonas\": [\n    {\n      \"name\": \"Board and Ownership\"\n    },\n    {\n      \"name\": \"Consultants\"\n    },\n    {\n      \"name\": \"C-Suite\"\n    },\n    {\n      \"name\": \"Education\"\n    },\n    {\n      \"name\": \"Engineering\"\n    },\n    {\n      \"name\": \"Finance\"\n    },\n    {\n      \"name\": \"Finance Decision Maker\"\n    },\n    {\n      \"name\": \"Government\"\n    },\n    {\n      \"name\": \"HR Decision Maker\"\n    },\n    {\n      \"name\": \"Human Resources\"\n    },\n    {\n      \"name\": \"Information Technology\"\n    },\n    {\n      \"name\": \"IT Decision Maker\"\n    },\n    {\n      \"name\": \"Legal\"\n    },\n    {\n      \"name\": \"Management\"\n    },\n    {\n      \"name\": \"Marketing\"\n    },\n    {\n      \"name\": \"Marketing Decision Maker\"\n    },\n    {\n      \"name\": \"Operations\"\n    },\n    {\n      \"name\": \"Sales\"\n    },\n    {\n      \"name\": \"Software and Web Development\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4fe0ba6-ffc7-4d6a-b0de-bf6b4d59f391",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "b2b-personas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8f955f9b-3e4a-4c53-b392-407f15fbbdd9",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "b2b-personas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "95c9a2f8-9e5a-4a8d-a4be-ac90c3791ca9",
+      "name": "Install Data",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "665cdbf6-523c-4b5c-afb3-e5732b084605",
+          "name": "Returns a list of supported Install Data Products.",
+          "request": {
+            "name": "Returns a list of supported Install Data Products.",
+            "description": {
+              "content": "Returns a list of supported Products that we have Install Data for. These represent a list of technologies installed by members of an audience.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "install-data",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ec31d13c-707f-4a54-abca-c1baefec0fb9",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "install-data",
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"products\": [\n    {\n      \"name\": \"Cloud Services > Cloud Infrastructure Computing\"\n    },\n    {\n      \"name\": \"Cloud Services > Infrastructure as a Service (IaaS)\"\n    },\n    {\n      \"name\": \"Cloud Services > Platform as a Service (PaaS)\"\n    },\n    {\n      \"name\": \"Data Center Solutions > System Security Services\"\n    },\n    {\n      \"name\": \"Enterprise Applications > Business Process Management (BPM)\"\n    },\n    {\n      \"name\": \"Web-Oriented Architecture > Web Content Management System (WCMS)\"\n    },\n    {\n      \"name\": \"Web-Oriented Architecture > Web & Portal Technology\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "500b410a-abed-4770-9485-21948baa63d1",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "install-data",
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "910d1372-11c9-4670-9a1e-0bacdc55b5fa",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "install-data",
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "37daa09c-9d27-4b10-b0ef-7d5612bdd711",
+      "name": "Firmographic",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e846f37a-53bc-4986-afed-1666bc7d9c8f",
+          "name": "Returns a list of company size attributes.",
+          "request": {
+            "name": "Returns a list of company size attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of company size attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "firmographic",
+                "company-size"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5d758de2-cb55-44e5-9aaf-77a8310079d6",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "company-size"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"companySize\": [\n    {\n      \"name\": \"Large (1,000 - 4,999 Employees)\"\n    },\n    {\n      \"name\": \"Medium (200 - 499 Employees)\"\n    },\n    {\n      \"name\": \"Medium-Large (500 - 999 Employees)\"\n    },\n    {\n      \"name\": \"Medium-Small (50 - 199 Employees)\"\n    },\n    {\n      \"name\": \"Micro (1 - 9 Employees)\"\n    },\n    {\n      \"name\": \"Small (10 - 49 Employees)\"\n    },\n    {\n      \"name\": \"XLarge (5,000 - 10,000 Employees)\"\n    },\n    {\n      \"name\": \"XXLarge (10,000+ Employees)\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65d8aac9-5d06-4210-9b9a-40728f09595d",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "company-size"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "908f607e-1ee1-406a-923c-2d4536da0067",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "company-size"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "929e026c-b429-4055-9d80-0bc215bc2c2b",
+          "name": "Returns a list of industry attributes.",
+          "request": {
+            "name": "Returns a list of industry attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of industry attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "firmographic",
+                "industry"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fd3f7b2e-a8eb-47a8-91bb-9f6b1097551a",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "industry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"industry\": [\n    {\n      \"name\": \"Agriculture\"\n    },\n    {\n      \"name\": \"Agriculture > Animals & Livestock\"\n    },\n    {\n      \"name\": \"Finance\"\n    },\n    {\n      \"name\": \"Finance > Banking\"\n    },\n    {\n      \"name\": \"Healthcare\"\n    },\n    {\n      \"name\": \"Manufacturing > Machinery\"\n    },\n    {\n      \"name\": \"Retail\"\n    },\n    {\n      \"name\": \"Retail > Apparel & Fashion\"\n    },\n    {\n      \"name\": \"Software\"\n    },\n    {\n      \"name\": \"Software > Business Intelligence\"\n    },\n    {\n      \"name\": \"Wholesalers\"\n    },\n    {\n      \"name\": \"Wholesalers > Durable Goods\"\n    },\n    {\n      \"name\": \"Wholesalers > Non-Durable Goods\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "976c65c8-4e72-48d2-8faa-101303ca2e04",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "industry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d622cd9d-7c23-422a-af9f-f13bfa25aeee",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "industry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "721ed6ae-a56f-4a88-bb2d-8c01d62f4453",
+          "name": "Returns a list of company revenue attributes.",
+          "request": {
+            "name": "Returns a list of company revenue attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of company revenue attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "firmographic",
+                "revenue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "43b78ade-064d-434c-b3e8-fe9ea6ec992b",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "revenue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"revenue\": [\n    {\n      \"name\": \"Large ($100MM-$200MM)\"\n    },\n    {\n      \"name\": \"Medium-Large ($50MM-$100MM)\"\n    },\n    {\n      \"name\": \"Medium-Small ($10MM-$50MM)\"\n    },\n    {\n      \"name\": \"Micro (<$1MM)\"\n    },\n    {\n      \"name\": \"Small ($1MM-$10MM)\"\n    },\n    {\n      \"name\": \"XLarge ($200MM-$1B)\"\n    },\n    {\n      \"name\": \"XXLarge ($1B+)\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e01bf80-afb7-4b7f-9044-92e49088c51d",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "revenue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "328cd3f2-8c4e-46be-845d-0d2231ad87a3",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "firmographic",
+                    "revenue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e96d53f6-ec64-4d43-8f16-f96dae2e8efe",
+      "name": "Demographic",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "816af312-f551-44c7-b450-56bc51e67d31",
+          "name": "Returns a list of employee functional areas.",
+          "request": {
+            "name": "Returns a list of employee functional areas.",
+            "description": {
+              "content": "This endpoint returns a collection of functional area attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "demographic",
+                "functional-area"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "95062b89-b42a-49ed-933b-ec382d20dcca",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "functional-area"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"functionalArea\": [\n    {\n      \"name\": \"Building & Grounds Maintenance\"\n    },\n    {\n      \"name\": \"Compliance, Governance, and Risk\"\n    },\n    {\n      \"name\": \"Consultants\"\n    },\n    {\n      \"name\": \"Education\"\n    },\n    {\n      \"name\": \"Education > Management & Administrators\"\n    },\n    {\n      \"name\": \"Education > Professors & Teachers\"\n    },\n    {\n      \"name\": \"Engineering\"\n    },\n    {\n      \"name\": \"Engineering > Biomedical\"\n    },\n    {\n      \"name\": \"Marketing\"\n    },\n    {\n      \"name\": \"Marketing > Advertising\"\n    },\n    {\n      \"name\": \"Medical/Health\"\n    },\n    {\n      \"name\": \"Medical/Health > Adolescent Medicine\"\n    },\n    {\n      \"name\": \"Sales\"\n    },\n    {\n      \"name\": \"Sales > Support\"\n    },\n    {\n      \"name\": \"Scientists\"\n    },\n    {\n      \"name\": \"Service Industry\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bd631ab-9a44-47a7-9db6-587877ef80f6",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "functional-area"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f3aec3b7-39fa-413c-8c23-bc3d3a85e69b",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "functional-area"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf605c9f-48ff-4a0c-939e-bcdfb8228fc7",
+          "name": "Returns a list of employee seniority attributes.",
+          "request": {
+            "name": "Returns a list of employee seniority attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of employee seniority attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "demographic",
+                "seniority"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "df1086a8-c6a9-4919-b19c-043a499c906f",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "seniority"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"seniority\": [\n    {\n      \"name\": \"Board and Ownership\"\n    },\n    {\n      \"name\": \"Csuite\"\n    },\n    {\n      \"name\": \"Management\"\n    },\n    {\n      \"name\": \"Non-management\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad759392-52b3-4c30-ba56-51b22362e193",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "seniority"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1dcee0e6-a1fc-42a4-ad0b-64e2674b01fa",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "seniority"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1bf00664-7cbc-4ee2-b5a2-02a0d0ee8101",
+          "name": "Returns a list of employee professional group attributes.",
+          "request": {
+            "name": "Returns a list of employee professional group attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of employee professional group attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "demographic",
+                "professional-group"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e06dd3f-7f08-427a-9e69-5551bd7b0df0",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "professional-group"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"professionalGroup\": [\n    {\n      \"name\": \"Business Professional\"\n    },\n    {\n      \"name\": \"Business Traveler\"\n    },\n    {\n      \"name\": \"Finance Professional\"\n    },\n    {\n      \"name\": \"Fortune 500 Employee\"\n    },\n    {\n      \"name\": \"Healthcare Professional\"\n    },\n    {\n      \"name\": \"High Income Professional\"\n    },\n    {\n      \"name\": \"Human Resources Professional\"\n    },\n    {\n      \"name\": \"IT Professional\"\n    },\n    {\n      \"name\": \"Marketing Professional\"\n    },\n    {\n      \"name\": \"Small Business Professional\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc7ab4ab-6f3b-445d-966a-7f328f98a9fd",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "professional-group"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6d7adf38-224d-40de-935c-361d7badb204",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "professional-group"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2dc16beb-90eb-43a7-bb73-dfabf9fbcee0",
+          "name": "Returns a list of B2B persona attributes.",
+          "request": {
+            "name": "Returns a list of B2B persona attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of B2B persona's which represent demographic attributes and are used to identify employees showing [positive Intent](/docs/intent-api/1/types/Attributes).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "demographic",
+                "b2b-personas"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b101164e-0796-4322-a605-da1b48b72588",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "b2b-personas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"b2bPersonas\": [\n    {\n      \"name\": \"Board and Ownership\"\n    },\n    {\n      \"name\": \"Consultants\"\n    },\n    {\n      \"name\": \"C-Suite\"\n    },\n    {\n      \"name\": \"Education\"\n    },\n    {\n      \"name\": \"Engineering\"\n    },\n    {\n      \"name\": \"Finance\"\n    },\n    {\n      \"name\": \"Finance Decision Maker\"\n    },\n    {\n      \"name\": \"Government\"\n    },\n    {\n      \"name\": \"HR Decision Maker\"\n    },\n    {\n      \"name\": \"Human Resources\"\n    },\n    {\n      \"name\": \"Information Technology\"\n    },\n    {\n      \"name\": \"IT Decision Maker\"\n    },\n    {\n      \"name\": \"Legal\"\n    },\n    {\n      \"name\": \"Management\"\n    },\n    {\n      \"name\": \"Marketing\"\n    },\n    {\n      \"name\": \"Marketing Decision Maker\"\n    },\n    {\n      \"name\": \"Operations\"\n    },\n    {\n      \"name\": \"Sales\"\n    },\n    {\n      \"name\": \"Software and Web Development\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0faf088-723d-422b-b070-c8ba0af330e5",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "b2b-personas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "229f78d1-cc10-4cf1-b439-11bff237b0cd",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "demographic",
+                    "b2b-personas"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "24e3950f-6c9a-4bf6-a60f-d5ea9052c4a2",
+      "name": "Geographic",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4596bbba-39b3-41b8-93bb-b623a731a36d",
+          "name": "Returns a list of country attributes.",
+          "request": {
+            "name": "Returns a list of country attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of country attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "geographic",
+                "country"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1fce5bca-debc-410d-b534-611231176d1e",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"country\": [\n    {\n      \"name\": \"Afghanistan\",\n      \"isoCode\": \"AF\"\n    },\n    {\n      \"name\": \"Aland Islands\",\n      \"isoCode\": \"AX\"\n    },\n    {\n      \"name\": \"Albania\",\n      \"isoCode\": \"AL\"\n    },\n    {\n      \"name\": \"Ecuador\",\n      \"isoCode\": \"EC\"\n    },\n    {\n      \"name\": \"Egypt\",\n      \"isoCode\": \"EG\"\n    },\n    {\n      \"name\": \"El Salvador\",\n      \"isoCode\": \"SV\"\n    },\n    {\n      \"name\": \"Vietnam\",\n      \"isoCode\": \"VN\"\n    },\n    {\n      \"name\": \"Wallis And Futuna Islands\",\n      \"isoCode\": \"WF\"\n    },\n    {\n      \"name\": \"Western Sahara\",\n      \"isoCode\": \"EH\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b69219b-81fb-4e56-8371-f59fc3331350",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c1fef371-812e-4e08-9a31-99808e60b120",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "country"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "68481560-c054-4010-bae2-5fe3f6bd2360",
+          "name": "Returns a list of state attributes.",
+          "request": {
+            "name": "Returns a list of state attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of state attributes (returned for US and CA only).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "geographic",
+                "state"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e8379c3b-31c9-4287-802d-2824e3113344",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "state"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"state\": [\n    {\n      \"name\": \"Alabama\",\n      \"stateCode\": \"AL\",\n      \"countryIsoCode\": \"US\"\n    },\n    {\n      \"name\": \"Alaska\",\n      \"stateCode\": \"AK\",\n      \"countryIsoCode\": \"US\"\n    },\n    {\n      \"name\": \"Alberta\",\n      \"stateCode\": \"AB\",\n      \"countryIsoCode\": \"CA\"\n    },\n    {\n      \"name\": \"Manitoba\",\n      \"stateCode\": \"MB\",\n      \"countryIsoCode\": \"CA\"\n    },\n    {\n      \"name\": \"Maryland\",\n      \"stateCode\": \"MD\",\n      \"countryIsoCode\": \"US\"\n    },\n    {\n      \"name\": \"Massachusetts\",\n      \"stateCode\": \"MA\",\n      \"countryIsoCode\": \"US\"\n    },\n    {\n      \"name\": \"Wyoming\",\n      \"stateCode\": \"WY\",\n      \"countryIsoCode\": \"US\"\n    },\n    {\n      \"name\": \"Yukon\",\n      \"stateCode\": \"YT\",\n      \"countryIsoCode\": \"CA\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "50aa1781-3562-4c47-b4e4-7649cede2e23",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "state"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a803d79d-37c3-4934-9140-5a89206013f6",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "state"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "398dbe92-bf1b-4776-af5e-237e3a254aa1",
+          "name": "Returns a list of metropolitan area attributes.",
+          "request": {
+            "name": "Returns a list of metropolitan area attributes.",
+            "description": {
+              "content": "This endpoint returns a collection of metropolitan area attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "geographic",
+                "metro-area"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ef0356d-6d7f-44bd-96d6-4f84f437bbc3",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "metro-area"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metroArea\": [\n    {\n      \"name\": \"Aba(Ngawa) Tibetan And Qiang Autonomous Prefecture, CN-51\"\n    },\n    {\n      \"name\": \"Abbotsford / Mission, BC\"\n    },\n    {\n      \"name\": \"Abilene / Sweetwater, TX\"\n    },\n    {\n      \"name\": \"Bavaria\"\n    },\n    {\n      \"name\": \"Bayan Nur City, CN-15\"\n    },\n    {\n      \"name\": \"Central / Wales and West, ENG\"\n    },\n    {\n      \"name\": \"Central West, NSW\"\n    },\n    {\n      \"name\": \"Jung-Gu Incheon\"\n    },\n    {\n      \"name\": \"Jung-Gu Seoul\"\n    },\n    {\n      \"name\": \"Jung-Gu Ulsan\"\n    },\n    {\n      \"name\": \"Portland, ME / Auburn, NH\"\n    },\n    {\n      \"name\": \"Portland, OR\"\n    },\n    {\n      \"name\": \"Ziyang, CN-51\"\n    },\n    {\n      \"name\": \"Zunyi, CN-52\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "565a4f07-94c2-48a8-8249-201081b5f51a",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "metro-area"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "669acb1c-6420-4ff9-8540-0f636cc395f0",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "geographic",
+                    "metro-area"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bombora.com/reference/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9c7831bd-5145-4ff4-a439-10e076861e3b",
+    "name": "Reference API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Reference API is used to retrieve reference data that is used throughout Bombora's APIs.",
+      "type": "text/plain"
+    }
+  }
+}

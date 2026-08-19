@@ -1,0 +1,34 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Bombora Digital Audience Builder (DAB) API
+  version: 1.0.0
+extends: openapi/bombora-digital-audience-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: https://developer.bombora.com — Apigee portal spec snapshot, harvested 2026-08-13
+actions:
+- target: $.info
+  update:
+    x-apievangelist-slug: bombora
+    x-apievangelist-api-key: digital-audience-api
+    x-apievangelist-harvested: '2026-08-13'
+    x-apievangelist-source: https://developer.bombora.com/portals/api/sites/astute-harbor-103715-developerportalbombora/liveportal/apis/digital-audience-api/spec
+    x-apievangelist-artifacts:
+      authentication: authentication/bombora-authentication.yml
+      conventions: conventions/bombora-conventions.yml
+      errors: errors/bombora-problem-types.yml
+      lifecycle: lifecycle/bombora-lifecycle.yml
+      rate_limits: rate-limits/bombora-rate-limits.yml
+      data_model: data-model/bombora-data-model.yml
+- target: $.info
+  update:
+    x-apievangelist-findings:
+      operations: 7
+      operations_without_operationid: 7
+      operations_without_tags: 7
+      error_format: vendor ErrorMessageResponse {message}; not RFC 9457
+      idempotency: not supported — no Idempotency-Key header in this document
+      rate_limit_headers: none declared; 429 not declared on any operation
+      note: Reported as measurement only. This overlay never mutates the harvested contract in openapi/_original/;
+        missing operationIds are NOT invented here, because a fabricated id is indistinguishable from a real one
+        to a downstream agent.

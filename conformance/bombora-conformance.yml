@@ -1,0 +1,100 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/ (6 OpenAPI 3.0 documents), https://developer.bombora.com/api-change-policy,
+  https://bombora.com/.well-known/oauth-authorization-server, https://bombora.com/privacy-policy
+note: >-
+  Derived from the harvested contracts and the provider's own published policy pages. Bombora
+  publishes no certification or audit-report program (no trust centre, no SOC 2 / ISO 27001 claim
+  on bombora.com — /security, /compliance, trust.bombora.com and security.bombora.com all miss),
+  so no `Compliance` pointer is emitted for this file.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Six documents, all openapi 3.0.0/3.0.1, published anonymously by the Apigee Integrated
+    Developer Portal at developer.bombora.com.
+- id: oauth2-bearer
+  conforms: true
+  evidence: >-
+    Every product API declares components.securitySchemes.bearerAuth = {type: http, scheme: bearer,
+    bearerFormat: JWT} and applies it globally; tokens are minted at POST /oauth/token
+    (Authentication API, client credentials issued as ClientId/ClientSecret in the portal).
+- id: oauth2-client-credentials
+  conforms: true
+  evidence: >-
+    developer.bombora.com/get-started — apps carry a ClientId (key) and ClientSecret (secret)
+    exchanged at the Authentication API /oauth/token endpoint for a bearer token.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  scope: bombora.com (WordPress MCP adapter only)
+  evidence: >-
+    https://bombora.com/.well-known/oauth-authorization-server returns 200 application/json with
+    issuer, authorization_endpoint, token_endpoint, revocation_endpoint, S256 PKCE. It describes
+    the site's MCP OAuth server, NOT the api.bombora.com product APIs.
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  scope: bombora.com (WordPress MCP adapter only)
+  evidence: https://bombora.com/.well-known/oauth-protected-resource returns 200 application/json.
+- id: pkce-rfc7636
+  conforms: true
+  scope: bombora.com MCP OAuth server
+  evidence: code_challenge_methods_supported = [S256]
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    No application/problem+json anywhere in the six specs. Errors use a vendor envelope
+    ErrorMessageResponse {message: string|null} over application/json. See errors/bombora-problem-types.yml.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on bombora.com and sentry.bombora.com.
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on bombora.com; no openIdConnect securityScheme in any spec.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    The API Change Policy promises "advance notice" before a major version is removed, but names no
+    Sunset or Deprecation response header, and none appears in any spec.
+- id: semantic-versioning-uri-path
+  conforms: true
+  evidence: >-
+    All servers[] carry an explicit /v1 path segment (api.bombora.com/intent/v1,
+    /reference/v1, /account-list/v1, /digital-audiences/v1, /webhooks/v1). The API Change Policy
+    states major/breaking changes are signalled by a change in the major version number in the path.
+- id: cursor-pagination
+  conforms: true
+  evidence: >-
+    Intent API and Account List API expose limit + pageToken query parameters (opaque continuation
+    token). The Change Policy explicitly declares page tokens opaque and variable-length.
+- id: webhook-hmac-signing
+  conforms: true
+  evidence: >-
+    Webhooks API destination auth.secret computes an HMAC-SHA256 over the UTF-8 body, delivered in
+    the X-Bombora-Signature-256 header.
+- id: idempotency-key
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or parameter in any of the six specs and no idempotency section in the
+    docs. Only DELETE /account-list/{accountListId}/accounts is described as "idempotent", which is
+    the inherent semantics of DELETE, not an idempotency contract.
+- id: json-api
+  conforms: false
+  evidence: Plain application/json resource bodies; no JSON:API media type or document structure.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    Bombora runs a real event surface (Webhooks API, four event types) but publishes no AsyncAPI
+    document. Captured as a webhook catalogue in asyncapi/bombora-webhooks.yml.
+- id: gdpr
+  conforms: unknown
+  evidence: >-
+    bombora.com/privacy-policy (200) and bombora.com/privacy ("Privacy Philosophy") describe a
+    consumer opt-out and a publisher co-op consent model, but Bombora publishes no certification,
+    audit report, or formal compliance attestation page.
+summary:
+  conforms: 9
+  does_not_conform: 7
+  unknown: 1
+  certifications_published: []
+  trust_center: false

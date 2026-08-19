@@ -1,0 +1,294 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account List API",
+    "version": "1.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AccountLists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Account Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/account-list/v1/account-list",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an array of AccountListSummary for all account lists."
+        },
+        {
+          "info": {
+            "name": "Create New Account List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/account-list/v1/account-list",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new account list given the AccountListDefinition provided in the request body."
+        },
+        {
+          "info": {
+            "name": "Get Account List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the account list definition."
+        },
+        {
+          "info": {
+            "name": "Update Account List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the account list definition.\n- ParentId and type are not modifiable.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Account List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes the specified account list.\n- A 409 Conflict error will be returned if the account list is used as a parent of a derived account list.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add/Update Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId/accounts",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Adds or updates accounts in the account list. \n- Only valid for Manual Account List Type.\n- If id is not specified for an account, the domain is used as the account identifier.\n- If the account identifier does not match an existing account in the account list, the account will be inserted. \n- If the account identifier matches an existing account in the account list, the existing account will be updated.\n- If there are duplicate account identifiers in the request body, the request will be rejecte"
+        },
+        {
+          "info": {
+            "name": "Delete Account List Contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId/accounts",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "This idempotent endpoint deletes all accounts within the account list, but does not delete the account list itself.\n- Only valid for Manual Account List Type.\n"
+        },
+        {
+          "info": {
+            "name": "Get Account Domains",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId/accounts/domains",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all distinct domains in an account list\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve Account Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId/accounts/search",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              },
+              {
+                "name": "pageToken",
+                "value": "nSA21gW",
+                "type": "query",
+                "description": "Page token for paginated retrieval."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Allows paginated account data to be retrieved for an Account List.\n\nData is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the "
+        },
+        {
+          "info": {
+            "name": "Retrieve Account Data Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId/accounts/search",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The POST is used before the corresponding GET endpoint to describe the required attributes and filters in the request body.\nA prefix of `attributes.` is necessary if attempting to filter by optional account attributes in your list.\nWhen attributes is empty or unspecified, the id is returned by default.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bombora.com/account-list/v1/account-list/:accountListId/delete-accounts",
+            "params": [
+              {
+                "name": "accountListId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "The unique identifier (AccountListId) of the account list."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes the specified accounts from the account list.\n- Only valid for Manual Account List Type.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

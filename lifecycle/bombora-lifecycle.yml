@@ -1,0 +1,91 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.bombora.com/api-change-policy
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://developer.bombora.com/api-change-policy
+  per_api:
+  - api: Intent API
+    spec_version: '1.0'
+    path_version: v1
+    server: https://api.bombora.com/intent/v1
+  - api: Reference API
+    spec_version: 1.0.1
+    path_version: v1
+    server: https://api.bombora.com/reference/v1
+  - api: Account List API
+    spec_version: '1.1'
+    path_version: v1
+    server: https://api.bombora.com/account-list/v1
+  - api: Digital Audience Builder (DAB) API
+    spec_version: v1
+    path_version: v1
+    server: https://api.bombora.com/digital-audiences/v1
+  - api: Webhooks API
+    spec_version: 1.0.1
+    path_version: v1
+    server: https://api.bombora.com/webhooks/v1
+  - api: Authentication API
+    spec_version: 1.0.0
+    path_version: none
+    server: https://api.bombora.com
+  - api: Company Surge API (partner)
+    spec_version: v4
+    path_version: v4
+    server: https://sentry.bombora.com/v4/Surge
+    note: Separate legacy partner API on a separate host, documented on Confluence, Basic auth.
+deprecation:
+  policy_url: https://developer.bombora.com/api-change-policy
+  published: true
+  sunset_header: false
+  deprecation_header: false
+  advance_notice: true
+  quote: >-
+    "Major Changes ... introduce incompatibilities with earlier major versions, and are indicated
+    through a change in the major version number in the API path (e.g. /v1/). Customers utilizing a
+    version scheduled for removal will receive advance notice."
+  notice_period: unspecified
+  non_breaking_changes_declared:
+  - Addition of new endpoints, or new methods to existing endpoints.
+  - Addition of new optional request attributes or parameters, or new required request attributes that have default values.
+  - Addition of new text values (including enum values) accepted in request attributes.
+  - Addition of request headers or the removal of undocumented or redundant request headers.
+  - Addition of new or undocumented attributes in response models, or the removal of undocumented attributes.
+  - Addition of new text values, including enum values, in attributes returned in response models.
+  - Changes to the order of attributes returned in response models, the response size, or the length of data within any attribute.
+  - Changes to incorrect HTTP response codes, or changes to error messages (consumers should rely on HTTP response codes, not error text).
+  - Changes to any tokens, including authentication tokens and page tokens (tokens are opaque and variable in length).
+  note: >-
+    Minor (non-breaking) changes "may be introduced at any time and without prior notice". The
+    policy is a genuine, dated, published contract, but it names no notice window and no
+    machine-readable signal (no Sunset / Deprecation response header).
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment found on bombora.com or developer.bombora.com.
+status_page:
+  url: null
+  note: >-
+    No status page. status.bombora.com does not resolve; no status/uptime link appears in the
+    developer portal navigation (Home, APIs, My Apps, Support, Sign In) or footer.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in any of the six OpenAPI documents carries deprecated: true.
+retired_surfaces:
+- name: Bombora Developer Portal v1
+  url: https://developerv1.bombora.com/
+  note: >-
+    An earlier developer portal still resolves at developerv1.bombora.com; the current portal is
+    developer.bombora.com (Apigee Integrated Developer Portal, org astute-harbor-103715).
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - url: https://developer.bombora.com/api-change-policy
+    status: 200
+    note: >-
+      SPA route; policy body read from the portal content API at
+      /portals/api/sites/astute-harbor-103715-developerportalbombora/liveportal/page/api-change-policy
+  - url: https://status.bombora.com
+    status: 0
+    note: DNS does not resolve

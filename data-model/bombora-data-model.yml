@@ -1,0 +1,267 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/bombora-account-list-api-openapi.yml, openapi/bombora-intent-api-openapi.yml,
+  openapi/bombora-digital-audience-api-openapi.yml, openapi/bombora-webhooks-api-openapi.yml,
+  openapi/bombora-reference-api-openapi.yml
+note: >-
+  Entity graph derived from components.schemas $ref links and id-reference fields across the six
+  published Bombora OpenAPI documents. Bombora publishes no object-reference page, so id prefixes
+  and formats are read from the specs themselves. Reference API returns flat attribute lists with
+  no declared schema beyond ErrorMessageResponse — its entities are inferred from route names and
+  are marked as such.
+identifiers:
+- field: accountListId
+  format: uuid
+  entity: AccountList
+  prefix: none
+- field: signalDefinitionId
+  format: uuid
+  entity: SignalDefinition
+  prefix: none
+- field: destinationId
+  format: uuid
+  entity: Destination
+  prefix: none
+  note: >-
+    The Webhooks API DestinationSummary.destinationId description says "The unique identifier
+    (AccountListId) of the account list" — a copy/paste defect in Bombora's own spec; the field is
+    the destination's own id.
+- field: externalId
+  entity: DigitalAudience
+  prefix: none
+  note: Customer-supplied audience identifier, path segment on every DAB audience route.
+- field: partnerId
+  entity: DigitalAudience
+  prefix: none
+  note: Downstream partner the audience is activated to.
+- field: dataexchange
+  entity: DataExchange
+  prefix: none
+  note: Path segment naming the target data exchange (see components.schemas.DataExchanges).
+- field: clientId
+  entity: SignalDefinition.metadata
+  note: Owning API client for a signal definition.
+- field: domain
+  entity: Account
+  note: Company web domain — the natural key Bombora resolves accounts on.
+
+entities:
+- name: AccountList
+  api: Account List API
+  schemas: [AccountListDefinition, AccountListSummary, Metadata, AccountListType]
+  key: id (uuid)
+  description: >-
+    A named set of accounts. Four subtypes, each with its own specification schema:
+    Manual, Derived (from a parent list + predicate filter), Surge (from a signal definition +
+    topics), and VisitorInsights.
+  operations:
+  - GET /account-list
+  - POST /account-list
+  - GET /account-list/{accountListId}
+  - PUT /account-list/{accountListId}
+  - DELETE /account-list/{accountListId}
+- name: Account
+  api: Account List API
+  schemas: [Account]
+  key: domain
+  description: A company inside an account list, keyed on domain, carrying attributes and company firmographics.
+  operations:
+  - POST /account-list/{accountListId}/accounts
+  - DELETE /account-list/{accountListId}/accounts
+  - GET /account-list/{accountListId}/accounts/domains
+  - GET /account-list/{accountListId}/accounts/search
+  - POST /account-list/{accountListId}/accounts/search
+  - POST /account-list/{accountListId}/delete-accounts
+- name: SignalDefinition
+  api: Intent API
+  schemas: [SignalDefinition, Metadata, ProductDefinition]
+  key: signalDefinitionId (uuid)
+  description: >-
+    A saved definition of what intent to measure — a topic set plus metadata. Carries two
+    sub-resources, metadata and product-definition (keywords, urls, domain).
+  operations:
+  - GET /signal-definitions
+  - POST /signal-definition
+  - GET /signal-definition/{signalDefinitionId}
+  - PUT /signal-definition/{signalDefinitionId}
+  - DELETE /signal-definition/{signalDefinitionId}
+  - GET /signal-definition/{signalDefinitionId}/metadata
+  - PUT /signal-definition/{signalDefinitionId}/metadata
+  - GET /signal-definition/{signalDefinitionId}/product-definition
+  - PUT /signal-definition/{signalDefinitionId}/product-definition
+- name: IntentData
+  api: Intent API
+  schemas: []
+  key: none
+  description: >-
+    The intent readings themselves, retrieved against a signal definition. Returned by GET /data
+    and POST /data (the POST form carries a larger request in the body).
+  operations: [GET /data, POST /data]
+- name: DigitalAudience
+  api: Digital Audience Builder (DAB) API
+  schemas: [name, status, externalId, partnerId, cpmPrice, endDate, topics, domains, filters, surgeId, granularInstallData, entityParty]
+  key: '{dataexchange}/{externalId}/{partnerId}'
+  description: >-
+    A custom B2B audience composed from topics, domains and demographic/firmographic filters, then
+    activated or suspended against a data exchange and partner. Has a status lifecycle and a
+    cpmPrice.
+  operations:
+  - POST /{dataexchange}
+  - GET /{dataexchange}/{externalId}/{partnerId}
+  - PUT /{dataexchange}/{externalId}/{partnerId}
+  - DELETE /{dataexchange}/{externalId}/{partnerId}
+  - PUT /{dataexchange}/{externalId}/{partnerId}/activate
+  - PUT /{dataexchange}/{externalId}/{partnerId}/suspend
+  - POST /{dataexchange}/estimate
+- name: Destination
+  api: Webhooks API
+  schemas: [Destination, DestinationSummary, auth]
+  key: destinationId (uuid)
+  description: >-
+    A customer HTTPS endpoint Bombora posts events to, with optional static headers and a
+    write-only auth.secret used to HMAC-sign deliveries.
+  operations:
+  - GET /destinations
+  - POST /destination
+  - GET /destination/{destinationId}
+  - PUT /destination/{destinationId}
+  - DELETE /destination/{destinationId}
+  - PUT /destination/{destinationId}/auth
+- name: EventSubscription
+  api: Webhooks API
+  schemas: [Event, stats]
+  key: (destinationId, eventType)
+  description: >-
+    A per-destination subscription to one event type, with an enabled flag, optional headers, and
+    delivery statistics (successful, failed, lastError, lastErrorAction, lastErrorTimestamp).
+  operations:
+  - GET /destination/{destinationId}/events
+  - GET /destination/{destinationId}/event/{eventType}
+  - PUT /destination/{destinationId}/event/{eventType}
+  - DELETE /destination/{destinationId}/event/{eventType}
+- name: ReferenceAttribute
+  api: Reference API
+  schemas: []
+  inferred: true
+  description: >-
+    The canonical vocabularies every other API filters on. Fourteen list endpoints across five
+    domains — Intent (topics, b2c-interest, b2b-interest-groups, b2b-personas), Install Data
+    (products), Firmographic (company-size, industry, revenue), Demographic (functional-area,
+    seniority, professional-group), Geographic (country, state, metro-area).
+  operations:
+  - GET /topics
+  - GET /b2c-interest
+  - GET /b2b-interest-groups
+  - GET /install-data/products
+  - GET /firmographic/company-size
+  - GET /firmographic/industry
+  - GET /firmographic/revenue
+  - GET /demographic/functional-area
+  - GET /demographic/seniority
+  - GET /demographic/professional-group
+  - GET /demographic/b2b-personas
+  - GET /geographic/country
+  - GET /geographic/state
+  - GET /geographic/metro-area
+- name: Predicate
+  api: Intent API + Account List API
+  schemas: [Eq, Neq, In, Nin, Gt, Gte, Lt, Lte, And, Or]
+  description: >-
+    A shared, recursive filter grammar duplicated verbatim in both the Intent API and the Account
+    List API. And/Or compose the eight comparison operators; every leaf names an attribute `a`
+    drawn from the Reference API vocabularies.
+
+relationships:
+- from: AccountList
+  to: AccountList
+  type: belongs_to
+  via: specification.parentId
+  cardinality: has_one
+  note: Derived account lists are segmented from a parent list.
+  evidence: DerivedAccountListSpecification.parentId
+- from: AccountList
+  to: SignalDefinition
+  type: belongs_to
+  via: specification.signalDefinitionId
+  cardinality: has_one
+  note: Surge account lists are sourced from a signal definition.
+  evidence: SurgeAccountListSpecification.signalDefinitionId
+- from: AccountList
+  to: Account
+  type: has_many
+  via: /account-list/{accountListId}/accounts
+- from: AccountList
+  to: Metadata
+  type: has_one
+  via: metadata
+- from: AccountList
+  to: Predicate
+  type: has_one
+  via: specification.filter
+  note: Derived, Surge and VisitorInsights specifications all embed the predicate grammar.
+- from: SignalDefinition
+  to: Metadata
+  type: has_one
+  via: metadata
+- from: SignalDefinition
+  to: ProductDefinition
+  type: has_one
+  via: /signal-definition/{signalDefinitionId}/product-definition
+- from: SignalDefinition
+  to: ReferenceAttribute
+  type: has_many
+  via: topics
+  note: Topic ids resolve against Reference API GET /topics.
+- from: IntentData
+  to: SignalDefinition
+  type: belongs_to
+  via: signal definition selection on /data
+- from: DigitalAudience
+  to: ReferenceAttribute
+  type: has_many
+  via: filters
+  note: >-
+    Every DAB filter schema (b2c_interest, ccm_seniority, ccm_company_revenue, ccm_company_size,
+    state, professional_group, intent_category, install_data, functional_area, ccm_industry,
+    country) is an {id, values} pair resolved against the Reference API.
+- from: DigitalAudience
+  to: SignalDefinition
+  type: belongs_to
+  via: surgeId
+  cardinality: has_one
+  confidence: medium
+  note: >-
+    surgeId names a Company Surge source for the audience. The DAB spec declares it as a bare
+    schema with no description, so the target entity is inferred from the field name.
+- from: DigitalAudience
+  to: DataExchange
+  type: belongs_to
+  via: '{dataexchange} path segment'
+- from: Destination
+  to: EventSubscription
+  type: has_many
+  via: /destination/{destinationId}/events
+- from: EventSubscription
+  to: SignalDefinition
+  type: references
+  via: eventType
+  note: >-
+    SignalDefinitionCreated / Updated / Deleted events are emitted by the Intent API's signal
+    definitions.
+- from: EventSubscription
+  to: AccountList
+  type: references
+  via: eventType
+  note: AccountListAccountsUpdated is emitted by the Account List API.
+- from: Account
+  to: ReferenceAttribute
+  type: has_many
+  via: attributes
+
+coverage:
+  entities: 10
+  relationships: 16
+  schemas_read: 71
+  apis: 6
+  render: null

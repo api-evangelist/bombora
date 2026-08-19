@@ -1,0 +1,3426 @@
+{
+  "item": [
+    {
+      "id": "9ab0416d-9562-4cb4-a0e2-6dde48bd2e25",
+      "name": "Data",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "36490dbc-ff32-487e-ae9a-33737db38365",
+          "name": "Retrieve Intent Data",
+          "request": {
+            "name": "Retrieve Intent Data",
+            "description": {
+              "content": "Allows paginated intent data to be retrieved.\n* Response body size will not exceed 10MB.\n\nData is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the next page.\nAll results have been returned when nextPageToken is null.\n\nExample URL with query parameters\n```\nhttps://api.bombora.com/intent/v1/data?pageToken={pageToken}&limit=100\n```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "data"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageToken",
+                  "value": "<string>",
+                  "description": "(Required) Page token for paginated retrieval."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6284feaf-c0e8-4b55-a37f-2b0faddde8d4",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"domain\": \"nasa.gov\",\n      \"score\": 95,\n      \"scoreLabel\": \"Strong\"\n    },\n    {\n      \"domain\": \"ast-science.com\",\n      \"score\": 93,\n      \"scoreLabel\": \"Strong\"\n    },\n    {\n      \"domain\": \"he360.com\",\n      \"score\": 87,\n      \"scoreLabel\": \"Strong\"\n    }\n  ],\n  \"nextPageToken\": \"nSA21gW\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e35459dc-afd4-4096-8d20-fcdfbab60788",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "801b68f0-395b-4921-9fc6-3952d3d800ce",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4a4c5e94-e424-4d8f-93ae-f3d9bf522783",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "951bee6d-8fa3-49ad-8036-2821260dffa2",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageToken",
+                      "value": "nSA21gW"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c847a960-08a7-404c-8010-40c295160505",
+          "name": "Retrieve Intent Data Request",
+          "request": {
+            "name": "Retrieve Intent Data Request",
+            "description": {
+              "content": "The POST is used before the corresponding GET endpoint to describe the required attributes and filters in the request body.\nWhen attributes is empty or unspecified, the domain, score, and scoreLabel attributes are returned by default.\nThe request body must contain either a `signalDefinitionId` OR `topics`, but cannot contain both.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "data"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"signalDefinitionId\": \"<UUID>\",\n  \"topics\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"attributes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"filters\": {\n    \"a\": \"<string>\",\n    \"eq\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5d97357f-b037-4d97-a561-f6c6b91a8e93",
+              "name": "Success - The response body includes the pageToken that must be supplied to the GET endpoint to retrieve results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signalDefinitionId\": \"517134f7-4451-4941-9491-8c5c7750d49a\",\n  \"attributes\": [\n    \"areasOfInterest\",\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pageToken\": \"nSA21gW\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a2290a3-1581-4842-b827-bbff8282b12a",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signalDefinitionId\": \"517134f7-4451-4941-9491-8c5c7750d49a\",\n  \"attributes\": [\n    \"areasOfInterest\",\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f8fc228a-88b4-42a6-8d04-36883600cea8",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signalDefinitionId\": \"517134f7-4451-4941-9491-8c5c7750d49a\",\n  \"attributes\": [\n    \"areasOfInterest\",\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2090ee86-fc5e-4ab0-b88b-94afa0876a07",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signalDefinitionId\": \"517134f7-4451-4941-9491-8c5c7750d49a\",\n  \"attributes\": [\n    \"areasOfInterest\",\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e516c48c-582b-4b1e-a684-9a3bd3a4485e",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "data"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"signalDefinitionId\": \"517134f7-4451-4941-9491-8c5c7750d49a\",\n  \"attributes\": [\n    \"areasOfInterest\",\n    \"company.size\",\n    \"company.hq\"\n  ],\n  \"filter\": {\n    \"a\": \"domain\",\n    \"neq\": \"*.edu\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "465f5142-5d81-47d9-b42f-7c0c42c39a4a",
+      "name": "SignalDefinition",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c56e943e-1c3a-4b6d-b2b4-ca84fbd6dfe4",
+          "name": "Retrieve Signal Definition",
+          "request": {
+            "name": "Retrieve Signal Definition",
+            "description": {
+              "content": "Retrieves the specified Signal Definition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fbb67415-a356-4508-b67e-af57d193eac9",
+              "name": "Success - The response body includes the requested Signal Definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metadata\": {\n    \"name\": \"Signal Definition for Product X\",\n    \"description\": \"Definition created by Joe for the Product X sales team.\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"name\": \"Wireless Communication\",\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"name\": \"Electric Vehicles (EV)\",\n      \"weighting\": 0.9\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "477624ba-2007-4d67-b8a3-3112dbef98d5",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3686f93e-152b-456c-a51b-16b2eaef2e46",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "88f7bc33-0b97-41d7-96c3-204ee9f62c36",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e4ecdac6-466d-4144-80a4-5851ad064873",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78a77c78-8736-4ac7-8298-cd886429b178",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c730db61-d5eb-447a-8f0d-58330b45a5e1",
+          "name": "Replace Signal Definition",
+          "request": {
+            "name": "Replace Signal Definition",
+            "description": {
+              "content": "Replaces the signal definition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topics\": [\n    {\n      \"id\": \"<integer>\",\n      \"weighting\": \"<float>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"weighting\": \"<float>\"\n    }\n  ],\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"clientId\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4aa8efa7-bae8-4578-8fc5-8b1e7d7645cb",
+              "name": "Success - The response body includes the requested Signal Definition.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal For Product X\",\n    \"description\": \"Signal created by Joe for the Product X sales team\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"weighting\": 0.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cbda9cc1-6714-4ae3-8ce5-e2c73a10384e",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal For Product X\",\n    \"description\": \"Signal created by Joe for the Product X sales team\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"weighting\": 0.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ec728bb3-ae95-47b6-a0ec-f40a99001aac",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal For Product X\",\n    \"description\": \"Signal created by Joe for the Product X sales team\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"weighting\": 0.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "df62a5de-55c7-40e5-9860-07c8b1c6154a",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal For Product X\",\n    \"description\": \"Signal created by Joe for the Product X sales team\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"weighting\": 0.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7be33881-f7f3-47a5-9f63-622760d342ed",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal For Product X\",\n    \"description\": \"Signal created by Joe for the Product X sales team\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"weighting\": 0.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e056c88b-f76d-4838-9581-abd640ef702c",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal For Product X\",\n    \"description\": \"Signal created by Joe for the Product X sales team\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"topics\": [\n    {\n      \"id\": 12345,\n      \"weighting\": 0.9\n    },\n    {\n      \"id\": 23456,\n      \"weighting\": 0.9\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c9a1698-ad20-42e7-832f-0c6a5f2e7fff",
+          "name": "Delete Signal Definition",
+          "request": {
+            "name": "Delete Signal Definition",
+            "description": {
+              "content": "Deletes the Signal Definition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "173f6468-0117-49d9-bb57-064a61917701",
+              "name": "Success - The signal Definition has been deleted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e8de4b73-773a-45f8-adfe-9cce48b597c7",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4825beea-bdcf-4e8e-a157-1059244b3887",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ac1253fa-c96d-4769-b398-0d688931732a",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aeb4750c-e4e6-481a-8f2b-95ab454964f0",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4d7d1616-8de7-420d-9090-587730ca057f",
+          "name": "Create a Signal Definition",
+          "request": {
+            "name": "Create a Signal Definition",
+            "description": {
+              "content": "A new Signal Definition can be created given one or more data points in the request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal-definition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"domain\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"clientId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5095c289-964d-4c3a-b2b4-3130d62d8269",
+              "name": "Success - The request has been accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal definition for X product\",\n    \"description\": \"Definition created by Joe for the sales team.\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signalDefinitionId\": \"7030eb5a-311a-4608-b901-8e5d61aad86b\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "610694a0-3969-4a39-8aa0-7181c7ec015c",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal definition for X product\",\n    \"description\": \"Definition created by Joe for the sales team.\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d70697e7-d923-4457-a4d4-32e9ceb30f60",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal definition for X product\",\n    \"description\": \"Definition created by Joe for the sales team.\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "93d6c9ef-c4b9-4c63-abe8-8102e0340e47",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal definition for X product\",\n    \"description\": \"Definition created by Joe for the sales team.\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3fd4591d-1a8e-42e5-aaac-1023f27799c8",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metadata\": {\n    \"name\": \"Signal definition for X product\",\n    \"description\": \"Definition created by Joe for the sales team.\",\n    \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n  },\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "753c662a-b305-4ae4-9625-abd2fc2c72f7",
+          "name": "Get List of Signal Definitions",
+          "request": {
+            "name": "Get List of Signal Definitions",
+            "description": {
+              "content": "Returns a list of all the signal definitions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal-definitions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a1338c3e-a896-47b2-85a2-6e53182d7fc0",
+              "name": "Success - The response body includes the requested resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"signalDefinitions\": [\n    {\n      \"signalDefinitionId\": \"7030eb5a-311a-4608-b901-8e5d61aad86b\",\n      \"status\": \"Processing\",\n      \"topicCount\": 0,\n      \"createdDate\": \"2023-06-28T00:00:00+00:00\",\n      \"modifiedDate\": \"2023-06-28T00:00:00+00:00\",\n      \"metadata\": {\n        \"name\": \"Signal for Product X\",\n        \"description\": \"Created to identify interest in Product X.\",\n        \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n      }\n    },\n    {\n      \"signalDefinitionId\": \"e2350c4f-3f29-4779-8d6a-d1fc8bfbc95c\",\n      \"status\": \"Available\",\n      \"topicCount\": 5,\n      \"createdDate\": \"2023-06-28T00:00:00+00:00\",\n      \"modifiedDate\": \"2023-06-28T00:00:00+00:00\",\n      \"metadata\": {\n        \"name\": \"Signal for Product Y\",\n        \"description\": \"Created to identify interest in Product Y.\",\n        \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1bc6d7c2-6a67-4702-b426-d3a0fa891131",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2eef2125-54f4-4a07-b109-d9be26d7d03b",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "433e245e-6aff-4b40-ab37-6becc61c7351",
+          "name": "Gets the metadata of a signal definition.",
+          "request": {
+            "name": "Gets the metadata of a signal definition.",
+            "description": {},
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "000c66a9-18fb-4791-a33e-901b6ab84263",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Signal definition for X product\",\n  \"description\": \"Definition created by Joe for the sales team.\",\n  \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93cff480-6cb8-4eea-97ae-4040524a5163",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4a32819c-99fb-44a1-a78f-8bc70ac9459a",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "afcc1942-8e0e-4d68-b639-421d182ed672",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d50c388e-f361-4229-a58b-b4cc3b02da16",
+          "name": "Updates the metadata of a signal definition.",
+          "request": {
+            "name": "Updates the metadata of a signal definition.",
+            "description": {},
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"clientId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a7cfa983-6194-46cf-974b-37ac3ab3dddc",
+              "name": "The signal definition metadata was updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Signal definition for X product\",\n  \"description\": \"Definition created by Joe for the sales team.\",\n  \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dea60252-ac1c-4d9e-885c-73e41ecabe65",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Signal definition for X product\",\n  \"description\": \"Definition created by Joe for the sales team.\",\n  \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a04a6897-bb6e-4511-9231-c42911c95316",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Signal definition for X product\",\n  \"description\": \"Definition created by Joe for the sales team.\",\n  \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "29831c77-3eb8-4247-a502-9b01f9d88777",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Signal definition for X product\",\n  \"description\": \"Definition created by Joe for the sales team.\",\n  \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fab5ccb0-e5cf-40bb-a89d-4fb3bf4a48ab",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Signal definition for X product\",\n  \"description\": \"Definition created by Joe for the sales team.\",\n  \"clientId\": \"9844a971-1cdc-4f2d-a145-87491392649f\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "33ed2e81-f299-45b0-9c34-97558df6b650",
+          "name": "Retrieves product definition for a signal",
+          "request": {
+            "name": "Retrieves product definition for a signal",
+            "description": {},
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId",
+                "product-definition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c472a8e3-90a3-447d-a750-b50eeb096d9b",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "796baef9-ddbb-4742-b3da-51f591588ab0",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "12c1afcc-ffd7-4397-b00f-d0ce961f1cc2",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9cc37fcc-065d-4709-800d-2435dc200fbc",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b1a7131e-ddb2-4ef2-a4e2-36aa583a0c92",
+              "name": "The request body is syntactically correct but semantically incorrect, such as validation errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f4d494ba-7d50-4f1c-a9c0-01cc731250d1",
+          "name": "Updates the product definition for a signal",
+          "request": {
+            "name": "Updates the product definition for a signal",
+            "description": {
+              "content": "Replaces the product definition inputs for a signal definition.  \nOnce updated, the signal definition will enter the “Processing” state. \n\n* **Updates to product definition inputs will cause a signal definition’s “topics” collection to be \noverwritten before returning to the “Available” state.**\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal-definition",
+                ":signalDefinitionId",
+                "product-definition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "signalDefinitionId",
+                  "description": "(Required) Unique identifier of a Signal Definition"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"urls\": [\n    \"<uri>\",\n    \"<uri>\"\n  ],\n  \"domain\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d65ed20-065e-439b-b128-a449397cf189",
+              "name": "Request was successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8266dfb7-bf05-40a5-973b-9cc1abab08cd",
+              "name": "The request is syntactically invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7189d9c2-382e-4fc6-9ae6-201fa9375332",
+              "name": "The access token is missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0ab91441-8c62-4039-9218-3318bf6ca815",
+              "name": "The access token does not have permission to access this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2a7c93c0-4040-4253-904c-77b260ea5a3a",
+              "name": "Resource could not be retrieved due to a conflict with the current state of the resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal-definition",
+                    ":signalDefinitionId",
+                    "product-definition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "signalDefinitionId",
+                      "description": "(Required) Unique identifier of a Signal Definition"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"example.com\",\n  \"keywords\": [\n    \"manufacturing\",\n    \"Communications\"\n  ],\n  \"urls\": [\n    \"https://www.example.com/productUrl\",\n    \"https://www.example.com/resources/productTraining.html\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.bombora.com/intent/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7a7a1a74-92b0-4bac-9805-ec222c096bcf",
+    "name": "Intent API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Intent API allows signals to be seamlessly defined and managed, while also providing efficient access to actionable intent data.\n\n### **Security**\nAll API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.\nGo to the [Get Started](/get-started) page for additional details.\n\n### **Error Handling**\nThe API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.\n\n### **Reference Data**\nThe API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.\n",
+      "type": "text/plain"
+    }
+  }
+}

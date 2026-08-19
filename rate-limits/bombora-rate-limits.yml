@@ -1,0 +1,54 @@
+generated: '2026-08-13'
+method: searched
+source: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+docs: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+limit_count: 1
+rate_limits:
+- scope: per-endpoint
+  applies_to: Bombora API / Company Surge API (v4) — https://sentry.bombora.com
+  limit: 60
+  unit: calls
+  window: 1 minute
+  burst: null
+  status_on_exhaustion: 429
+  error_message: Too many API calls to this endpoint in 1 minute time period. Try again later.
+  headers: []
+  source: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1212420/Bombora+API
+response_headers:
+  published: false
+  checked:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  - RateLimit
+  - RateLimit-Policy
+  - Retry-After
+  note: >-
+    None of these appear in Bombora's documentation or in any of the six OpenAPI documents in
+    openapi/, and 429 is not declared as a response on a single operation. A client has no runtime
+    signal for remaining quota or reset time — it can only observe the 429 after the fact. This is
+    the single largest agent-readiness gap in Bombora's runtime semantics.
+undocumented_surfaces:
+- api: Intent API
+  server: https://api.bombora.com/intent/v1
+  limits: undocumented
+- api: Reference API
+  server: https://api.bombora.com/reference/v1
+  limits: undocumented
+- api: Account List API
+  server: https://api.bombora.com/account-list/v1
+  limits: undocumented
+- api: Digital Audience Builder (DAB) API
+  server: https://api.bombora.com/digital-audiences/v1
+  limits: undocumented
+- api: Webhooks API
+  server: https://api.bombora.com/webhooks/v1
+  limits: undocumented
+- api: Authentication API
+  server: https://api.bombora.com/oauth/token
+  limits: undocumented
+note: >-
+  The only published rate limit Bombora states anywhere is 60 calls per minute per endpoint on the
+  legacy partner Company Surge API hosted at sentry.bombora.com. The six current APIs on
+  api.bombora.com publish no limits at all. Underlying quota is also commercial — access to the
+  Intent and Digital Audience products is manually approved per app in the Apigee portal.

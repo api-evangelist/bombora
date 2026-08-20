@@ -44,6 +44,24 @@ tags:
 - Identity Resolution
 - Audience Activation
 - Data Cooperative
+- Webhook
+- Reference Data
+- AdTech
+- MarTech
+- B2B
+- Account Lists
+- Digital Audience Builder
+- OpenAPI
+tags_raw:
+- Intent Data
+- B2B Intent
+- Company Surge
+- Account Based Marketing
+- Sales Intelligence
+- Marketing Intelligence
+- Identity Resolution
+- Audience Activation
+- Data Cooperative
 - Webhooks
 - Reference Data
 - Adtech
@@ -64,6 +82,9 @@ apis:
     token via a POST to the OAuth token route on developer.bombora.com.
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   tags:
+  - Authentication
+  - Identity
+  tags_raw:
   - Authentication
   - OAuth
   - Identity
@@ -143,6 +164,11 @@ apis:
   tags:
   - Digital Audiences
   - Audience Activation
+  - AdTech
+  - Programmatic
+  tags_raw:
+  - Digital Audiences
+  - Audience Activation
   - Adtech
   - Programmatic
   properties:
@@ -162,6 +188,10 @@ apis:
     via PUT routes on the developer portal.
   humanURL: https://developer.bombora.com/docs/webhooks-api/1/overview
   tags:
+  - Webhook
+  - Event
+  - Eventing
+  tags_raw:
   - Webhooks
   - Events
   - Eventing

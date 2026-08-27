@@ -75,35 +75,12 @@ created: '2026-05-25'
 modified: '2026-08-13'
 specificationVersion: '0.23'
 apis:
-- aid: bombora:bombora-authentication-api
-  name: Bombora Authentication API
-  description: OAuth 2.0 token endpoint that issues bearer access tokens used to authenticate calls
-    to the rest of Bombora's developer APIs. Clients exchange credentials for a short-lived access
-    token via a POST to the OAuth token route on developer.bombora.com.
-  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
-  tags:
-  - Authentication
-  - Identity
-  tags_raw:
-  - Authentication
-  - OAuth
-  - Identity
-  properties:
-  - type: Documentation
-    url: https://developer.bombora.com/docs/authentication-api/1/overview
-  - type: TokenEndpoint
-    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
-  - type: OpenAPI
-    url: openapi/bombora-authentication-api-openapi.yml
-  - type: Overlay
-    url: overlays/bombora-authentication-api-overlay.yaml
-  baseURL: https://api.bombora.com
 - aid: bombora:bombora-intent-api
   name: Bombora Intent API
-  description: Streams Bombora's Company Surge intent signals — account-level scores against 18,000+
-    B2B intent topics — derived from the Bombora Data Cooperative. Subscribers pull weekly Surge
-    scores for monitored topics and accounts and integrate them into CRM, marketing automation, and
-    ABM platforms.
+  description: >-
+    Streams Bombora's Company Surge intent signals — account-level scores against 18,000+ B2B intent topics
+    — derived from the Bombora Data Cooperative. Subscribers pull weekly Surge scores for monitored topics
+    and accounts and integrate them into CRM, marketing automation, and ABM platforms.
   humanURL: https://developer.bombora.com/docs/intent-api/1/overview
   tags:
   - Intent Data
@@ -117,103 +94,14 @@ apis:
   - type: Overlay
     url: overlays/bombora-intent-api-overlay.yaml
   baseURL: https://api.bombora.com/intent/v1
-- aid: bombora:bombora-account-list-api
-  name: Bombora Account List API
-  description: Defines and maintains lists of B2B accounts, keyed on company domain. Lists can be
-    manually curated, synchronized from external systems, derived by segmenting a parent list with
-    a predicate filter, sourced from a Company Surge signal definition, or built from Visitor Insights.
-    Provides account membership add/update/delete, domain listing, and account data search.
-  humanURL: https://developer.bombora.com/docs/account-list-api/1/overview
-  baseURL: https://api.bombora.com/account-list/v1
-  tags:
-  - Account Lists
-  - Account Based Marketing
-  - Segmentation
-  - Company Surge
-  properties:
-  - type: Documentation
-    url: https://developer.bombora.com/docs/account-list-api/1/overview
-  - type: OpenAPI
-    url: openapi/bombora-account-list-api-openapi.yml
-  - type: Overlay
-    url: overlays/bombora-account-list-api-overlay.yaml
-- aid: bombora:bombora-reference-api
-  name: Bombora Reference API
-  description: Reference data and taxonomy lookups for the Bombora platform — including intent topics,
-    topic clusters, and supporting metadata needed to interpret intent and audience responses. Used
-    by integrators to keep local taxonomies in sync with Bombora's canonical reference data.
-  humanURL: https://developer.bombora.com/docs/reference-api/1/overview
-  tags:
-  - Reference Data
-  - Taxonomy
-  - Intent Topics
-  properties:
-  - type: Documentation
-    url: https://developer.bombora.com/docs/reference-api/1/overview
-  - type: OpenAPI
-    url: openapi/bombora-reference-api-openapi.yml
-  - type: Overlay
-    url: overlays/bombora-reference-api-overlay.yaml
-  baseURL: https://api.bombora.com/reference/v1
-- aid: bombora:bombora-digital-audience-api
-  name: Bombora Digital Audience Builder (DAB) API
-  description: Programmatic interface to Bombora's Digital Audience Builder for composing custom
-    B2B audiences from intent, firmographic, and behavioral signals and activating them to downstream
-    data exchanges, DSPs, and partner platforms via the activate route.
-  humanURL: https://developer.bombora.com/docs/digital-audience-api/1/overview
-  tags:
-  - Digital Audiences
-  - Audience Activation
-  - AdTech
-  - Programmatic
-  tags_raw:
-  - Digital Audiences
-  - Audience Activation
-  - Adtech
-  - Programmatic
-  properties:
-  - type: Documentation
-    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
-  - type: ActivateEndpoint
-    url: https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
-  - type: OpenAPI
-    url: openapi/bombora-digital-audience-api-openapi.yml
-  - type: Overlay
-    url: overlays/bombora-digital-audience-api-overlay.yaml
-  baseURL: https://api.bombora.com/digital-audiences/v1
-- aid: bombora:bombora-webhooks-api
-  name: Bombora Webhooks API
-  description: Outbound webhook destinations that push Bombora events — including Surge report completions
-    and audience activation updates — to partner endpoints. Destinations are registered and updated
-    via PUT routes on the developer portal.
-  humanURL: https://developer.bombora.com/docs/webhooks-api/1/overview
-  tags:
-  - Webhook
-  - Event
-  - Eventing
-  tags_raw:
-  - Webhooks
-  - Events
-  - Eventing
-  properties:
-  - type: Documentation
-    url: https://developer.bombora.com/docs/webhooks-api/1/overview
-  - type: DestinationEndpoint
-    url: https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
-  - type: OpenAPI
-    url: openapi/bombora-webhooks-api-openapi.yml
-  - type: Overlay
-    url: overlays/bombora-webhooks-api-overlay.yaml
-  - type: Webhooks
-    url: asyncapi/bombora-webhooks.yml
-  baseURL: https://api.bombora.com/webhooks/v1
 - aid: bombora:bombora-company-surge-api
   name: Bombora Company Surge API (v4)
-  description: Partner API for orchestrating Company Surge reports — create reports with topic, geography,
-    blacklist, and AutoGen options (POST /v4/Surge/Create), list reports (GET /v4/Surge/GetList),
-    and retrieve report results. Uses Basic auth with username:password base64 credentials and is
-    rate limited to 60 calls per minute per endpoint. Hosted at sentry.bombora.com and documented
-    on the Bombora Partners Confluence space.
+  description: >-
+    Partner API for orchestrating Company Surge reports — create reports with topic, geography, blacklist,
+    and AutoGen options (POST /v4/Surge/Create), list reports (GET /v4/Surge/GetList), and retrieve report
+    results. Uses Basic auth with username:password base64 credentials and is rate limited to 60 calls
+    per minute per endpoint. Hosted at sentry.bombora.com and documented on the Bombora Partners Confluence
+    space.
   humanURL: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381698/Surge+API
   baseURL: https://sentry.bombora.com/v4/Surge
   tags:
@@ -225,12 +113,477 @@ apis:
   - type: Documentation
     url: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381698/Surge+API
   - type: Create
-    url: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/635240449/Create+Surge+Report+v4
+    url: >-
+      https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/635240449/Create+Surge+Report+v4
   - type: GetList
-    url: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1254653959/Get+List+of+Company+Surge+Reports
+    url: >-
+      https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/1254653959/Get+List+of+Company+Surge+Reports
   - type: GetResults
-    url: https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381716/Get+Surge+Report+Results
+    url: >-
+      https://bombora-partners.atlassian.net/wiki/spaces/DOC/pages/20381716/Get+Surge+Report+Results
+- aid: bombora:bombora-accountlists-api
+  name: Bombora Account Lists API
+  description: The AccountLists API from Bombora — 2 operation(s) for accountlists.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - AccountLists
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-accountlists-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-accounts-api
+  name: Bombora Accounts API
+  description: The Accounts API from Bombora — 4 operation(s) for accounts.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-activate-api
+  name: Bombora Activate API
+  description: The Activate API from Bombora — 1 operation(s) for activate.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Activate
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-activate-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-data-api
+  name: Bombora Data API
+  description: The Data API from Bombora — 1 operation(s) for data.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Data
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-data-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-demographic-api
+  name: Bombora Demographic API
+  description: The Demographic API from Bombora — 4 operation(s) for demographic.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Demographic
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-demographic-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-destinations-api
+  name: Bombora Destinations API
+  description: The Destinations API from Bombora — 4 operation(s) for destinations.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Destinations
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-destinations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-digital-audience-builder-dab-api-api
+  name: Bombora Digital Audience Builder (DAB) API
+  description: >-
+    The Digital Audience Builder (DAB) API API from Bombora — 2 operation(s) for digital audience builder
+    (dab) api.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Digital Audience Builder (DAB) API
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-digital-audience-builder-dab-api-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-estimate-api
+  name: Bombora Estimate API
+  description: The Estimate API from Bombora — 1 operation(s) for estimate.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Estimate
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-estimate-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-events-api
+  name: Bombora Events API
+  description: The Events API from Bombora — 2 operation(s) for events.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-events-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-firmographic-api
+  name: Bombora Firmographic API
+  description: The Firmographic API from Bombora — 3 operation(s) for firmographic.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Firmographic
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-firmographic-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-geographic-api
+  name: Bombora Geographic API
+  description: The Geographic API from Bombora — 3 operation(s) for geographic.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Geographic
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-geographic-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-install-data-api
+  name: Bombora Install Data API
+  description: The Install Data API from Bombora — 1 operation(s) for install data.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Install Data
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-install-data-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-oauth-api
+  name: Bombora OAUTH API
+  description: The Oauth API from Bombora — 1 operation(s) for oauth.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-signaldefinition-api
+  name: Bombora Signal Definition API
+  description: The SignalDefinition API from Bombora — 5 operation(s) for signaldefinition.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - SignalDefinition
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-signaldefinition-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
+- aid: bombora:bombora-suspend-api
+  name: Bombora Suspend API
+  description: The Suspend API from Bombora — 1 operation(s) for suspend.
+  humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
+  baseURL: https://api.bombora.com
+  tags:
+  - Suspend
+  properties:
+  - type: OpenAPI
+    url: openapi/bombora-suspend-api-openapi.yml
+  - type: Documentation
+    url: https://developer.bombora.com/docs/authentication-api/1/overview
+  - type: TokenEndpoint
+    url: https://developer.bombora.com/docs/authentication-api/1/routes/oauth/token/post
+  - type: Documentation
+    url: https://developer.bombora.com/docs/account-list-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/reference-api/1/overview
+  - type: Documentation
+    url: https://developer.bombora.com/docs/digital-audience-api/1/overview
+  - type: ActivateEndpoint
+    url: >-
+      https://developer.bombora.com/docs/digital-audience-api/1/routes/%7Bdataexchange%7D/%7BexternalId%7D/%7BpartnerId%7D/activate/put
+  - type: Documentation
+    url: https://developer.bombora.com/docs/webhooks-api/1/overview
+  - type: DestinationEndpoint
+    url: >-
+      https://developer.bombora.com/docs/webhooks-api/1/routes/destination/%7BdestinationId%7D/put
+  - type: Webhooks
+    url: asyncapi/bombora-webhooks.yml
 common:
+- type: Overlay
+  url: overlays/bombora-authentication-api-overlay.yaml
+- type: Overlay
+  url: overlays/bombora-account-list-api-overlay.yaml
+- type: Overlay
+  url: overlays/bombora-reference-api-overlay.yaml
+- type: Overlay
+  url: overlays/bombora-digital-audience-api-overlay.yaml
+- type: Overlay
+  url: overlays/bombora-webhooks-api-overlay.yaml
 - type: Authentication
   url: authentication/bombora-authentication.yml
 - type: DomainSecurity

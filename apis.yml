@@ -58,8 +58,8 @@ tags:
 - Data Cooperative
 - Webhook
 - Reference Data
-- AdTech
-- MarTech
+- Adtech
+- Martech
 - B2B
 - Account Lists
 - Digital Audience Builder
@@ -139,6 +139,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   baseURL: https://api.bombora.com
   tags:
+  - Account Lists
+  tags_raw:
   - AccountLists
   properties:
   - type: OpenAPI
@@ -169,6 +171,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   baseURL: https://api.bombora.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -381,6 +385,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   baseURL: https://api.bombora.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -501,6 +507,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   baseURL: https://api.bombora.com
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI

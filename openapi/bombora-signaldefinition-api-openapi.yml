@@ -1,0 +1,528 @@
+openapi: 3.2.0
+info:
+  title: Intent Signal Definition API
+  description: 'The Intent API allows signals to be seamlessly defined and managed, while also providing efficient access to actionable intent data.
+
+
+    ### **Security**
+
+    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
+
+    Go to the [Get Started](/get-started) page for additional details.
+
+
+    ### **Error Handling**
+
+    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
+
+
+    ### **Reference Data**
+
+    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.
+
+    '
+  version: '1.0'
+servers:
+- url: https://api.bombora.com/intent/v1
+security:
+- bearerAuth: []
+tags:
+- name: SignalDefinition
+paths:
+  /signal-definition/{signalDefinitionId}:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Retrieve Signal Definition
+      description: Retrieves the specified Signal Definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Success - The response body includes the requested Signal Definition.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignalDefinition'
+              examples:
+                Successful Response:
+                  value:
+                    metadata:
+                      name: Signal Definition for Product X
+                      description: Definition created by Joe for the Product X sales team.
+                      clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+                    topics:
+                    - id: 12345
+                      name: Wireless Communication
+                      weighting: 0.9
+                    - id: 23456
+                      name: Electric Vehicles (EV)
+                      weighting: 0.9
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - SignalDefinition
+      summary: Replace Signal Definition
+      description: Replaces the signal definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topics:
+                  description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that info rm the signal
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int32
+                        description: Topic identifier
+                      weighting:
+                        type: number
+                        format: float
+                        description: Weighting of the topic in the signal
+                metadata:
+                  $ref: '#/components/schemas/Metadata'
+            example:
+              metadata:
+                name: Signal For Product X
+                description: Signal created by Joe for the Product X sales team
+                clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+              topics:
+              - id: 12345
+                weighting: 0.9
+              - id: 23456
+                weighting: 0.9
+      responses:
+        '200':
+          description: Success - The response body includes the requested Signal Definition.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - SignalDefinition
+      summary: Delete Signal Definition
+      description: Deletes the Signal Definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Success - The signal Definition has been deleted successfully.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+      security:
+      - bearerAuth: []
+  /signal-definition:
+    post:
+      tags:
+      - SignalDefinition
+      summary: Create a Signal Definition
+      description: A new Signal Definition can be created given one or more data points in the request body.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ProductDefinition'
+              - $ref: '#/components/schemas/Metadata'
+            example:
+              metadata:
+                name: Signal definition for X product
+                description: Definition created by Joe for the sales team.
+                clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+              domain: example.com
+              keywords:
+              - manufacturing
+              - Communications
+              urls:
+              - https://www.example.com/productUrl
+              - https://www.example.com/resources/productTraining.html
+      responses:
+        '202':
+          description: Success - The request has been accepted for processing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  signalDefinitionId:
+                    description: Unique identifier for the new Signal Definition
+                    type: string
+                    format: UUID
+              example:
+                signalDefinitionId: 7030eb5a-311a-4608-b901-8e5d61aad86b
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /signal-definitions:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Get List of Signal Definitions
+      description: Returns a list of all the signal definitions.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  signalDefinitions:
+                    type: array
+                    items:
+                      type: object
+                      description: A collection of signal definitions.
+                      properties:
+                        signalDefinitionId:
+                          description: Unique identifier of a Signal Definition
+                          type: string
+                          format: UUID
+                        status:
+                          description: Processing state
+                          type: string
+                          enum:
+                          - Available
+                          - Processing
+                        topicCount:
+                          description: Number of topics in the Signal Definition
+                          type: integer
+                        createdDate:
+                          description: ISO-8601 (YYYY-MM-DDTHH:MM:SS.TTT-ZZZZ) representation of the time the signal-definition was created
+                          type: string
+                        modifiedDate:
+                          description: ISO-8601 (YYYY-MM-DDTHH:MM:SS.TTT-ZZZZ) representation of the time the signal-definition was last modified
+                          type: string
+                        metadata:
+                          $ref: '#/components/schemas/Metadata'
+              example:
+                signalDefinitions:
+                - signalDefinitionId: 7030eb5a-311a-4608-b901-8e5d61aad86b
+                  status: Processing
+                  topicCount: 0
+                  createdDate: '2023-06-28T00:00:00+00:00'
+                  modifiedDate: '2023-06-28T00:00:00+00:00'
+                  metadata:
+                    name: Signal for Product X
+                    description: Created to identify interest in Product X.
+                    clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+                - signalDefinitionId: e2350c4f-3f29-4779-8d6a-d1fc8bfbc95c
+                  status: Available
+                  topicCount: 5
+                  createdDate: '2023-06-28T00:00:00+00:00'
+                  modifiedDate: '2023-06-28T00:00:00+00:00'
+                  metadata:
+                    name: Signal for Product Y
+                    description: Created to identify interest in Product Y.
+                    clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+  /signal-definition/{signalDefinitionId}/metadata:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Gets the metadata of a signal definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Metadata'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - SignalDefinition
+      summary: Updates the metadata of a signal definition.
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metadata'
+            example:
+              name: Signal definition for X product
+              description: Definition created by Joe for the sales team.
+              clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+      responses:
+        '200':
+          description: The signal definition metadata was updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /signal-definition/{signalDefinitionId}/product-definition:
+    get:
+      tags:
+      - SignalDefinition
+      summary: Retrieves product definition for a signal
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDefinition'
+              example:
+                domain: example.com
+                keywords:
+                - manufacturing
+                - Communications
+                urls:
+                - https://www.example.com/productUrl
+                - https://www.example.com/resources/productTraining.html
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - SignalDefinition
+      summary: Updates the product definition for a signal
+      description: "Replaces the product definition inputs for a signal definition.  \nOnce updated, the signal definition will enter the “Processing” state. \n\n* **Updates to product definition inputs will cause a signal definition’s “topics” collection to be \noverwritten before returning to the “Available” state.**\n"
+      parameters:
+      - $ref: '#/components/parameters/signalDefinitionId'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDefinition'
+            example:
+              domain: example.com
+              keywords:
+              - manufacturing
+              - Communications
+              urls:
+              - https://www.example.com/productUrl
+              - https://www.example.com/resources/productTraining.html
+      responses:
+        '200':
+          description: Request was successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    SignalDefinition:
+      type: object
+      properties:
+        topics:
+          description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that inform the signal
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int32
+                description: Topic identifier
+              name:
+                type:
+                - string
+                - 'null'
+                description: Topic name
+              weighting:
+                type: number
+                format: float
+                description: Weighting of the topic in the signal
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+      example:
+        metadata:
+          name: Signal For Product X
+          description: Signal created by Joe for the Product X sales team
+          clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+        topics:
+        - id: 12345
+          name: Wireless Communication
+          weighting: 0.9
+        - id: 23456
+          name: Electric Vehicles (EV)
+          weighting: 0.9
+    ProductDefinition:
+      description: 'The product definition can contain any of the following information to enable an AI-created Signal Definition.
+
+        '
+      properties:
+        keywords:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: A collection of relevant keywords
+          example:
+            keywords:
+            - manufacturing
+            - Communications
+        urls:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uri
+          description: A collection of URLs relating to the company, product, or service
+          example:
+            urls:
+            - https://www.example.com/productUrl
+            - https://www.example.com/resources/productTraining.html
+        domain:
+          type:
+          - string
+          - 'null'
+          description: The primary domain of the company
+          example:
+            domain: example.com
+      example:
+        domain: example.com
+        keywords:
+        - manufacturing
+        - Communications
+        urls:
+        - https://www.example.com/productUrl
+        - https://www.example.com/resources/productTraining.html
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    Metadata:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: A name for this signal definition.
+          maximum: 255
+          example: Signal definition for X product
+        description:
+          type:
+          - string
+          - 'null'
+          maximum: 2048
+          description: A description for this signal definition.
+          example: Definition created by Joe for the sales team.
+        clientId:
+          type:
+          - string
+          - 'null'
+          maximum: 255
+          description: Third-party client identifier. Required for channel partners.
+      description: Metadata associated with this signal definition
+      example:
+        name: Signal definition for X product
+        description: Definition created by Joe for the sales team.
+        clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+  responses:
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+  parameters:
+    signalDefinitionId:
+      name: signalDefinitionId
+      description: Unique identifier of a Signal Definition
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 517134f7-4451-4941-9491-8c5c7750d49a
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

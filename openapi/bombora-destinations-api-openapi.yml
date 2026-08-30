@@ -1,0 +1,313 @@
+openapi: 3.2.0
+info:
+  title: Webhooks Destinations API
+  description: 'The Webhooks API provides the ability to create webhook destinations for receiving various Bombora event subscriptions.
+
+
+    ### Resource Structure
+
+    The API revolves around the following resources:
+
+
+    * **Destinations:** Represent webhook destinations that can receive event notifications.
+
+    * **Events:** Represent event types that can be subscribed to for each destination.
+
+
+    ### **Security**
+
+    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
+
+    Go to the [Get Started](/get-started) page for additional details.
+
+
+    ### **Error Handling**
+
+    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
+
+    '
+  version: 1.0.1
+servers:
+- url: https://api.bombora.com/webhooks/v1
+security:
+- bearerAuth: []
+tags:
+- name: Destinations
+paths:
+  /destinations:
+    get:
+      tags:
+      - Destinations
+      description: Returns list of webhook destinations.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DestinationSummary'
+              example:
+                destinations:
+                - destinationId: ab5f2807-9483-4de4-a36d-8482c074e918
+                  name: destination name
+                  description: destination description
+                - destinationId: 12345678-9483-4de4-a36d-101213141516
+                  name: destination name
+                  description: destination description
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+  /destination:
+    post:
+      tags:
+      - Destinations
+      description: Create a webhook destination that can be used with event type subscriptions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Destination'
+              - $ref: '#/components/schemas/auth'
+            example:
+              name: Webhook Receiver
+              description: This is where Bombora will send messages to
+              address: https://api.bombora.com/api/webhook-receiver
+              headers:
+                X-Source: Bombora
+              auth:
+                secret: Some example $3cr3t! 1234
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+              example:
+                destinationId: ab5f2807-9483-4de4-a36d-8482c074e918
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+  /destination/{destinationId}:
+    get:
+      tags:
+      - Destinations
+      description: Retrieve the destination object (excluding “auth”).
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Destination'
+              example:
+                destination:
+                  name: Webhook Receiver
+                  description: This is where Bombora will send messages to
+                  address: https://api.bombora.com/api/webhook-receiver
+                  headers:
+                    X-Source: Bombora
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Destinations
+      description: 'Replaces the destination document (excluding “auth” object).
+
+        * To update the "auth" use the PUT ```/destination/{destinationId}/auth``` endpoint.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Destination'
+            example:
+              name: Webhook Receiver
+              description: This is where Bombora will send messages to
+              address: https://api.acmecorp.com/api/webhook-receiver
+              headers:
+                X-Source: Bombora
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Destinations
+      description: Deletes the destination and all related subscriptions, if all events are disabled; otherwise, fails with a message indicating that events must be first disabled.
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      responses:
+        '200':
+          description: Success - The resource no longer exists.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+      security:
+      - bearerAuth: []
+  /destination/{destinationId}/auth:
+    put:
+      tags:
+      - Destinations
+      description: Replaces the specified destination’s auth object.
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth'
+            example:
+              auth:
+                secret: Some example $3cr3t! 1234
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+components:
+  responses:
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+  schemas:
+    Destination:
+      type: object
+      required:
+      - name
+      - address
+      properties:
+        name:
+          description: Name of the destination.
+          type: string
+          example:
+            name: Webhook Receiver
+        description:
+          description: Description of the destination.
+          type: string
+          example:
+            description: This is where Bombora will send messages to
+        address:
+          description: The fully qualified url for events to be posted to.
+          type: string
+          format: uri
+          example:
+            address: https://api.bombora.com/api/webhook-receiver
+        headers:
+          type: object
+          description: Expected headers to receive when webhook is triggered.
+          example:
+            headers:
+              X-Source: Bombora
+          additionalProperties:
+            type: string
+    auth:
+      type: object
+      description: Auth object containing data and/or credentials used in authenticating the connection back to the webhook address.
+      properties:
+        secret:
+          description: When provided, this UTF-8 value will be used as the key to calculate a HMAC (Hash-based Message Authentication Code) using the SHA-256 hash function. The HMAC is computed on the UTF-8 HTTP response body, and will be sent in the X-Bombora-Signature-256 HTTP response header.
+          type: string
+    DestinationSummary:
+      type: object
+      properties:
+        destinationId:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the account list.
+        name:
+          description: The destination name.
+          type: string
+          example:
+            name: Webhook Receiver
+        description:
+          description: The destination description.
+          type: string
+          example:
+            description: This is where Bombora will send messages to
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+  parameters:
+    destinationId:
+      name: destinationId
+      in: path
+      required: true
+      description: An identifier for the destination.
+      schema:
+        type: string
+        format: uuid
+      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

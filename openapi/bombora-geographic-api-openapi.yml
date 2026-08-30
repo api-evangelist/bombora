@@ -1,0 +1,184 @@
+openapi: 3.2.0
+info:
+  title: Reference Geographic API
+  description: The Reference API is used to retrieve reference data that is used throughout Bombora's APIs.
+  version: 1.0.1
+servers:
+- url: https://api.bombora.com/reference/v1
+security:
+- bearerAuth: []
+tags:
+- name: Geographic
+paths:
+  /geographic/country:
+    get:
+      tags:
+      - Geographic
+      summary: Returns a list of country attributes.
+      description: This endpoint returns a collection of country attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the country.
+                        isoCode:
+                          type: string
+                          description: The ISO code of the country.
+              example:
+                country:
+                - name: Afghanistan
+                  isoCode: AF
+                - name: Aland Islands
+                  isoCode: AX
+                - name: Albania
+                  isoCode: AL
+                - name: Ecuador
+                  isoCode: EC
+                - name: Egypt
+                  isoCode: EG
+                - name: El Salvador
+                  isoCode: SV
+                - name: Vietnam
+                  isoCode: VN
+                - name: Wallis And Futuna Islands
+                  isoCode: WF
+                - name: Western Sahara
+                  isoCode: EH
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /geographic/state:
+    get:
+      tags:
+      - Geographic
+      summary: Returns a list of state attributes.
+      description: This endpoint returns a collection of state attributes (returned for US and CA only).
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the state.
+                        stateCode:
+                          type: string
+                          description: The 2-letter code of the state.
+                        countryIsoCode:
+                          type: string
+                          description: The ISO code of the country to which the state belongs.
+              example:
+                state:
+                - name: Alabama
+                  stateCode: AL
+                  countryIsoCode: US
+                - name: Alaska
+                  stateCode: AK
+                  countryIsoCode: US
+                - name: Alberta
+                  stateCode: AB
+                  countryIsoCode: CA
+                - name: Manitoba
+                  stateCode: MB
+                  countryIsoCode: CA
+                - name: Maryland
+                  stateCode: MD
+                  countryIsoCode: US
+                - name: Massachusetts
+                  stateCode: MA
+                  countryIsoCode: US
+                - name: Wyoming
+                  stateCode: WY
+                  countryIsoCode: US
+                - name: Yukon
+                  stateCode: YT
+                  countryIsoCode: CA
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /geographic/metro-area:
+    get:
+      tags:
+      - Geographic
+      summary: Returns a list of metropolitan area attributes.
+      description: This endpoint returns a collection of metropolitan area attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metroArea:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the metropolitan area.
+              example:
+                metroArea:
+                - name: Aba(Ngawa) Tibetan And Qiang Autonomous Prefecture, CN-51
+                - name: Abbotsford / Mission, BC
+                - name: Abilene / Sweetwater, TX
+                - name: Bavaria
+                - name: Bayan Nur City, CN-15
+                - name: Central / Wales and West, ENG
+                - name: Central West, NSW
+                - name: Jung-Gu Incheon
+                - name: Jung-Gu Seoul
+                - name: Jung-Gu Ulsan
+                - name: Portland, ME / Auburn, NH
+                - name: Portland, OR
+                - name: Ziyang, CN-51
+                - name: Zunyi, CN-52
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+components:
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

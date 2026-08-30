@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  title: Reference Demographic API
+  description: The Reference API is used to retrieve reference data that is used throughout Bombora's APIs.
+  version: 1.0.1
+servers:
+- url: https://api.bombora.com/reference/v1
+security:
+- bearerAuth: []
+tags:
+- name: Demographic
+paths:
+  /demographic/functional-area:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of employee functional areas.
+      description: This endpoint returns a collection of functional area attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  functionalAreas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the functional area.
+              example:
+                functionalArea:
+                - name: Building & Grounds Maintenance
+                - name: Compliance, Governance, and Risk
+                - name: Consultants
+                - name: Education
+                - name: Education > Management & Administrators
+                - name: Education > Professors & Teachers
+                - name: Engineering
+                - name: Engineering > Biomedical
+                - name: Marketing
+                - name: Marketing > Advertising
+                - name: Medical/Health
+                - name: Medical/Health > Adolescent Medicine
+                - name: Sales
+                - name: Sales > Support
+                - name: Scientists
+                - name: Service Industry
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/seniority:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of employee seniority attributes.
+      description: This endpoint returns a collection of employee seniority attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  seniority:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the seniority.
+              example:
+                seniority:
+                - name: Board and Ownership
+                - name: Csuite
+                - name: Management
+                - name: Non-management
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/professional-group:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of employee professional group attributes.
+      description: This endpoint returns a collection of employee professional group attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  professionalGroup:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the professional group.
+              example:
+                professionalGroup:
+                - name: Business Professional
+                - name: Business Traveler
+                - name: Finance Professional
+                - name: Fortune 500 Employee
+                - name: Healthcare Professional
+                - name: High Income Professional
+                - name: Human Resources Professional
+                - name: IT Professional
+                - name: Marketing Professional
+                - name: Small Business Professional
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /demographic/b2b-personas:
+    get:
+      tags:
+      - Demographic
+      summary: Returns a list of B2B persona attributes.
+      description: 'This endpoint returns a collection of B2B persona''s which represent demographic attributes and are used to identify employees showing [positive Intent](/docs/intent-api/1/types/Attributes).
+
+        '
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  b2bPersonas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the persona.
+              example:
+                b2bPersonas:
+                - name: Board and Ownership
+                - name: Consultants
+                - name: C-Suite
+                - name: Education
+                - name: Engineering
+                - name: Finance
+                - name: Finance Decision Maker
+                - name: Government
+                - name: HR Decision Maker
+                - name: Human Resources
+                - name: Information Technology
+                - name: IT Decision Maker
+                - name: Legal
+                - name: Management
+                - name: Marketing
+                - name: Marketing Decision Maker
+                - name: Operations
+                - name: Sales
+                - name: Software and Web Development
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+components:
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,250 @@
+openapi: 3.2.0
+info:
+  title: Webhooks Events API
+  description: 'The Webhooks API provides the ability to create webhook destinations for receiving various Bombora event subscriptions.
+
+
+    ### Resource Structure
+
+    The API revolves around the following resources:
+
+
+    * **Destinations:** Represent webhook destinations that can receive event notifications.
+
+    * **Events:** Represent event types that can be subscribed to for each destination.
+
+
+    ### **Security**
+
+    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
+
+    Go to the [Get Started](/get-started) page for additional details.
+
+
+    ### **Error Handling**
+
+    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
+
+    '
+  version: 1.0.1
+servers:
+- url: https://api.bombora.com/webhooks/v1
+security:
+- bearerAuth: []
+tags:
+- name: Events
+paths:
+  /destination/{destinationId}/events:
+    get:
+      tags:
+      - Events
+      description: Returns list of subscribable events, along with a status.
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      responses:
+        '200':
+          description: Success - The destinations were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    description: A list of subscribable events types and their current status.
+                    items:
+                      type: object
+                      properties:
+                        eventType:
+                          type: string
+                          description: Name of the event type.
+                          example:
+                            eventType: SignalDefinitionCreated
+                        enabled:
+                          description: True if event type is enabled, otherwise false.
+                          type: boolean
+                          example:
+                            enabled: true
+              example:
+                events:
+                - eventType: SignalDefinitionCreated
+                  enabled: true
+                - eventType: SignalDefinitionUpdated
+                  enabled: false
+                - eventType: SignalDefinitionDeleted
+                  enabled: false
+                - eventType: AccountListAccountsUpdated
+                  enabled: true
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+      - bearerAuth: []
+  /destination/{destinationId}/event/{eventType}:
+    get:
+      tags:
+      - Events
+      description: Retrieve the configuration and related stats for the specified event type.
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      - $ref: '#/components/parameters/eventType'
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Event'
+                - $ref: '#/components/schemas/stats'
+              examples:
+                Example return for an event that has been subscribed to:
+                  summary: Example return for an event that has been subscribed to.
+                  value:
+                    enabled: true
+                    headers:
+                      X-Message-Type: signal-is-ready
+                    stats:
+                      successful: 94
+                      failed: 4
+                      lastError: 401 Unauthorized
+                      lastErrorAction: Retried
+                      lastErrorTimestamp: '2023-09-05 15:22:04Z'
+                Example an event with no subscriptions enabled:
+                  summary: If event exists, but has never been subscribed to; or, subscription has been deleted, endpoint returns.
+                  value:
+                    enabled: false
+                    headers: {}
+                    stats: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Events
+      description: Replaces the event document for the specified webhook destination.
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      - $ref: '#/components/parameters/eventType'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+            example:
+              enabled: true
+              headers:
+                X-Message-Type: signal-is-ready
+      responses:
+        '200':
+          description: Success - The request has been processed successfully.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Events
+      description: Deletes the event from the subscription list.
+      parameters:
+      - $ref: '#/components/parameters/destinationId'
+      - $ref: '#/components/parameters/eventType'
+      responses:
+        '200':
+          description: The resource no longer exists.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+components:
+  responses:
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    NotFoundError:
+      description: The resource could at this path does not exist.
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    Event:
+      type: object
+      properties:
+        enabled:
+          description: True if event type is enabled; otherwise, false.
+          type: boolean
+        headers:
+          type: object
+          description: Expected headers to receive when event type is triggered.
+          additionalProperties:
+            type: string
+    stats:
+      type: object
+      description: Stats related to the event type subscription.
+      properties:
+        successful:
+          description: Count of successful posts of event to destination.
+          type: integer
+        failed:
+          description: Count of failed posts of event to destination.
+          type: integer
+        lastError:
+          description: Error message for last failed event post.
+          type: string
+        lastErrorAction:
+          description: Action taken upon last failure of event post.
+          type: string
+        lastErrorTimestamp:
+          description: Timestamp of last event post failure.
+          type: string
+  parameters:
+    eventType:
+      name: eventType
+      in: path
+      required: true
+      schema:
+        type: string
+        example:
+          SignalDefinitionCreated: null
+    destinationId:
+      name: destinationId
+      in: path
+      required: true
+      description: An identifier for the destination.
+      schema:
+        type: string
+        format: uuid
+      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

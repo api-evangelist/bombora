@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: Reference Install Data API
+  description: The Reference API is used to retrieve reference data that is used throughout Bombora's APIs.
+  version: 1.0.1
+servers:
+- url: https://api.bombora.com/reference/v1
+security:
+- bearerAuth: []
+tags:
+- name: Install Data
+paths:
+  /install-data/products:
+    get:
+      tags:
+      - Install Data
+      summary: Returns a list of supported Install Data Products.
+      description: Returns a list of supported Products that we have Install Data for. These represent a list of technologies installed by members of an audience.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the product.
+              example:
+                products:
+                - name: Cloud Services > Cloud Infrastructure Computing
+                - name: Cloud Services > Infrastructure as a Service (IaaS)
+                - name: Cloud Services > Platform as a Service (PaaS)
+                - name: Data Center Solutions > System Security Services
+                - name: Enterprise Applications > Business Process Management (BPM)
+                - name: Web-Oriented Architecture > Web Content Management System (WCMS)
+                - name: Web-Oriented Architecture > Web & Portal Technology
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+components:
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

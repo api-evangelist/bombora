@@ -1,0 +1,147 @@
+openapi: 3.2.0
+info:
+  title: Reference Firmographic API
+  description: The Reference API is used to retrieve reference data that is used throughout Bombora's APIs.
+  version: 1.0.1
+servers:
+- url: https://api.bombora.com/reference/v1
+security:
+- bearerAuth: []
+tags:
+- name: Firmographic
+paths:
+  /firmographic/company-size:
+    get:
+      tags:
+      - Firmographic
+      summary: Returns a list of company size attributes.
+      description: This endpoint returns a collection of company size attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  companySize:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A name description of the company size.
+              example:
+                companySize:
+                - name: Large (1,000 - 4,999 Employees)
+                - name: Medium (200 - 499 Employees)
+                - name: Medium-Large (500 - 999 Employees)
+                - name: Medium-Small (50 - 199 Employees)
+                - name: Micro (1 - 9 Employees)
+                - name: Small (10 - 49 Employees)
+                - name: XLarge (5,000 - 10,000 Employees)
+                - name: XXLarge (10,000+ Employees)
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /firmographic/industry:
+    get:
+      tags:
+      - Firmographic
+      summary: Returns a list of industry attributes.
+      description: This endpoint returns a collection of industry attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  industry:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the industry.
+              example:
+                industry:
+                - name: Agriculture
+                - name: Agriculture > Animals & Livestock
+                - name: Finance
+                - name: Finance > Banking
+                - name: Healthcare
+                - name: Manufacturing > Machinery
+                - name: Retail
+                - name: Retail > Apparel & Fashion
+                - name: Software
+                - name: Software > Business Intelligence
+                - name: Wholesalers
+                - name: Wholesalers > Durable Goods
+                - name: Wholesalers > Non-Durable Goods
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+  /firmographic/revenue:
+    get:
+      tags:
+      - Firmographic
+      summary: Returns a list of company revenue attributes.
+      description: This endpoint returns a collection of company revenue attributes.
+      responses:
+        '200':
+          description: Success - The response body includes the requested resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revenue:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: A name description of the company revenue
+              example:
+                revenue:
+                - name: Large ($100MM-$200MM)
+                - name: Medium-Large ($50MM-$100MM)
+                - name: Medium-Small ($10MM-$50MM)
+                - name: Micro (<$1MM)
+                - name: Small ($1MM-$10MM)
+                - name: XLarge ($200MM-$1B)
+                - name: XXLarge ($1B+)
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntityError'
+components:
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

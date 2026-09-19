@@ -265,6 +265,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/authentication-api/1/overview
   baseURL: https://api.bombora.com
   tags:
+  - Destination
+  tags_raw:
   - Destinations
   properties:
   - type: OpenAPI
@@ -539,6 +541,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/intent-api/1/overview
   baseURL: https://api.bombora.com/intent/v1
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
@@ -569,6 +573,8 @@ apis:
   humanURL: https://developer.bombora.com/docs/intent-api/1/overview
   baseURL: https://api.bombora.com/intent/v1
   tags:
+  - Account Lists
+  tags_raw:
   - account lists
   properties:
   - type: OpenAPI

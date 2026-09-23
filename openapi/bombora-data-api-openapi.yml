@@ -1,26 +1,7 @@
 openapi: 3.2.0
 info:
   title: Intent Data API
-  description: 'The Intent API allows signals to be seamlessly defined and managed, while also providing efficient access to actionable intent data.
-
-
-    ### **Security**
-
-    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
-
-    Go to the [Get Started](/get-started) page for additional details.
-
-
-    ### **Error Handling**
-
-    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
-
-
-    ### **Reference Data**
-
-    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.
-
-    '
+  description: The Intent API allows signals to be seamlessly defined and managed, while also providing efficient access to actionable intent data.
   version: '1.0'
 servers:
 - url: https://api.bombora.com/intent/v1
@@ -34,7 +15,28 @@ paths:
       tags:
       - Data
       summary: Retrieve Intent Data
-      description: "Allows paginated intent data to be retrieved.\n* Response body size will not exceed 10MB.\n\nData is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the next page.\nAll results have been returned when nextPageToken is null.\n\nExample URL with query parameters\n```\nhttps://api.bombora.com/intent/v1/data?pageToken={pageToken}&limit=100\n```\n"
+      description: 'Allows paginated intent data to be retrieved.
+
+        * Response body size will not exceed 10MB.
+
+
+        Data is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint.
+
+        The response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.
+
+
+        Each call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the next page.
+
+        All results have been returned when nextPageToken is null.
+
+
+        Example URL with query parameters
+
+        ```
+
+        https://api.bombora.com/intent/v1/data?pageToken={pageToken}&limit=100
+
+        ```'
       parameters:
       - name: pageToken
         in: query
@@ -91,6 +93,8 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: getData
+      x-operation-id-source: derived
     post:
       tags:
       - Data
@@ -99,9 +103,7 @@ paths:
 
         When attributes is empty or unspecified, the domain, score, and scoreLabel attributes are returned by default.
 
-        The request body must contain either a `signalDefinitionId` OR `topics`, but cannot contain both.
-
-        '
+        The request body must contain either a `signalDefinitionId` OR `topics`, but cannot contain both.'
       requestBody:
         content:
           application/json:
@@ -193,21 +195,123 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: postData
+      x-operation-id-source: derived
 components:
-  responses:
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    BadRequestError:
-      description: The request is syntactically invalid.
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
   schemas:
+    In:
+      type: object
+      description: In operator. The data value must appear in this collection of values.
+      required:
+      - a
+      - in
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be in US or CA.
+          value:
+            a: company.hq.country
+            in:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must appear in the specified account list. This is functionally identical to specifying an accountList with the eq operator.
+          value:
+            a: domain
+            in:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    Lt:
+      type: object
+      description: Less Than operator. The data value must be less than this value.
+      required:
+      - a
+      - lt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than 75.
+          value:
+            a: score
+            lt: 75
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
+          type: array
+          description: The collection of values which the attribute is evaluated.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be in US or CA.
+          value:
+            a: company.hq.country
+            nin:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list. This is functionally identical to specifying an accountList with the neq operator.
+          value:
+            a: domain
+            nin:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list.
+          value:
+            a: domain
+            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
     And:
       type: object
       description: And operator, allowing for multiple filters to be joined.
@@ -235,44 +339,6 @@ components:
               gt: 80
             - a: company.hq.country
               eq: US
-    Gte:
-      type: object
-      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
-      required:
-      - a
-      - gte
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than or equal to 65.
-          value: '{ "a": "score", "gte": 65 }
-
-            '
-    Gt:
-      type: object
-      description: Greater Than operator. The data value must be greater than this value.
-      required:
-      - a
-      - gt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gt:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than 65.
-          value:
-            a: score
-            gt: 65
     Attributes:
       type: array
       items:
@@ -330,42 +396,6 @@ components:
           value:
             a: score
             lte: 75
-    Neq:
-      type: object
-      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - neq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        neq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be US.
-          value:
-            a: company.hq.country
-            neq: US
-        Wildcard:
-          summary: This example shows where a domain must not be an .edu domain.
-          value:
-            a: domain
-            neq: '*.edu'
-        Account List:
-          summary: This example shows where a domain must not appear in the specified account list.
-          value:
-            a: domain
-            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
     Eq:
       type: object
       description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
@@ -395,83 +425,25 @@ components:
           value:
             a: domain
             eq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    In:
+    Gte:
       type: object
-      description: In operator. The data value must appear in this collection of values.
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
       required:
       - a
-      - in
+      - gte
       properties:
         a:
           type: string
           description: The attribute that the condition applies to.
-        in:
-          type: array
-          description: The collection of values which the attribute value must match.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must be in US or CA.
-          value:
-            a: company.hq.country
-            in:
-            - US
-            - CA
-        Account List:
-          summary: This example shows where a domain must appear in the specified account list. This is functionally identical to specifying an accountList with the eq operator.
-          value:
-            a: domain
-            in:
-            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    Nin:
-      type: object
-      description: Not-In operator. The data value must not appear in this collection of values.
-      required:
-      - a
-      - nin
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        nin:
-          type: array
-          description: The collection of values which the attribute is evaluated.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be in US or CA.
-          value:
-            a: company.hq.country
-            nin:
-            - US
-            - CA
-        Account List:
-          summary: This example shows where a domain must not appear in the specified account list. This is functionally identical to specifying an accountList with the neq operator.
-          value:
-            a: domain
-            nin:
-            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    Lt:
-      type: object
-      description: Less Than operator. The data value must be less than this value.
-      required:
-      - a
-      - lt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        lt:
+        gte:
           type: string
           description: The value which the attribute is evaluated.
       example:
         Simple:
-          summary: This example shows where the score must be less than 75.
-          value:
-            a: score
-            lt: 75
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
     Or:
       type: object
       description: Or operator, allowing for multiple filters to be joined.
@@ -513,6 +485,38 @@ components:
                 gt: 70
               - a: company.hq.country
                 eq: CA
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
   securitySchemes:
     bearerAuth:
       type: http

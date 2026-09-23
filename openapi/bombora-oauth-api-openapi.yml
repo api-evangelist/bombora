@@ -6,12 +6,19 @@ info:
 servers:
 - url: https://api.bombora.com
 tags:
-- name: Oauth
+- name: OAuth
 paths:
   /oauth/token:
     post:
       summary: OAuth Token
-      description: "By providing valid client credentials (client ID and client secret), this endpoint will return \nan OAuth 2.0 bearer token that can be provided in the Authorization header to make authenticated API calls to Bombora's APIs. \n\nExample Authorization Header:\nAuthorization: Bearer <bearer token>\n"
+      description: 'By providing valid client credentials (client ID and client secret), this endpoint will return
+
+        an OAuth 2.0 bearer token that can be provided in the Authorization header to make authenticated API calls to Bombora''s APIs.
+
+
+        Example Authorization Header:
+
+        Authorization: Bearer'
       requestBody:
         description: Required credentials to generate token
         required: true
@@ -57,4 +64,6 @@ paths:
                   token_type: Bearer
                   expires_in: 86400
       tags:
-      - Oauth
+      - OAuth
+      operationId: postOauthToken
+      x-operation-id-source: derived

@@ -14,7 +14,7 @@ paths:
     get:
       tags:
       - Demographic
-      summary: Returns a list of employee functional areas.
+      summary: Returns a list of employee functional areas
       description: This endpoint returns a collection of functional area attributes.
       responses:
         '200':
@@ -54,11 +54,13 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getDemographicFunctionalArea
+      x-operation-id-source: derived
   /demographic/seniority:
     get:
       tags:
       - Demographic
-      summary: Returns a list of employee seniority attributes.
+      summary: Returns a list of employee seniority attributes
       description: This endpoint returns a collection of employee seniority attributes.
       responses:
         '200':
@@ -86,11 +88,13 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getDemographicSeniority
+      x-operation-id-source: derived
   /demographic/professional-group:
     get:
       tags:
       - Demographic
-      summary: Returns a list of employee professional group attributes.
+      summary: Returns a list of employee professional group attributes
       description: This endpoint returns a collection of employee professional group attributes.
       responses:
         '200':
@@ -124,14 +128,14 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getDemographicProfessionalGroup
+      x-operation-id-source: derived
   /demographic/b2b-personas:
     get:
       tags:
       - Demographic
-      summary: Returns a list of B2B persona attributes.
-      description: 'This endpoint returns a collection of B2B persona''s which represent demographic attributes and are used to identify employees showing [positive Intent](/docs/intent-api/1/types/Attributes).
-
-        '
+      summary: Returns a list of B2B persona attributes
+      description: This endpoint returns a collection of B2B persona's which represent demographic attributes and are used to identify employees showing positive Intent.
       responses:
         '200':
           description: Success - The response body includes the requested resource.
@@ -173,15 +177,9 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getDemographicB2bPersonas
+      x-operation-id-source: derived
 components:
-  schemas:
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
   responses:
     BadRequestError:
       description: The request is syntactically invalid.
@@ -191,6 +189,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorMessageResponse'
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     bearerAuth:
       type: http

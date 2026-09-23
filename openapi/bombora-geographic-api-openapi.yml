@@ -14,7 +14,7 @@ paths:
     get:
       tags:
       - Geographic
-      summary: Returns a list of country attributes.
+      summary: Returns a list of country attributes
       description: This endpoint returns a collection of country attributes.
       responses:
         '200':
@@ -59,11 +59,13 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getGeographicCountry
+      x-operation-id-source: derived
   /geographic/state:
     get:
       tags:
       - Geographic
-      summary: Returns a list of state attributes.
+      summary: Returns a list of state attributes
       description: This endpoint returns a collection of state attributes (returned for US and CA only).
       responses:
         '200':
@@ -117,11 +119,13 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getGeographicState
+      x-operation-id-source: derived
   /geographic/metro-area:
     get:
       tags:
       - Geographic
-      summary: Returns a list of metropolitan area attributes.
+      summary: Returns a list of metropolitan area attributes
       description: This endpoint returns a collection of metropolitan area attributes.
       responses:
         '200':
@@ -159,15 +163,9 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: getGeographicMetroArea
+      x-operation-id-source: derived
 components:
-  schemas:
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
   responses:
     BadRequestError:
       description: The request is syntactically invalid.
@@ -177,6 +175,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorMessageResponse'
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
   securitySchemes:
     bearerAuth:
       type: http

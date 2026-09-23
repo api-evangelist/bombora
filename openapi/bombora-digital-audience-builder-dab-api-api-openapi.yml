@@ -3,26 +3,7 @@ info:
   title: Digital Audience Builder (DAB) API
   description: 'The Digital Audience Builder (DAB) API provides customers
 
-    the ability to programmatically create and edit custom audiences.
-
-
-    ### **Security**
-
-    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
-
-    Go to the [Get Started](/get-started) page for additional details.
-
-
-    ### **Error Handling**
-
-    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
-
-
-    ### **Reference Data**
-
-    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.
-
-    '
+    the ability to programmatically create and edit custom audiences.'
   version: v1
 servers:
 - url: https://api.bombora.com/digital-audiences/v1
@@ -33,7 +14,7 @@ tags:
 paths:
   /{dataexchange}:
     post:
-      summary: Create a digital audience.
+      summary: Create a digital audience
       description: The Create endpoint allows customers to generate a new DAB custom audience.
       parameters:
       - $ref: '#/components/parameters/dataexchange'
@@ -145,9 +126,11 @@ paths:
                 message: One or more validation errors occurred.
       tags:
       - Digital Audience Builder (DAB) API
+      operationId: postByDataexchange
+      x-operation-id-source: derived
   /{dataexchange}/{externalId}/{partnerId}:
     get:
-      summary: Get a digital audience.
+      summary: Get a digital audience
       description: The Get endpoint allows users to retrieve an existing Digital Audience.
       parameters:
       - $ref: '#/components/parameters/dataexchange'
@@ -222,9 +205,16 @@ paths:
           description: Not Found
       tags:
       - Digital Audience Builder (DAB) API
+      operationId: getByDataexchangeByExternalIdByPartnerId
+      x-operation-id-source: derived
     put:
-      summary: Update a digital audience.
-      description: "The Edit endpoint allows customers to modify an existing DAB custom audience. \nThis endpoint is a full overwrite of the existing custom audience settings.\n\n* The Last Modified By column for the Digital Audience will be set as DAB API.\n"
+      summary: Update a digital audience
+      description: 'The Edit endpoint allows customers to modify an existing DAB custom audience.
+
+        This endpoint is a full overwrite of the existing custom audience settings.
+
+
+        * The Last Modified By column for the Digital Audience will be set as DAB API.'
       parameters:
       - $ref: '#/components/parameters/dataexchange'
       - $ref: '#/components/parameters/externalId'
@@ -324,8 +314,10 @@ paths:
                 message: One or more validation errors occurred.
       tags:
       - Digital Audience Builder (DAB) API
+      operationId: putByDataexchangeByExternalIdByPartnerId
+      x-operation-id-source: derived
     delete:
-      summary: Delete a digital audience.
+      summary: Delete a digital audience
       description: The Delete endpoint allows users to delete an existing Digital Audience.
       parameters:
       - $ref: '#/components/parameters/dataexchange'
@@ -338,278 +330,33 @@ paths:
           description: No Content
       tags:
       - Digital Audience Builder (DAB) API
+      operationId: deleteByDataexchangeByExternalIdByPartnerId
+      x-operation-id-source: derived
 components:
   schemas:
-    externalId:
-      type: string
-      description: "Unique identifier to associate with this segment.\n\n* Only letters, numbers, dashes `-`, and underscores `_` are accepted. \n* If MediaMathDirect, must be a numeric value with 7 or more digits.\n"
-    ccm_company_size:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - ccm_company_size
-        values:
-          type: array
-          description: "The following values are allowed.\n\n `Large (1,000 - 4,999 Employees)`,`Medium (200 - 499 Employees)`,`Medium-Large (500 - 999 Employees)`,`Medium-Small (50 - 199 Employees)`,`Micro (1 - 9 Employees)`,`Small (10 - 49 Employees)`,`XLarge (5,000 - 10,000 Employees)`,`XXLarge (10,000+ Employees)`\n"
-          items:
-            type: string
-            enum:
-            - Large (1,000 - 4,999 Employees)
-            - Medium (200 - 499 Employees)
-            - Medium-Large (500 - 999 Employees)
-            - Medium-Small (50 - 199 Employees)
-            - Micro (1 - 9 Employees)
-            - Small (10 - 49 Employees)
-            - XLarge (5,000 - 10,000 Employees)
-            - XXLarge (10,000+ Employees)
-      required:
-      - id
-      - values
-    state:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - state
-        values:
-          type: array
-          description: "The following values are allowed.\n\n `AB`,`Alabama`,`Alaska`,`Arizona`,`Arkansas`,`BC`,`California`,`Colorado`,`Connecticut`,`Delaware`,`District of Columbia`,`Florida`,`Georgia`,`Hawaii`,`Idaho`,`Illinois`,`Indiana`,`Iowa`,`Kansas`,`Kentucky`,`Louisiana`,`MB`,`Maine`,`Maryland`,`Massachusetts`,`Michigan`,`Minnesota`,`Mississippi`,`Missouri`,`Montana`,`NB`,`NL`,`NS`,`NT`,`NU`,`Nebraska`,`Nevada`,`New Hampshire`,`New Jersey`,`New Mexico`,`New York`,`North Carolina`,`North Dakota`,`ON`,`Ohio`,`Oklahoma`,`Oregon`,`PE`,`Pennsylvania`,`QC`,`Rhode Island`,`SK`,`South Carolina`,`South Dakota`,`Tennessee`,`Texas`,`Utah`,`Vermont`,`Virginia`,`Washington`,`West Virginia`,`Wisconsin`,`Wyoming`,`YT`\n"
-          items:
-            type: string
-            enum:
-            - AB
-            - Alabama
-            - Alaska
-            - Arizona
-            - Arkansas
-            - BC
-            - California
-            - Colorado
-            - Connecticut
-            - Delaware
-            - District of Columbia
-            - Florida
-            - Georgia
-            - Hawaii
-            - Idaho
-            - Illinois
-            - Indiana
-            - Iowa
-            - Kansas
-            - Kentucky
-            - Louisiana
-            - MB
-            - Maine
-            - Maryland
-            - Massachusetts
-            - Michigan
-            - Minnesota
-            - Mississippi
-            - Missouri
-            - Montana
-            - NB
-            - NL
-            - NS
-            - NT
-            - NU
-            - Nebraska
-            - Nevada
-            - New Hampshire
-            - New Jersey
-            - New Mexico
-            - New York
-            - North Carolina
-            - North Dakota
-            - true
-            - Ohio
-            - Oklahoma
-            - Oregon
-            - PE
-            - Pennsylvania
-            - QC
-            - Rhode Island
-            - SK
-            - South Carolina
-            - South Dakota
-            - Tennessee
-            - Texas
-            - Utah
-            - Vermont
-            - Virginia
-            - Washington
-            - West Virginia
-            - Wisconsin
-            - Wyoming
-            - YT
-      required:
-      - id
-      - values
-    status:
-      type: string
-      description: Status of the audience
-      enum:
-      - Pending
-      - Active
-      - Suspended
-    intent_category:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - intent_category
-        values:
-          type: array
-          description: "The following values are allowed.\n\n `Accounting`,`Administration`,`Agencies & Branding`,`Application & Software Development`,`Benefits`,`Budgeting, Planning & Strategy`,`Business Analytics & Applications`,`CRM & Marketing Automation`,`Capital Procurement`,`Cloud Computing`,`Compliance & Governance`,`Computers & Laptops`,`Construction Management`,`Content`,`Corporate Finance`,`Creativity Software`,`Data Centers`,`Databases & Storage`,`Demand Generation`,`Disease Control`,`Diversity`,`Email Marketing`,`Emissions`,`Employee Services`,`Finance IT`,`Gadgets & Wearables`,`Graphics, Multimedia & Web design`,`Green Energy`,`Hardware`,`Health Insurance`,`Health Tech`,`IT Administration`,`Legal & Regulatory`,`Materials`,`Medical Research`,`Mobility & Wireless`,`Networking & VOIP`,`Online Advertising`,`Operating Systems`,`Patient Management`,`Payroll & Compensation`,`Performance`,`Personal Finance`,`Personal Protective Equipment`,`Plant Management`,`Policy & Culture`,`Productivity Software`,`Programmatic Advertising`,`Recruitment, Hiring & Onboarding`,`Renewables`,`Sales`,`Search Marketing`,`Security`,`Servers`,`Smartphone & Mobile`,`Social Networks`,`Strategy & Analysis`,`Supply Chain`,`Tablets & Readers`,`Tools & Electronics`,`Trading & Investing`,`Training & Development`,`Virtualization`,`Website Publishing`\n"
-          items:
-            type: string
-            enum:
-            - Accounting
-            - Administration
-            - Agencies & Branding
-            - Application & Software Development
-            - Benefits
-            - Budgeting, Planning & Strategy
-            - Business Analytics & Applications
-            - CRM & Marketing Automation
-            - Capital Procurement
-            - Cloud Computing
-            - Compliance & Governance
-            - Computers & Laptops
-            - Construction Management
-            - Content
-            - Corporate Finance
-            - Creativity Software
-            - Data Centers
-            - Databases & Storage
-            - Demand Generation
-            - Disease Control
-            - Diversity
-            - Email Marketing
-            - Emissions
-            - Employee Services
-            - Finance IT
-            - Gadgets & Wearables
-            - Graphics, Multimedia & Web design
-            - Green Energy
-            - Hardware
-            - Health Insurance
-            - Health Tech
-            - IT Administration
-            - Legal & Regulatory
-            - Materials
-            - Medical Research
-            - Mobility & Wireless
-            - Networking & VOIP
-            - Online Advertising
-            - Operating Systems
-            - Patient Management
-            - Payroll & Compensation
-            - Performance
-            - Personal Finance
-            - Personal Protective Equipment
-            - Plant Management
-            - Policy & Culture
-            - Productivity Software
-            - Programmatic Advertising
-            - Recruitment, Hiring & Onboarding
-            - Renewables
-            - Sales
-            - Search Marketing
-            - Security
-            - Servers
-            - Smartphone & Mobile
-            - Social Networks
-            - Strategy & Analysis
-            - Supply Chain
-            - Tablets & Readers
-            - Tools & Electronics
-            - Trading & Investing
-            - Training & Development
-            - Virtualization
-            - Website Publishing
-      required:
-      - id
-      - values
-    install_data:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - install_data
-        values:
-          type: array
-          description: "The following values are allowed.\n\n `Cloud Services > Cloud Infrastructure Computing`,`Cloud Services > Infrastructure as a Service (IaaS)`,`Cloud Services > Platform as a Service (PaaS)`,`Communications Technologies > Mobile Enterprise Management`,`Communications Technologies > Telephony`,`Customer Relationship Management > Contact Center Management`,`Customer Relationship Management > Customer Relationship Management (CRM)`,`Customer Relationship Management > Help Desk Management`,`Data Center Solutions > Data Archiving Back-Up & Recovery`,`Data Center Solutions > Data Management & Storage (Hardware)`,`Data Center Solutions > Database Management Software`,`Data Center Solutions > Disaster Recovery (DR)`,`Data Center Solutions > IT Infrastructure & Operations Management`,`Data Center Solutions > Security Information and Event Management (SIEM)`,`Data Center Solutions > System Analytics & Monitoring`,`Data Center Solutions > System Security Services`,`Enterprise Applications > Business Process Management (BPM)`,`Enterprise Applications > Commerce`,`Enterprise Applications > Enterprise Business Solutions (EBS)`,`Enterprise Applications > Enterprise Performance Management (EPM)`,`Enterprise Applications > Enterprise Resource Planning (ERP)`,`Enterprise Applications > HR Management Systems (HRMS)/Human Capital Management (HCM)`,`Enterprise Applications > Inventory Management`,`Enterprise Applications > Partner Management`,`Enterprise Applications > Procurement`,`Enterprise Applications > Supplier Relationship Management (SRM)`,`Enterprise Applications > Supply Chain Management (SCM)`,`Enterprise Content > Case Management`,`Enterprise Content > Enterprise Content Management (ECM)`,`Enterprise Content > Information Technology Management`,`Enterprise Content > Product Lifecycle Management (PLM)`,`Hardware (Basic) > Mainframe Computers`,`Hardware (Basic) > Server Technologies (Hardware)`,`IT Governance > Application Development & Management`,`IT Governance > Software Configuration Management (SCM)`,`Marketing Performance Management > Business Intelligence`,`Marketing Performance Management > Marketing Performance Measurement`,`Network Computing > Middleware Software`,`Network Computing > Network Management (Hardware)`,`Network Computing > Network Management (Software)`,`Productivity Solutions > Collaboration`,`Productivity Solutions > Productivity Solutions`,`Software (Basic) > Server Technologies (Software)`,`Vertical Markets > Construction`,`Vertical Markets > Manufacturing/Engineering`,`Web-Oriented Architecture > Hypervisor`,`Web-Oriented Architecture > Remote Computer/Server Solutions`,`Web-Oriented Architecture > Virtualization: Application & Desktop`,`Web-Oriented Architecture > Virtualization: Platform Management`,`Web-Oriented Architecture > Virtualization: Server & Data Center`,`Web-Oriented Architecture > Web & Portal Technology`,`Web-Oriented Architecture > Web Content Management System (WCMS)`\n"
-          items:
-            type: string
-            enum:
-            - Cloud Services > Cloud Infrastructure Computing
-            - Cloud Services > Infrastructure as a Service (IaaS)
-            - Cloud Services > Platform as a Service (PaaS)
-            - Communications Technologies > Mobile Enterprise Management
-            - Communications Technologies > Telephony
-            - Customer Relationship Management > Contact Center Management
-            - Customer Relationship Management > Customer Relationship Management (CRM)
-            - Customer Relationship Management > Help Desk Management
-            - Data Center Solutions > Data Archiving Back-Up & Recovery
-            - Data Center Solutions > Data Management & Storage (Hardware)
-            - Data Center Solutions > Database Management Software
-            - Data Center Solutions > Disaster Recovery (DR)
-            - Data Center Solutions > IT Infrastructure & Operations Management
-            - Data Center Solutions > Security Information and Event Management (SIEM)
-            - Data Center Solutions > System Analytics & Monitoring
-            - Data Center Solutions > System Security Services
-            - Enterprise Applications > Business Process Management (BPM)
-            - Enterprise Applications > Commerce
-            - Enterprise Applications > Enterprise Business Solutions (EBS)
-            - Enterprise Applications > Enterprise Performance Management (EPM)
-            - Enterprise Applications > Enterprise Resource Planning (ERP)
-            - Enterprise Applications > HR Management Systems (HRMS)/Human Capital Management (HCM)
-            - Enterprise Applications > Inventory Management
-            - Enterprise Applications > Partner Management
-            - Enterprise Applications > Procurement
-            - Enterprise Applications > Supplier Relationship Management (SRM)
-            - Enterprise Applications > Supply Chain Management (SCM)
-            - Enterprise Content > Case Management
-            - Enterprise Content > Enterprise Content Management (ECM)
-            - Enterprise Content > Information Technology Management
-            - Enterprise Content > Product Lifecycle Management (PLM)
-            - Hardware (Basic) > Mainframe Computers
-            - Hardware (Basic) > Server Technologies (Hardware)
-            - IT Governance > Application Development & Management
-            - IT Governance > Software Configuration Management (SCM)
-            - Marketing Performance Management > Business Intelligence
-            - Marketing Performance Management > Marketing Performance Measurement
-            - Network Computing > Middleware Software
-            - Network Computing > Network Management (Hardware)
-            - Network Computing > Network Management (Software)
-            - Productivity Solutions > Collaboration
-            - Productivity Solutions > Productivity Solutions
-            - Software (Basic) > Server Technologies (Software)
-            - Vertical Markets > Construction
-            - Vertical Markets > Manufacturing/Engineering
-            - Web-Oriented Architecture > Hypervisor
-            - Web-Oriented Architecture > Remote Computer/Server Solutions
-            - Web-Oriented Architecture > Virtualization: Application & Desktop
-            - Web-Oriented Architecture > Virtualization: Platform Management
-            - Web-Oriented Architecture > Virtualization: Server & Data Center
-            - Web-Oriented Architecture > Web & Portal Technology
-            - Web-Oriented Architecture > Web Content Management System (WCMS)
-      required:
-      - id
-      - values
-    endDate:
-      type: string
-      format: date-time
-      description: "Date when the audience is suspended. \n* Must be no more than 13 months in the future.\n"
-    filterOr:
-      type: boolean
-      default: false
-      description: "Combine filter conditions with OR \n* `\"Show me user profiles in finance or located in Japan\"`\n"
+    filters:
+      type: array
+      description: List of filter objects to filter your audience
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/b2c_interest'
+        - $ref: '#/components/schemas/ccm_company_revenue'
+        - $ref: '#/components/schemas/ccm_company_size'
+        - $ref: '#/components/schemas/ccm_industry'
+        - $ref: '#/components/schemas/ccm_seniority'
+        - $ref: '#/components/schemas/country'
+        - $ref: '#/components/schemas/functional_area'
+        - $ref: '#/components/schemas/install_data'
+        - $ref: '#/components/schemas/intent_category'
+        - $ref: '#/components/schemas/professional_group'
+        - $ref: '#/components/schemas/state'
+        example:
+        - id: ccm_industry
+          values:
+          - Software
+        - id: functional_area
+          values:
+          - Marketing
     ccm_industry:
       type: object
       properties:
@@ -758,216 +505,71 @@ components:
       required:
       - id
       - values
-    cpmPrice:
-      type: string
-      description: "CPM associated with the segment. \n* Must be in $0.25 increments for Xandr.\n"
-    entityParty:
-      type: integer
-      default: 3
-      description: "* Options are `1` (First) or `3` (Third). \n* Select First Party to only include your First Party Audience in the segment.\n"
-    b2c_interest:
+    install_data:
       type: object
       properties:
         id:
           type: string
           enum:
-          - b2c_interest
+          - install_data
         values:
           type: array
-          description: 'The following values are allowed.
-
-
-            `Acura`, `Aston Martin`, `Audi`, `BMW`, `Baseball`, `Basketball`, `Bentley`, `Boats and Watercraft`, `Bugatti`, `Buick`, `Cadillac`, `Camping`,`Chevrolet`, `Chocolate`, `Chrysler`, `Cigars`, `Concerts`, `Cooking`, `Craft and Microbrewed Beer`, `Dining and Restaurants`, `Dodge`, `Fantasy Sports`, `Fashion`, `Ferrari`, `Fiat`, `Fine Spirits and Liqueurs`, `Fishing`, `Football`, `Ford`, `Gardening`, `General Motors (GMC)`, `Golfing`, `Hiking`, `Hockey`, `Home Repair`, `Honda`, `Hunting`, `Hyundai`, `Infiniti`, `Jaguar`, `Jeep`, `Kia`, `Lamborghini`, `Land Rover`, `Lexus`, `Lincoln`, `Live Theater`, `Lotus`, `Maserati`, `Mazda`, `McLaren`, `Mercedes-Benz`, `Motor Vehicles`, `Nissan`, `Opel`, `Organic Foods`, `Parenting`, `Peugeot`, `Photography`, `Porsche`, `Range Rover`, `Renault`, `Rolls Royce`, `Saab`, `Scion`, `Smart Automobile`, `Snow Skiing`, `Soccer`, `Subaru`, `Surfing`, `Tata Motors`, `Tennis`, `Tesla`, `Toyota`, `Travel`, `Video Games`, `Volkswagen`, `Volvo`, `Wine`, `Yoga`
-
-            '
+          description: "The following values are allowed.\n\n `Cloud Services > Cloud Infrastructure Computing`,`Cloud Services > Infrastructure as a Service (IaaS)`,`Cloud Services > Platform as a Service (PaaS)`,`Communications Technologies > Mobile Enterprise Management`,`Communications Technologies > Telephony`,`Customer Relationship Management > Contact Center Management`,`Customer Relationship Management > Customer Relationship Management (CRM)`,`Customer Relationship Management > Help Desk Management`,`Data Center Solutions > Data Archiving Back-Up & Recovery`,`Data Center Solutions > Data Management & Storage (Hardware)`,`Data Center Solutions > Database Management Software`,`Data Center Solutions > Disaster Recovery (DR)`,`Data Center Solutions > IT Infrastructure & Operations Management`,`Data Center Solutions > Security Information and Event Management (SIEM)`,`Data Center Solutions > System Analytics & Monitoring`,`Data Center Solutions > System Security Services`,`Enterprise Applications > Business Process Management (BPM)`,`Enterprise Applications > Commerce`,`Enterprise Applications > Enterprise Business Solutions (EBS)`,`Enterprise Applications > Enterprise Performance Management (EPM)`,`Enterprise Applications > Enterprise Resource Planning (ERP)`,`Enterprise Applications > HR Management Systems (HRMS)/Human Capital Management (HCM)`,`Enterprise Applications > Inventory Management`,`Enterprise Applications > Partner Management`,`Enterprise Applications > Procurement`,`Enterprise Applications > Supplier Relationship Management (SRM)`,`Enterprise Applications > Supply Chain Management (SCM)`,`Enterprise Content > Case Management`,`Enterprise Content > Enterprise Content Management (ECM)`,`Enterprise Content > Information Technology Management`,`Enterprise Content > Product Lifecycle Management (PLM)`,`Hardware (Basic) > Mainframe Computers`,`Hardware (Basic) > Server Technologies (Hardware)`,`IT Governance > Application Development & Management`,`IT Governance > Software Configuration Management (SCM)`,`Marketing Performance Management > Business Intelligence`,`Marketing Performance Management > Marketing Performance Measurement`,`Network Computing > Middleware Software`,`Network Computing > Network Management (Hardware)`,`Network Computing > Network Management (Software)`,`Productivity Solutions > Collaboration`,`Productivity Solutions > Productivity Solutions`,`Software (Basic) > Server Technologies (Software)`,`Vertical Markets > Construction`,`Vertical Markets > Manufacturing/Engineering`,`Web-Oriented Architecture > Hypervisor`,`Web-Oriented Architecture > Remote Computer/Server Solutions`,`Web-Oriented Architecture > Virtualization: Application & Desktop`,`Web-Oriented Architecture > Virtualization: Platform Management`,`Web-Oriented Architecture > Virtualization: Server & Data Center`,`Web-Oriented Architecture > Web & Portal Technology`,`Web-Oriented Architecture > Web Content Management System (WCMS)`\n"
           items:
             type: string
             enum:
-            - Acura
-            - Aston Martin
-            - Audi
-            - BMW
-            - Baseball
-            - Basketball
-            - Bentley
-            - Boats and Watercraft
-            - Bugatti
-            - Buick
-            - Cadillac
-            - Camping
-            - Chevrolet
-            - Chocolate
-            - Chrysler
-            - Cigars
-            - Concerts
-            - Cooking
-            - Craft and Microbrewed Beer
-            - Dining and Restaurants
-            - Dodge
-            - Fantasy Sports
-            - Fashion
-            - Ferrari
-            - Fiat
-            - Fine Spirits and Liqueurs
-            - Fishing
-            - Football
-            - Ford
-            - Gardening
-            - General Motors (GMC)
-            - Golfing
-            - Hiking
-            - Hockey
-            - Home Repair
-            - Honda
-            - Hunting
-            - Hyundai
-            - Infiniti
-            - Jaguar
-            - Jeep
-            - Kia
-            - Lamborghini
-            - Land Rover
-            - Lexus
-            - Lincoln
-            - Live Theater
-            - Lotus
-            - Maserati
-            - Mazda
-            - McLaren
-            - Mercedes-Benz
-            - Motor Vehicles
-            - Nissan
-            - Opel
-            - Organic Foods
-            - Parenting
-            - Peugeot
-            - Photography
-            - Porsche
-            - Range Rover
-            - Renault
-            - Rolls Royce
-            - Saab
-            - Scion
-            - Smart Automobile
-            - Snow Skiing
-            - Soccer
-            - Subaru
-            - Surfing
-            - Tata Motors
-            - Tennis
-            - Tesla
-            - Toyota
-            - Travel
-            - Video Games
-            - Volkswagen
-            - Volvo
-            - Wine
-            - Yoga
-          required:
-          - id
-          - values
-    partnerId:
-      type: string
-      description: "Partner or Member ID. \n\n* Adobe and Xandr (AppNexus) partner IDs must be numeric values. \n* For theTradeDesk partner IDs, only letters, numbers, dashes `-`, and underscores `_` are accepted.\n"
-    filters:
-      type: array
-      description: List of filter objects to filter your audience
-      items:
-        oneOf:
-        - $ref: '#/components/schemas/b2c_interest'
-        - $ref: '#/components/schemas/ccm_company_revenue'
-        - $ref: '#/components/schemas/ccm_company_size'
-        - $ref: '#/components/schemas/ccm_industry'
-        - $ref: '#/components/schemas/ccm_seniority'
-        - $ref: '#/components/schemas/country'
-        - $ref: '#/components/schemas/functional_area'
-        - $ref: '#/components/schemas/install_data'
-        - $ref: '#/components/schemas/intent_category'
-        - $ref: '#/components/schemas/professional_group'
-        - $ref: '#/components/schemas/state'
-        example:
-        - id: ccm_industry
-          values:
-          - Software
-        - id: functional_area
-          values:
-          - Marketing
-    topics:
-      type: array
-      description: List of [topic IDs](/docs/reference-api/1/routes/topics/get) of your audience's interest
-      items:
-        type: string
-    DataExchanges:
-      type: string
-      description: '
-
-        Available data exchanges.
-
-
-        * `adobe` - Adobe
-
-        * `appnexus` - Xandr (AppNexus)
-
-        * `blue_kai` - BlueKai
-
-        * `eyeota` - Eyeota
-
-        * `liveramp` - LiveRamp
-
-        * `lotame` - Lotame
-
-        * `measure` - Test Only
-
-        * `media_math_direct` - MediaMathDirect
-
-        * `taboola_direct` - Taboola
-
-        * `trade_desk_direct` - theTradeDesk
-
-        * `rtvi` - Visitor Insights w/ Real Time Capabilities
-
-        '
-      enum:
-      - adobe
-      - appnexus
-      - blue_kai
-      - eyeota
-      - liveramp
-      - lotame
-      - measure
-      - media_math_direct
-      - taboola_direct
-      - trade_desk_direct
-      - rtvi
-    surgeId:
-      type: string
-      description: "ID of Company Surge &reg; Report to link \n* If provided it will disregard supplied domains.\n"
-    granularInstallData:
-      type: array
-      description: List of granular install products for your audience
-      items:
-        type: string
-    ccm_seniority:
-      type: object
-      properties:
-        id:
-          type: string
-          enum:
-          - ccm_seniority
-        values:
-          type: array
-          description: 'The following values are allowed.
-
-
-            `Board and Ownership`,`Csuite`,`Management`,`Non-management`
-
-            '
-          items:
-            type: string
-            enum:
-            - Board and Ownership
-            - Csuite
-            - Management
+            - Cloud Services > Cloud Infrastructure Computing
+            - Cloud Services > Infrastructure as a Service (IaaS)
+            - Cloud Services > Platform as a Service (PaaS)
+            - Communications Technologies > Mobile Enterprise Management
+            - Communications Technologies > Telephony
+            - Customer Relationship Management > Contact Center Management
+            - Customer Relationship Management > Customer Relationship Management (CRM)
+            - Customer Relationship Management > Help Desk Management
+            - Data Center Solutions > Data Archiving Back-Up & Recovery
+            - Data Center Solutions > Data Management & Storage (Hardware)
+            - Data Center Solutions > Database Management Software
+            - Data Center Solutions > Disaster Recovery (DR)
+            - Data Center Solutions > IT Infrastructure & Operations Management
+            - Data Center Solutions > Security Information and Event Management (SIEM)
+            - Data Center Solutions > System Analytics & Monitoring
+            - Data Center Solutions > System Security Services
+            - Enterprise Applications > Business Process Management (BPM)
+            - Enterprise Applications > Commerce
+            - Enterprise Applications > Enterprise Business Solutions (EBS)
+            - Enterprise Applications > Enterprise Performance Management (EPM)
+            - Enterprise Applications > Enterprise Resource Planning (ERP)
+            - Enterprise Applications > HR Management Systems (HRMS)/Human Capital Management (HCM)
+            - Enterprise Applications > Inventory Management
+            - Enterprise Applications > Partner Management
+            - Enterprise Applications > Procurement
+            - Enterprise Applications > Supplier Relationship Management (SRM)
+            - Enterprise Applications > Supply Chain Management (SCM)
+            - Enterprise Content > Case Management
+            - Enterprise Content > Enterprise Content Management (ECM)
+            - Enterprise Content > Information Technology Management
+            - Enterprise Content > Product Lifecycle Management (PLM)
+            - Hardware (Basic) > Mainframe Computers
+            - Hardware (Basic) > Server Technologies (Hardware)
+            - IT Governance > Application Development & Management
+            - IT Governance > Software Configuration Management (SCM)
+            - Marketing Performance Management > Business Intelligence
+            - Marketing Performance Management > Marketing Performance Measurement
+            - Network Computing > Middleware Software
+            - Network Computing > Network Management (Hardware)
+            - Network Computing > Network Management (Software)
+            - Productivity Solutions > Collaboration
+            - Productivity Solutions > Productivity Solutions
+            - Software (Basic) > Server Technologies (Software)
+            - Vertical Markets > Construction
+            - Vertical Markets > Manufacturing/Engineering
+            - Web-Oriented Architecture > Hypervisor
+            - Web-Oriented Architecture > Remote Computer/Server Solutions
+            - Web-Oriented Architecture > Virtualization: Application & Desktop
+            - Web-Oriented Architecture > Virtualization: Platform Management
+            - Web-Oriented Architecture > Virtualization: Server & Data Center
+            - Web-Oriented Architecture > Web & Portal Technology
+            - Web-Oriented Architecture > Web Content Management System (WCMS)
       required:
       - id
       - values
@@ -997,6 +599,101 @@ components:
       required:
       - id
       - values
+    state:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - state
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `AB`,`Alabama`,`Alaska`,`Arizona`,`Arkansas`,`BC`,`California`,`Colorado`,`Connecticut`,`Delaware`,`District of Columbia`,`Florida`,`Georgia`,`Hawaii`,`Idaho`,`Illinois`,`Indiana`,`Iowa`,`Kansas`,`Kentucky`,`Louisiana`,`MB`,`Maine`,`Maryland`,`Massachusetts`,`Michigan`,`Minnesota`,`Mississippi`,`Missouri`,`Montana`,`NB`,`NL`,`NS`,`NT`,`NU`,`Nebraska`,`Nevada`,`New Hampshire`,`New Jersey`,`New Mexico`,`New York`,`North Carolina`,`North Dakota`,`ON`,`Ohio`,`Oklahoma`,`Oregon`,`PE`,`Pennsylvania`,`QC`,`Rhode Island`,`SK`,`South Carolina`,`South Dakota`,`Tennessee`,`Texas`,`Utah`,`Vermont`,`Virginia`,`Washington`,`West Virginia`,`Wisconsin`,`Wyoming`,`YT`\n"
+          items:
+            type: string
+            enum:
+            - AB
+            - Alabama
+            - Alaska
+            - Arizona
+            - Arkansas
+            - BC
+            - California
+            - Colorado
+            - Connecticut
+            - Delaware
+            - District of Columbia
+            - Florida
+            - Georgia
+            - Hawaii
+            - Idaho
+            - Illinois
+            - Indiana
+            - Iowa
+            - Kansas
+            - Kentucky
+            - Louisiana
+            - MB
+            - Maine
+            - Maryland
+            - Massachusetts
+            - Michigan
+            - Minnesota
+            - Mississippi
+            - Missouri
+            - Montana
+            - NB
+            - NL
+            - NS
+            - NT
+            - NU
+            - Nebraska
+            - Nevada
+            - New Hampshire
+            - New Jersey
+            - New Mexico
+            - New York
+            - North Carolina
+            - North Dakota
+            - true
+            - Ohio
+            - Oklahoma
+            - Oregon
+            - PE
+            - Pennsylvania
+            - QC
+            - Rhode Island
+            - SK
+            - South Carolina
+            - South Dakota
+            - Tennessee
+            - Texas
+            - Utah
+            - Vermont
+            - Virginia
+            - Washington
+            - West Virginia
+            - Wisconsin
+            - Wyoming
+            - YT
+      required:
+      - id
+      - values
+    name:
+      type: string
+      description: Name of custom audience
+    externalId:
+      type: string
+      description: "Unique identifier to associate with this segment.\n\n* Only letters, numbers, dashes `-`, and underscores `_` are accepted. \n* If MediaMathDirect, must be a numeric value with 7 or more digits.\n"
+    topics:
+      type: array
+      description: List of [topic IDs](/docs/reference-api/1/routes/topics/get) of your audience's interest
+      items:
+        type: string
+    endDate:
+      type: string
+      format: date-time
+      description: "Date when the audience is suspended. \n* Must be no more than 13 months in the future.\n"
     country:
       type: object
       properties:
@@ -1412,22 +1109,312 @@ components:
       required:
       - id
       - values
-    name:
-      type: string
-      description: Name of custom audience
+    ccm_seniority:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - ccm_seniority
+        values:
+          type: array
+          description: 'The following values are allowed.
+
+
+            `Board and Ownership`,`Csuite`,`Management`,`Non-management`
+
+            '
+          items:
+            type: string
+            enum:
+            - Board and Ownership
+            - Csuite
+            - Management
+      required:
+      - id
+      - values
+    entityParty:
+      type: integer
+      default: 3
+      description: "* Options are `1` (First) or `3` (Third). \n* Select First Party to only include your First Party Audience in the segment.\n"
+    b2c_interest:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - b2c_interest
+        values:
+          type: array
+          description: 'The following values are allowed.
+
+
+            `Acura`, `Aston Martin`, `Audi`, `BMW`, `Baseball`, `Basketball`, `Bentley`, `Boats and Watercraft`, `Bugatti`, `Buick`, `Cadillac`, `Camping`,`Chevrolet`, `Chocolate`, `Chrysler`, `Cigars`, `Concerts`, `Cooking`, `Craft and Microbrewed Beer`, `Dining and Restaurants`, `Dodge`, `Fantasy Sports`, `Fashion`, `Ferrari`, `Fiat`, `Fine Spirits and Liqueurs`, `Fishing`, `Football`, `Ford`, `Gardening`, `General Motors (GMC)`, `Golfing`, `Hiking`, `Hockey`, `Home Repair`, `Honda`, `Hunting`, `Hyundai`, `Infiniti`, `Jaguar`, `Jeep`, `Kia`, `Lamborghini`, `Land Rover`, `Lexus`, `Lincoln`, `Live Theater`, `Lotus`, `Maserati`, `Mazda`, `McLaren`, `Mercedes-Benz`, `Motor Vehicles`, `Nissan`, `Opel`, `Organic Foods`, `Parenting`, `Peugeot`, `Photography`, `Porsche`, `Range Rover`, `Renault`, `Rolls Royce`, `Saab`, `Scion`, `Smart Automobile`, `Snow Skiing`, `Soccer`, `Subaru`, `Surfing`, `Tata Motors`, `Tennis`, `Tesla`, `Toyota`, `Travel`, `Video Games`, `Volkswagen`, `Volvo`, `Wine`, `Yoga`
+
+            '
+          items:
+            type: string
+            enum:
+            - Acura
+            - Aston Martin
+            - Audi
+            - BMW
+            - Baseball
+            - Basketball
+            - Bentley
+            - Boats and Watercraft
+            - Bugatti
+            - Buick
+            - Cadillac
+            - Camping
+            - Chevrolet
+            - Chocolate
+            - Chrysler
+            - Cigars
+            - Concerts
+            - Cooking
+            - Craft and Microbrewed Beer
+            - Dining and Restaurants
+            - Dodge
+            - Fantasy Sports
+            - Fashion
+            - Ferrari
+            - Fiat
+            - Fine Spirits and Liqueurs
+            - Fishing
+            - Football
+            - Ford
+            - Gardening
+            - General Motors (GMC)
+            - Golfing
+            - Hiking
+            - Hockey
+            - Home Repair
+            - Honda
+            - Hunting
+            - Hyundai
+            - Infiniti
+            - Jaguar
+            - Jeep
+            - Kia
+            - Lamborghini
+            - Land Rover
+            - Lexus
+            - Lincoln
+            - Live Theater
+            - Lotus
+            - Maserati
+            - Mazda
+            - McLaren
+            - Mercedes-Benz
+            - Motor Vehicles
+            - Nissan
+            - Opel
+            - Organic Foods
+            - Parenting
+            - Peugeot
+            - Photography
+            - Porsche
+            - Range Rover
+            - Renault
+            - Rolls Royce
+            - Saab
+            - Scion
+            - Smart Automobile
+            - Snow Skiing
+            - Soccer
+            - Subaru
+            - Surfing
+            - Tata Motors
+            - Tennis
+            - Tesla
+            - Toyota
+            - Travel
+            - Video Games
+            - Volkswagen
+            - Volvo
+            - Wine
+            - Yoga
+          required:
+          - id
+          - values
     domains:
       type: array
       description: List of domains of your audience
       items:
         type: string
-  parameters:
-    externalId:
-      name: externalId
-      in: path
-      required: true
-      description: The external ID of the digital audience.
-      schema:
+    status:
+      type: string
+      description: Status of the audience
+      enum:
+      - Pending
+      - Active
+      - Suspended
+    granularInstallData:
+      type: array
+      description: List of granular install products for your audience
+      items:
         type: string
+    filterOr:
+      type: boolean
+      default: false
+      description: "Combine filter conditions with OR \n* `\"Show me user profiles in finance or located in Japan\"`\n"
+    surgeId:
+      type: string
+      description: "ID of Company Surge &reg; Report to link \n* If provided it will disregard supplied domains.\n"
+    intent_category:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - intent_category
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Accounting`,`Administration`,`Agencies & Branding`,`Application & Software Development`,`Benefits`,`Budgeting, Planning & Strategy`,`Business Analytics & Applications`,`CRM & Marketing Automation`,`Capital Procurement`,`Cloud Computing`,`Compliance & Governance`,`Computers & Laptops`,`Construction Management`,`Content`,`Corporate Finance`,`Creativity Software`,`Data Centers`,`Databases & Storage`,`Demand Generation`,`Disease Control`,`Diversity`,`Email Marketing`,`Emissions`,`Employee Services`,`Finance IT`,`Gadgets & Wearables`,`Graphics, Multimedia & Web design`,`Green Energy`,`Hardware`,`Health Insurance`,`Health Tech`,`IT Administration`,`Legal & Regulatory`,`Materials`,`Medical Research`,`Mobility & Wireless`,`Networking & VOIP`,`Online Advertising`,`Operating Systems`,`Patient Management`,`Payroll & Compensation`,`Performance`,`Personal Finance`,`Personal Protective Equipment`,`Plant Management`,`Policy & Culture`,`Productivity Software`,`Programmatic Advertising`,`Recruitment, Hiring & Onboarding`,`Renewables`,`Sales`,`Search Marketing`,`Security`,`Servers`,`Smartphone & Mobile`,`Social Networks`,`Strategy & Analysis`,`Supply Chain`,`Tablets & Readers`,`Tools & Electronics`,`Trading & Investing`,`Training & Development`,`Virtualization`,`Website Publishing`\n"
+          items:
+            type: string
+            enum:
+            - Accounting
+            - Administration
+            - Agencies & Branding
+            - Application & Software Development
+            - Benefits
+            - Budgeting, Planning & Strategy
+            - Business Analytics & Applications
+            - CRM & Marketing Automation
+            - Capital Procurement
+            - Cloud Computing
+            - Compliance & Governance
+            - Computers & Laptops
+            - Construction Management
+            - Content
+            - Corporate Finance
+            - Creativity Software
+            - Data Centers
+            - Databases & Storage
+            - Demand Generation
+            - Disease Control
+            - Diversity
+            - Email Marketing
+            - Emissions
+            - Employee Services
+            - Finance IT
+            - Gadgets & Wearables
+            - Graphics, Multimedia & Web design
+            - Green Energy
+            - Hardware
+            - Health Insurance
+            - Health Tech
+            - IT Administration
+            - Legal & Regulatory
+            - Materials
+            - Medical Research
+            - Mobility & Wireless
+            - Networking & VOIP
+            - Online Advertising
+            - Operating Systems
+            - Patient Management
+            - Payroll & Compensation
+            - Performance
+            - Personal Finance
+            - Personal Protective Equipment
+            - Plant Management
+            - Policy & Culture
+            - Productivity Software
+            - Programmatic Advertising
+            - Recruitment, Hiring & Onboarding
+            - Renewables
+            - Sales
+            - Search Marketing
+            - Security
+            - Servers
+            - Smartphone & Mobile
+            - Social Networks
+            - Strategy & Analysis
+            - Supply Chain
+            - Tablets & Readers
+            - Tools & Electronics
+            - Trading & Investing
+            - Training & Development
+            - Virtualization
+            - Website Publishing
+      required:
+      - id
+      - values
+    cpmPrice:
+      type: string
+      description: "CPM associated with the segment. \n* Must be in $0.25 increments for Xandr.\n"
+    DataExchanges:
+      type: string
+      description: '
+
+        Available data exchanges.
+
+
+        * `adobe` - Adobe
+
+        * `appnexus` - Xandr (AppNexus)
+
+        * `blue_kai` - BlueKai
+
+        * `eyeota` - Eyeota
+
+        * `liveramp` - LiveRamp
+
+        * `lotame` - Lotame
+
+        * `measure` - Test Only
+
+        * `media_math_direct` - MediaMathDirect
+
+        * `taboola_direct` - Taboola
+
+        * `trade_desk_direct` - theTradeDesk
+
+        * `rtvi` - Visitor Insights w/ Real Time Capabilities
+
+        '
+      enum:
+      - adobe
+      - appnexus
+      - blue_kai
+      - eyeota
+      - liveramp
+      - lotame
+      - measure
+      - media_math_direct
+      - taboola_direct
+      - trade_desk_direct
+      - rtvi
+    ccm_company_size:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+          - ccm_company_size
+        values:
+          type: array
+          description: "The following values are allowed.\n\n `Large (1,000 - 4,999 Employees)`,`Medium (200 - 499 Employees)`,`Medium-Large (500 - 999 Employees)`,`Medium-Small (50 - 199 Employees)`,`Micro (1 - 9 Employees)`,`Small (10 - 49 Employees)`,`XLarge (5,000 - 10,000 Employees)`,`XXLarge (10,000+ Employees)`\n"
+          items:
+            type: string
+            enum:
+            - Large (1,000 - 4,999 Employees)
+            - Medium (200 - 499 Employees)
+            - Medium-Large (500 - 999 Employees)
+            - Medium-Small (50 - 199 Employees)
+            - Micro (1 - 9 Employees)
+            - Small (10 - 49 Employees)
+            - XLarge (5,000 - 10,000 Employees)
+            - XXLarge (10,000+ Employees)
+      required:
+      - id
+      - values
+    partnerId:
+      type: string
+      description: "Partner or Member ID. \n\n* Adobe and Xandr (AppNexus) partner IDs must be numeric values. \n* For theTradeDesk partner IDs, only letters, numbers, dashes `-`, and underscores `_` are accepted.\n"
+  parameters:
     dataexchange:
       name: dataexchange
       in: path
@@ -1435,6 +1422,13 @@ components:
       description: Data exchange which owns the digital audience.
       schema:
         $ref: '#/components/schemas/DataExchanges'
+    externalId:
+      name: externalId
+      in: path
+      required: true
+      description: The external ID of the digital audience.
+      schema:
+        type: string
     partnerId:
       name: partnerId
       in: path

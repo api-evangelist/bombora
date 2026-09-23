@@ -1,26 +1,7 @@
 openapi: 3.2.0
 info:
   title: Intent Signal Definition API
-  description: 'The Intent API allows signals to be seamlessly defined and managed, while also providing efficient access to actionable intent data.
-
-
-    ### **Security**
-
-    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
-
-    Go to the [Get Started](/get-started) page for additional details.
-
-
-    ### **Error Handling**
-
-    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
-
-
-    ### **Reference Data**
-
-    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.
-
-    '
+  description: The Intent API allows signals to be seamlessly defined and managed, while also providing efficient access to actionable intent data.
   version: '1.0'
 servers:
 - url: https://api.bombora.com/intent/v1
@@ -70,6 +51,8 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: getSignalDefinitionBySignalDefinitionId
+      x-operation-id-source: derived
     put:
       tags:
       - SignalDefinition
@@ -125,6 +108,8 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: putSignalDefinitionBySignalDefinitionId
+      x-operation-id-source: derived
     delete:
       tags:
       - SignalDefinition
@@ -145,6 +130,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
       security:
       - bearerAuth: []
+      operationId: deleteSignalDefinitionBySignalDefinitionId
+      x-operation-id-source: derived
   /signal-definition:
     post:
       tags:
@@ -194,6 +181,8 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: postSignalDefinition
+      x-operation-id-source: derived
   /signal-definitions:
     get:
       tags:
@@ -261,11 +250,13 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
       security:
       - bearerAuth: []
+      operationId: getSignalDefinitions
+      x-operation-id-source: derived
   /signal-definition/{signalDefinitionId}/metadata:
     get:
       tags:
       - SignalDefinition
-      summary: Gets the metadata of a signal definition.
+      summary: Gets the metadata of a signal definition
       parameters:
       - $ref: '#/components/parameters/signalDefinitionId'
       responses:
@@ -283,10 +274,12 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
       security:
       - bearerAuth: []
+      operationId: getSignalDefinitionBySignalDefinitionIdMetadata
+      x-operation-id-source: derived
     put:
       tags:
       - SignalDefinition
-      summary: Updates the metadata of a signal definition.
+      summary: Updates the metadata of a signal definition
       parameters:
       - $ref: '#/components/parameters/signalDefinitionId'
       requestBody:
@@ -310,6 +303,8 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '422':
           $ref: '#/components/responses/UnprocessableEntityError'
+      operationId: putSignalDefinitionBySignalDefinitionIdMetadata
+      x-operation-id-source: derived
   /signal-definition/{signalDefinitionId}/product-definition:
     get:
       tags:
@@ -342,11 +337,20 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: getSignalDefinitionBySignalDefinitionIdProductDefinition
+      x-operation-id-source: derived
     put:
       tags:
       - SignalDefinition
       summary: Updates the product definition for a signal
-      description: "Replaces the product definition inputs for a signal definition.  \nOnce updated, the signal definition will enter the “Processing” state. \n\n* **Updates to product definition inputs will cause a signal definition’s “topics” collection to be \noverwritten before returning to the “Available” state.**\n"
+      description: 'Replaces the product definition inputs for a signal definition.
+
+        Once updated, the signal definition will enter the “Processing” state.
+
+
+        * **Updates to product definition inputs will cause a signal definition’s “topics” collection to be
+
+        overwritten before returning to the “Available” state.**'
       parameters:
       - $ref: '#/components/parameters/signalDefinitionId'
       requestBody:
@@ -376,44 +380,17 @@ paths:
           $ref: '#/components/responses/ConflictError'
       security:
       - bearerAuth: []
+      operationId: putSignalDefinitionBySignalDefinitionIdProductDefinition
+      x-operation-id-source: derived
 components:
   schemas:
-    SignalDefinition:
+    ErrorMessageResponse:
       type: object
       properties:
-        topics:
-          description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that inform the signal
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                format: int32
-                description: Topic identifier
-              name:
-                type:
-                - string
-                - 'null'
-                description: Topic name
-              weighting:
-                type: number
-                format: float
-                description: Weighting of the topic in the signal
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-      example:
-        metadata:
-          name: Signal For Product X
-          description: Signal created by Joe for the Product X sales team
-          clientId: 9844a971-1cdc-4f2d-a145-87491392649f
-        topics:
-        - id: 12345
-          name: Wireless Communication
-          weighting: 0.9
-        - id: 23456
-          name: Electric Vehicles (EV)
-          weighting: 0.9
+        message:
+          type:
+          - string
+          - 'null'
     ProductDefinition:
       description: 'The product definition can contain any of the following information to enable an AI-created Signal Definition.
 
@@ -457,13 +434,42 @@ components:
         urls:
         - https://www.example.com/productUrl
         - https://www.example.com/resources/productTraining.html
-    ErrorMessageResponse:
+    SignalDefinition:
       type: object
       properties:
-        message:
-          type:
-          - string
-          - 'null'
+        topics:
+          description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that inform the signal
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int32
+                description: Topic identifier
+              name:
+                type:
+                - string
+                - 'null'
+                description: Topic name
+              weighting:
+                type: number
+                format: float
+                description: Weighting of the topic in the signal
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+      example:
+        metadata:
+          name: Signal For Product X
+          description: Signal created by Joe for the Product X sales team
+          clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+        topics:
+        - id: 12345
+          name: Wireless Communication
+          weighting: 0.9
+        - id: 23456
+          name: Electric Vehicles (EV)
+          weighting: 0.9
     Metadata:
       type: object
       properties:
@@ -493,24 +499,24 @@ components:
         description: Definition created by Joe for the sales team.
         clientId: 9844a971-1cdc-4f2d-a145-87491392649f
   responses:
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    BadRequestError:
-      description: The request is syntactically invalid.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
     ConflictError:
       description: Resource could not be retrieved due to a conflict with the current state of the resource.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorMessageResponse'
+    BadRequestError:
+      description: The request is syntactically invalid.
     ForbiddenError:
       description: The access token does not have permission to access this API.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
   parameters:
     signalDefinitionId:
       name: signalDefinitionId

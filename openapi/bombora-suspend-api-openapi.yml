@@ -3,26 +3,7 @@ info:
   title: Digital Audience Builder (DAB) Suspend API
   description: 'The Digital Audience Builder (DAB) API provides customers
 
-    the ability to programmatically create and edit custom audiences.
-
-
-    ### **Security**
-
-    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
-
-    Go to the [Get Started](/get-started) page for additional details.
-
-
-    ### **Error Handling**
-
-    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
-
-
-    ### **Reference Data**
-
-    The API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.
-
-    '
+    the ability to programmatically create and edit custom audiences.'
   version: v1
 servers:
 - url: https://api.bombora.com/digital-audiences/v1
@@ -33,12 +14,10 @@ tags:
 paths:
   /{dataexchange}/{externalId}/{partnerId}/suspend:
     put:
-      summary: Suspend a digital audience.
+      summary: Suspend a digital audience
       description: 'The Suspend endpoint allows users to suspend an existing Digital Audience.
 
-        * The Last Modified By column for the Digital Audience will be set as DAB API.
-
-        '
+        * The Last Modified By column for the Digital Audience will be set as DAB API.'
       parameters:
       - $ref: '#/components/parameters/dataexchange'
       - $ref: '#/components/parameters/externalId'
@@ -54,6 +33,8 @@ paths:
           description: Not Found - Segment does not exist
       tags:
       - Suspend
+      operationId: putByDataexchangeByExternalIdByPartnerIdSuspend
+      x-operation-id-source: derived
 components:
   schemas:
     DataExchanges:
@@ -99,20 +80,6 @@ components:
       - trade_desk_direct
       - rtvi
   parameters:
-    dataexchange:
-      name: dataexchange
-      in: path
-      required: true
-      description: Data exchange which owns the digital audience.
-      schema:
-        $ref: '#/components/schemas/DataExchanges'
-    partnerId:
-      name: partnerId
-      in: path
-      required: false
-      description: "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
-      schema:
-        type: string
     externalId:
       name: externalId
       in: path
@@ -120,6 +87,20 @@ components:
       description: The external ID of the digital audience.
       schema:
         type: string
+    partnerId:
+      name: partnerId
+      in: path
+      required: false
+      description: "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+      schema:
+        type: string
+    dataexchange:
+      name: dataexchange
+      in: path
+      required: true
+      description: Data exchange which owns the digital audience.
+      schema:
+        $ref: '#/components/schemas/DataExchanges'
   securitySchemes:
     bearerAuth:
       type: http

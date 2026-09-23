@@ -1,31 +1,7 @@
 openapi: 3.2.0
 info:
   title: Webhooks Events API
-  description: 'The Webhooks API provides the ability to create webhook destinations for receiving various Bombora event subscriptions.
-
-
-    ### Resource Structure
-
-    The API revolves around the following resources:
-
-
-    * **Destinations:** Represent webhook destinations that can receive event notifications.
-
-    * **Events:** Represent event types that can be subscribed to for each destination.
-
-
-    ### **Security**
-
-    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
-
-    Go to the [Get Started](/get-started) page for additional details.
-
-
-    ### **Error Handling**
-
-    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
-
-    '
+  description: The Webhooks API provides the ability to create webhook destinations for receiving various Bombora event subscriptions.
   version: 1.0.1
 servers:
 - url: https://api.bombora.com/webhooks/v1
@@ -83,6 +59,10 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
       - bearerAuth: []
+      summary: Get destination by destination id events
+      x-summary-source: derived
+      operationId: getDestinationByDestinationIdEvents
+      x-operation-id-source: derived
   /destination/{destinationId}/event/{eventType}:
     get:
       tags:
@@ -127,6 +107,10 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
       - bearerAuth: []
+      summary: Get destination by destination id event by event type
+      x-summary-source: derived
+      operationId: getDestinationByDestinationIdEventByEventType
+      x-operation-id-source: derived
     put:
       tags:
       - Events
@@ -157,6 +141,10 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      summary: Replace destination by destination id event by event type
+      x-summary-source: derived
+      operationId: putDestinationByDestinationIdEventByEventType
+      x-operation-id-source: derived
     delete:
       tags:
       - Events
@@ -173,20 +161,11 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
+      summary: Delete destination by destination id event by event type
+      x-summary-source: derived
+      operationId: deleteDestinationByDestinationIdEventByEventType
+      x-operation-id-source: derived
 components:
-  responses:
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    NotFoundError:
-      description: The resource could at this path does not exist.
   schemas:
     ErrorMessageResponse:
       type: object
@@ -195,17 +174,6 @@ components:
           type:
           - string
           - 'null'
-    Event:
-      type: object
-      properties:
-        enabled:
-          description: True if event type is enabled; otherwise, false.
-          type: boolean
-        headers:
-          type: object
-          description: Expected headers to receive when event type is triggered.
-          additionalProperties:
-            type: string
     stats:
       type: object
       description: Stats related to the event type subscription.
@@ -225,6 +193,17 @@ components:
         lastErrorTimestamp:
           description: Timestamp of last event post failure.
           type: string
+    Event:
+      type: object
+      properties:
+        enabled:
+          description: True if event type is enabled; otherwise, false.
+          type: boolean
+        headers:
+          type: object
+          description: Expected headers to receive when event type is triggered.
+          additionalProperties:
+            type: string
   parameters:
     eventType:
       name: eventType
@@ -243,6 +222,19 @@ components:
         type: string
         format: uuid
       example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+  responses:
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    NotFoundError:
+      description: The resource could at this path does not exist.
   securitySchemes:
     bearerAuth:
       type: http

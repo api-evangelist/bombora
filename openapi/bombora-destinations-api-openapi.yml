@@ -1,31 +1,7 @@
 openapi: 3.2.0
 info:
   title: Webhooks Destinations API
-  description: 'The Webhooks API provides the ability to create webhook destinations for receiving various Bombora event subscriptions.
-
-
-    ### Resource Structure
-
-    The API revolves around the following resources:
-
-
-    * **Destinations:** Represent webhook destinations that can receive event notifications.
-
-    * **Events:** Represent event types that can be subscribed to for each destination.
-
-
-    ### **Security**
-
-    All API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.
-
-    Go to the [Get Started](/get-started) page for additional details.
-
-
-    ### **Error Handling**
-
-    The API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.
-
-    '
+  description: The Webhooks API provides the ability to create webhook destinations for receiving various Bombora event subscriptions.
   version: 1.0.1
 servers:
 - url: https://api.bombora.com/webhooks/v1
@@ -62,6 +38,10 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
       security:
       - bearerAuth: []
+      summary: Get destinations
+      x-summary-source: derived
+      operationId: getDestinations
+      x-operation-id-source: derived
   /destination:
     post:
       tags:
@@ -104,6 +84,10 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      summary: Create destination
+      x-summary-source: derived
+      operationId: postDestination
+      x-operation-id-source: derived
   /destination/{destinationId}:
     get:
       tags:
@@ -131,14 +115,16 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
       security:
       - bearerAuth: []
+      summary: Get destination by destination id
+      x-summary-source: derived
+      operationId: getDestinationByDestinationId
+      x-operation-id-source: derived
     put:
       tags:
       - Destinations
       description: 'Replaces the destination document (excluding “auth” object).
 
-        * To update the "auth" use the PUT ```/destination/{destinationId}/auth``` endpoint.
-
-        '
+        * To update the "auth" use the PUT ```/destination/{destinationId}/auth``` endpoint.'
       parameters:
       - $ref: '#/components/parameters/destinationId'
       requestBody:
@@ -166,6 +152,10 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      summary: Replace destination by destination id
+      x-summary-source: derived
+      operationId: putDestinationByDestinationId
+      x-operation-id-source: derived
     delete:
       tags:
       - Destinations
@@ -185,6 +175,10 @@ paths:
           $ref: '#/components/responses/ConflictError'
       security:
       - bearerAuth: []
+      summary: Delete destination by destination id
+      x-summary-source: derived
+      operationId: deleteDestinationByDestinationId
+      x-operation-id-source: derived
   /destination/{destinationId}/auth:
     put:
       tags:
@@ -214,27 +208,43 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      summary: Replace destination by destination id auth
+      x-summary-source: derived
+      operationId: putDestinationByDestinationIdAuth
+      x-operation-id-source: derived
 components:
-  responses:
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    NotFoundError:
-      description: The resource could at this path does not exist.
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
   schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    auth:
+      type: object
+      description: Auth object containing data and/or credentials used in authenticating the connection back to the webhook address.
+      properties:
+        secret:
+          description: When provided, this UTF-8 value will be used as the key to calculate a HMAC (Hash-based Message Authentication Code) using the SHA-256 hash function. The HMAC is computed on the UTF-8 HTTP response body, and will be sent in the X-Bombora-Signature-256 HTTP response header.
+          type: string
+    DestinationSummary:
+      type: object
+      properties:
+        destinationId:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the account list.
+        name:
+          description: The destination name.
+          type: string
+          example:
+            name: Webhook Receiver
+        description:
+          description: The destination description.
+          type: string
+          example:
+            description: This is where Bombora will send messages to
     Destination:
       type: object
       required:
@@ -265,37 +275,25 @@ components:
               X-Source: Bombora
           additionalProperties:
             type: string
-    auth:
-      type: object
-      description: Auth object containing data and/or credentials used in authenticating the connection back to the webhook address.
-      properties:
-        secret:
-          description: When provided, this UTF-8 value will be used as the key to calculate a HMAC (Hash-based Message Authentication Code) using the SHA-256 hash function. The HMAC is computed on the UTF-8 HTTP response body, and will be sent in the X-Bombora-Signature-256 HTTP response header.
-          type: string
-    DestinationSummary:
-      type: object
-      properties:
-        destinationId:
-          type: string
-          format: uuid
-          description: The unique identifier (AccountListId) of the account list.
-        name:
-          description: The destination name.
-          type: string
-          example:
-            name: Webhook Receiver
-        description:
-          description: The destination description.
-          type: string
-          example:
-            description: This is where Bombora will send messages to
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
+  responses:
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    NotFoundError:
+      description: The resource could at this path does not exist.
   parameters:
     destinationId:
       name: destinationId

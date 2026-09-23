@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Account List Accounts API
-  description: "The Account List API provides the ability to define and maintain lists of accounts. Lists can be manually curated, \nsynchronized from external systems, sourced from Bombora's data, or segmented from other account lists.\n\n### **Security**\nAll API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.\nGo to the [Get Started](/get-started) page for additional details.\n\n### **Error Handling**\nThe API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.\n\n### **Reference Data**\nThe API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.\n"
+  description: The Account List API provides the ability to define and maintain lists of accounts.
   version: '1.1'
 servers:
 - url: https://api.bombora.com/account-list/v1
@@ -14,7 +14,17 @@ paths:
       - Accounts
       operationId: updateAccounts
       summary: Add/Update Accounts
-      description: "Adds or updates accounts in the account list. \n- Only valid for Manual Account List Type.\n- If id is not specified for an account, the domain is used as the account identifier.\n- If the account identifier does not match an existing account in the account list, the account will be inserted. \n- If the account identifier matches an existing account in the account list, the existing account will be updated.\n- If there are duplicate account identifiers in the request body, the request will be rejected.\n"
+      description: 'Adds or updates accounts in the account list.
+
+        - Only valid for Manual Account List Type.
+
+        - If id is not specified for an account, the domain is used as the account identifier.
+
+        - If the account identifier does not match an existing account in the account list, the account will be inserted.
+
+        - If the account identifier matches an existing account in the account list, the existing account will be updated.
+
+        - If there are duplicate account identifiers in the request body, the request will be rejected.'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       requestBody:
@@ -64,9 +74,7 @@ paths:
       summary: Delete Account List Contents
       description: 'This idempotent endpoint deletes all accounts within the account list, but does not delete the account list itself.
 
-        - Only valid for Manual Account List Type.
-
-        '
+        - Only valid for Manual Account List Type.'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       responses:
@@ -84,14 +92,14 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: deleteAccountListByAccountListIdAccounts
+      x-operation-id-source: derived
   /account-list/{accountListId}/accounts/domains:
     get:
       tags:
       - Accounts
       summary: Get Account Domains
-      description: 'Returns all distinct domains in an account list
-
-        '
+      description: Returns all distinct domains in an account list
       parameters:
       - $ref: '#/components/parameters/accountListId'
       responses:
@@ -115,6 +123,8 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
       - bearerAuth: []
+      operationId: getAccountListByAccountListIdAccountsDomains
+      x-operation-id-source: derived
   /account-list/{accountListId}/accounts/search:
     post:
       tags:
@@ -124,9 +134,7 @@ paths:
 
         A prefix of `attributes.` is necessary if attempting to filter by optional account attributes in your list.
 
-        When attributes is empty or unspecified, the id is returned by default.
-
-        '
+        When attributes is empty or unspecified, the id is returned by default.'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       requestBody:
@@ -204,11 +212,32 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: postAccountListByAccountListIdAccountsSearch
+      x-operation-id-source: derived
     get:
       tags:
       - Accounts
       summary: Retrieve Account Data
-      description: "Allows paginated account data to be retrieved for an Account List.\n\nData is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint. \nThe response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.\n\nEach call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the next page.\nAll results have been returned when nextPageToken is null.\n\nExample URL with query parameters\n```\nhttps://api.bombora.com/account-list/v1/account-list/{accountListId}?pageToken={pageToken}&limit=100\n```\n"
+      description: 'Allows paginated account data to be retrieved for an Account List.
+
+
+        Data is retrieved by first calling the POST endpoint with a request body that describes the data to be retrieved through this GET endpoint.
+
+        The response from the POST endpoint will include a page token that should be supplied to this endpoint as a query parameter.
+
+
+        Each call to the GET endpoint will return an object including the data requested and the next page token, which can be supplied to a subsequent call to retrieve the next page.
+
+        All results have been returned when nextPageToken is null.
+
+
+        Example URL with query parameters
+
+        ```
+
+        https://api.bombora.com/account-list/v1/account-list/{accountListId}?pageToken={pageToken}&limit=100
+
+        ```'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       - name: pageToken
@@ -271,6 +300,8 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: getAccountListByAccountListIdAccountsSearch
+      x-operation-id-source: derived
   /account-list/{accountListId}/delete-accounts:
     post:
       tags:
@@ -278,9 +309,7 @@ paths:
       summary: Delete Accounts
       description: 'Deletes the specified accounts from the account list.
 
-        - Only valid for Manual Account List Type.
-
-        '
+        - Only valid for Manual Account List Type.'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       requestBody:
@@ -316,90 +345,37 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: postAccountListByAccountListIdDeleteAccounts
+      x-operation-id-source: derived
 components:
-  responses:
-    BadRequestError:
-      description: The request is syntactically invalid.
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    NotFoundError:
-      description: The resource could at this path does not exist.
   schemas:
-    Gte:
+    And:
       type: object
-      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      description: And operator, allowing for multiple filters to be joined.
       required:
-      - a
-      - gte
+      - and
       properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than or equal to 65.
-          value: '{ "a": "score", "gte": 65 }
-
-            '
-    Lte:
-      type: object
-      description: Less Than or Equal To operator. The data value must be less than or equal to this value.
-      required:
-      - a
-      - lte
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        lte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be less than or equal to 75.
-          value:
-            a: score
-            lte: 75
-    Nin:
-      type: object
-      description: Not-In operator. The data value must not appear in this collection of values.
-      required:
-      - a
-      - nin
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        nin:
+        and:
           type: array
-          description: The collection of values which the attribute is evaluated.
           items:
-            type: string
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
       example:
         Simple:
-          summary: This example shows where the company HQ country must not be in US or CA.
+          summary: This example shows where the score must be greater than 80 AND the company HQ country must be equal to US.
           value:
-            a: company.hq.country
-            nin:
-            - US
-            - CA
+            and:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
     Lt:
       type: object
       description: Less Than operator. The data value must be less than this value.
@@ -443,6 +419,25 @@ components:
           value:
             a: domain
             neq: '*.edu'
+    Lte:
+      type: object
+      description: Less Than or Equal To operator. The data value must be less than or equal to this value.
+      required:
+      - a
+      - lte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than or equal to 75.
+          value:
+            a: score
+            lte: 75
     Eq:
       type: object
       description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
@@ -467,33 +462,36 @@ components:
           value:
             a: domain
             eq: '*.edu'
-    And:
+    ErrorMessageResponse:
       type: object
-      description: And operator, allowing for multiple filters to be joined.
-      required:
-      - and
       properties:
-        and:
+        message:
+          type:
+          - string
+          - 'null'
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
           type: array
+          description: The collection of values which the attribute is evaluated.
           items:
-            oneOf:
-            - $ref: '#/components/schemas/Eq'
-            - $ref: '#/components/schemas/Neq'
-            - $ref: '#/components/schemas/In'
-            - $ref: '#/components/schemas/Nin'
-            - $ref: '#/components/schemas/Gt'
-            - $ref: '#/components/schemas/Gte'
-            - $ref: '#/components/schemas/Lt'
-            - $ref: '#/components/schemas/Lte'
+            type: string
       example:
         Simple:
-          summary: This example shows where the score must be greater than 80 AND the company HQ country must be equal to US.
+          summary: This example shows where the company HQ country must not be in US or CA.
           value:
-            and:
-            - a: score
-              gt: 80
-            - a: company.hq.country
-              eq: US
+            a: company.hq.country
+            nin:
+            - US
+            - CA
     Gt:
       type: object
       description: Greater Than operator. The data value must be greater than this value.
@@ -536,31 +534,34 @@ components:
             in:
             - US
             - CA
-    domain:
-      type: string
-      description: Domain name associated with the account.
     id:
       type:
       - string
       - 'null'
       description: The unique identifier of an account within an account list. When null, the value in the domain attribute is used as a unique identifier for the account.
       example: '123456'
-    ErrorMessageResponse:
+    domain:
+      type: string
+      description: Domain name associated with the account.
+    Gte:
       type: object
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      required:
+      - a
+      - gte
       properties:
-        message:
-          type:
-          - string
-          - 'null'
-    attributes:
-      type:
-      - object
-      - 'null'
-      description: "Any optional attributes provided for the account represented as a string. \nUnsupported characters: '\"'\n"
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
       example:
-        attributes:
-          external_id: A34231
-          account_rep: Adam Smith
+        Simple:
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
     Or:
       type: object
       description: Or operator, allowing for multiple filters to be joined.
@@ -602,6 +603,36 @@ components:
                 gt: 70
               - a: company.hq.country
                 eq: CA
+    attributes:
+      type:
+      - object
+      - 'null'
+      description: "Any optional attributes provided for the account represented as a string. \nUnsupported characters: '\"'\n"
+      example:
+        attributes:
+          external_id: A34231
+          account_rep: Adam Smith
+  responses:
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    BadRequestError:
+      description: The request is syntactically invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
   parameters:
     accountListId:
       name: accountListId

@@ -1,17 +1,17 @@
 openapi: 3.2.0
 info:
   title: Account Lists API
-  description: "The Account List API provides the ability to define and maintain lists of accounts. Lists can be manually curated, \nsynchronized from external systems, sourced from Bombora's data, or segmented from other account lists.\n\n### **Security**\nAll API endpoints are secured with OAuth 2.0 bearer token authentication. Developers must include a valid Bearer token in the Authorization request header to access endpoints.\nGo to the [Get Started](/get-started) page for additional details.\n\n### **Error Handling**\nThe API returns appropriate HTTP status codes and error messages in case of unauthorized access (401 Unauthorized) or forbidden actions (403 Forbidden), ensuring secure and reliable interaction.\n\n### **Reference Data**\nThe API may utilize reference attribute data within a request or response body. See [Reference API](/docs/reference-api/1/overview) for a complete list of supported reference attributes.\n"
+  description: The Account List API provides the ability to define and maintain lists of accounts.
   version: '1.1'
 servers:
 - url: https://api.bombora.com/account-list/v1
 tags:
-- name: AccountLists
+- name: account lists
 paths:
   /account-list:
     get:
       tags:
-      - AccountLists
+      - account lists
       summary: Get Account Lists
       description: Returns an array of AccountListSummary for all account lists.
       responses:
@@ -40,9 +40,11 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
       security:
       - bearerAuth: []
+      operationId: getAccountList
+      x-operation-id-source: derived
     post:
       tags:
-      - AccountLists
+      - account lists
       summary: Create New Account List
       description: Creates a new account list given the AccountListDefinition provided in the request body.
       requestBody:
@@ -140,10 +142,12 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: postAccountList
+      x-operation-id-source: derived
   /account-list/{accountListId}:
     get:
       tags:
-      - AccountLists
+      - account lists
       summary: Get Account List
       description: Retrieves the account list definition.
       parameters:
@@ -216,15 +220,15 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
       security:
       - bearerAuth: []
+      operationId: getAccountListByAccountListId
+      x-operation-id-source: derived
     put:
       tags:
-      - AccountLists
+      - account lists
       summary: Update Account List
       description: 'Updates the account list definition.
 
-        - ParentId and type are not modifiable.
-
-        '
+        - ParentId and type are not modifiable.'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       requestBody:
@@ -247,15 +251,15 @@ paths:
           $ref: '#/components/responses/NotFoundError'
       security:
       - bearerAuth: []
+      operationId: putAccountListByAccountListId
+      x-operation-id-source: derived
     delete:
       tags:
-      - AccountLists
+      - account lists
       summary: Delete Account List
       description: 'Deletes the specified account list.
 
-        - A 409 Conflict error will be returned if the account list is used as a parent of a derived account list.
-
-        '
+        - A 409 Conflict error will be returned if the account list is used as a parent of a derived account list.'
       parameters:
       - $ref: '#/components/parameters/accountListId'
       responses:
@@ -273,48 +277,128 @@ paths:
           $ref: '#/components/responses/UnprocessableEntityError'
       security:
       - bearerAuth: []
+      operationId: deleteAccountListByAccountListId
+      x-operation-id-source: derived
 components:
-  responses:
-    BadRequestError:
-      description: The request is syntactically invalid.
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    NotFoundError:
-      description: The resource could at this path does not exist.
   schemas:
-    Gte:
+    And:
       type: object
-      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      description: And operator, allowing for multiple filters to be joined.
+      required:
+      - and
+      properties:
+        and:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 AND the company HQ country must be equal to US.
+          value:
+            and:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+    AccountListSummary:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the account list.
+          example:
+          - 4623e082-e34c-4ef5-ab10-59136f149799
+        parentId:
+          type: string
+          format: uuid
+          description: The unique identifier (AccountListId) of the parent account list if supported by the account list type.
+          example:
+          - d5dacdb6-71a9-475f-b353-cbb53b6c8022
+        type:
+          $ref: '#/components/schemas/AccountListType'
+        name:
+          type: string
+          description: The name of the account list.
+        description:
+          type: string
+          description: An optional description for the account list.
+        accountsLastModified:
+          type: string
+          description: Datetime that the accounts in the list were last updated.
+        accountTotal:
+          type: integer
+          description: The number of accounts in the account list.
+        pendingUpdate:
+          type: boolean
+          description: When set to true, an asynchronous account list update job is queued for processing.
+        createdDate:
+          type: string
+          description: Datetime that the account list definition was created.
+        modifiedDate:
+          type: string
+          description: Datetime that the account list definition was last modified.
+    Lt:
+      type: object
+      description: Less Than operator. The data value must be less than this value.
       required:
       - a
-      - gte
+      - lt
       properties:
         a:
           type: string
           description: The attribute that the condition applies to.
-        gte:
+        lt:
           type: string
           description: The value which the attribute is evaluated.
       example:
         Simple:
-          summary: This example shows where the score must be greater than or equal to 65.
-          value: '{ "a": "score", "gte": 65 }
-
-            '
+          summary: This example shows where the score must be less than 75.
+          value:
+            a: score
+            lt: 75
+    AccountListType:
+      type: string
+      description: The type of account list
+      enum:
+      - Manual
+      - Derived
+      - Surge
+      - VisitorInsights
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
     DerivedAccountListSpecification:
       type: object
       description: Specification object for a Derived Type account list which allows for the creation of an account list based on a parent account list.
@@ -365,75 +449,6 @@ components:
           value:
             a: score
             lte: 75
-    ManualAccountListSpecification:
-      type: object
-      description: Specification object for a Manual Type account list.
-    Nin:
-      type: object
-      description: Not-In operator. The data value must not appear in this collection of values.
-      required:
-      - a
-      - nin
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        nin:
-          type: array
-          description: The collection of values which the attribute is evaluated.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be in US or CA.
-          value:
-            a: company.hq.country
-            nin:
-            - US
-            - CA
-    Lt:
-      type: object
-      description: Less Than operator. The data value must be less than this value.
-      required:
-      - a
-      - lt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        lt:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be less than 75.
-          value:
-            a: score
-            lt: 75
-    Neq:
-      type: object
-      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - neq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        neq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be US.
-          value:
-            a: company.hq.country
-            neq: US
-        Wildcard:
-          summary: This example shows where a domain must not be an .edu domain.
-          value:
-            a: domain
-            neq: '*.edu'
     Eq:
       type: object
       description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
@@ -458,6 +473,62 @@ components:
           value:
             a: domain
             eq: '*.edu'
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    VisitorInsightsAccountListSpecification:
+      type: object
+      description: 'Specification object for a VisitorInsights Type account list which allows for the creation of an account list based on first party website visitor data.
+
+        Please speak with your Bombora representative if you''d like to enable access to [Visitor Insights Data](https://bombora.com/resources/bombora-visitor-insights-identity-and-enrichment/).
+
+        '
+      properties:
+        attributes:
+          type:
+          - array
+          - 'null'
+          description: "An optional array of attributes to be returned in the response. \n\nAttribute | Description\n----------------|-------------\ndomain | The account domain\nuniqueVisitorCount | Number of unique visitors\ntotalVisitCount | Number of total visits\n"
+        filters:
+          description: "An optional filter that can be applied to visitor data to derive the accounts in this account list.\nThe filter must be a valid condition object and reference one of the supported filterable visitor attributes.\n\nAttribute | Description\n----------------|-------------\ndomain | The account domain\ncompany.* | [Company Attributes](/docs/account-list-api/1/types/company)\nurlVisited | Visited page URL\nvisitedWithinDays | Visited within the last X number of days\ncountry | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\nstate | [State](/docs/reference-api/1/routes/geographic/state/get) (for US and CA only) \ncity | City\nmetro | [Metropolitan Area](/docs/reference-api/1/routes/geographic/metro-area/get)\nfunctionalArea | [Functional Area](/docs/reference-api/1/routes/demographic/functional-area/get)\nseniority | [Seniority](/docs/reference-api/1/routes/demographic/seniority/get)\nprofessionalGroup | [Professional Group](/docs/reference-api/1/routes/demographic/professional-group/get)\n"
+          oneOf:
+          - $ref: '#/components/schemas/Eq'
+          - $ref: '#/components/schemas/Neq'
+          - $ref: '#/components/schemas/In'
+          - $ref: '#/components/schemas/Nin'
+          - $ref: '#/components/schemas/Gt'
+          - $ref: '#/components/schemas/Gte'
+          - $ref: '#/components/schemas/Lt'
+          - $ref: '#/components/schemas/Lte'
+          - $ref: '#/components/schemas/And'
+          - $ref: '#/components/schemas/Or'
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
+          type: array
+          description: The collection of values which the attribute is evaluated.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be in US or CA.
+          value:
+            a: company.hq.country
+            nin:
+            - US
+            - CA
     AccountListDefinition:
       type: object
       properties:
@@ -495,92 +566,32 @@ components:
           readOnly: true
           type: boolean
           description: When set to true, an asynchronous account list update job is queued for processing.
-    AccountListSummary:
+    In:
       type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique identifier (AccountListId) of the account list.
-          example:
-          - 4623e082-e34c-4ef5-ab10-59136f149799
-        parentId:
-          type: string
-          format: uuid
-          description: The unique identifier (AccountListId) of the parent account list if supported by the account list type.
-          example:
-          - d5dacdb6-71a9-475f-b353-cbb53b6c8022
-        type:
-          $ref: '#/components/schemas/AccountListType'
-        name:
-          type: string
-          description: The name of the account list.
-        description:
-          type: string
-          description: An optional description for the account list.
-        accountsLastModified:
-          type: string
-          description: Datetime that the accounts in the list were last updated.
-        accountTotal:
-          type: integer
-          description: The number of accounts in the account list.
-        pendingUpdate:
-          type: boolean
-          description: When set to true, an asynchronous account list update job is queued for processing.
-        createdDate:
-          type: string
-          description: Datetime that the account list definition was created.
-        modifiedDate:
-          type: string
-          description: Datetime that the account list definition was last modified.
-    And:
-      type: object
-      description: And operator, allowing for multiple filters to be joined.
-      required:
-      - and
-      properties:
-        and:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/Eq'
-            - $ref: '#/components/schemas/Neq'
-            - $ref: '#/components/schemas/In'
-            - $ref: '#/components/schemas/Nin'
-            - $ref: '#/components/schemas/Gt'
-            - $ref: '#/components/schemas/Gte'
-            - $ref: '#/components/schemas/Lt'
-            - $ref: '#/components/schemas/Lte'
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than 80 AND the company HQ country must be equal to US.
-          value:
-            and:
-            - a: score
-              gt: 80
-            - a: company.hq.country
-              eq: US
-    Gt:
-      type: object
-      description: Greater Than operator. The data value must be greater than this value.
+      description: In operator. The data value must appear in this collection of values.
       required:
       - a
-      - gt
+      - in
       properties:
         a:
           type: string
           description: The attribute that the condition applies to.
-        gt:
-          type: string
-          description: The value which the attribute is evaluated.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
       example:
         Simple:
-          summary: This example shows where the score must be greater than 65.
+          summary: This example shows where the company HQ country must be in US or CA.
           value:
-            a: score
-            gt: 65
+            a: company.hq.country
+            in:
+            - US
+            - CA
+    ManualAccountListSpecification:
+      type: object
+      description: Specification object for a Manual Type account list.
     SurgeAccountListSpecification:
       type: object
       description: Specification object for a Surge Type account list which allows for the creation of an account list based on Intent Surge data (see [Intent API](/docs/intent-api/1/overview)).
@@ -621,70 +632,25 @@ components:
           - $ref: '#/components/schemas/Lte'
           - $ref: '#/components/schemas/And'
           - $ref: '#/components/schemas/Or'
-    In:
+    Gte:
       type: object
-      description: In operator. The data value must appear in this collection of values.
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
       required:
       - a
-      - in
+      - gte
       properties:
         a:
           type: string
           description: The attribute that the condition applies to.
-        in:
-          type: array
-          description: The collection of values which the attribute value must match.
-          items:
-            type: string
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
       example:
         Simple:
-          summary: This example shows where the company HQ country must be in US or CA.
-          value:
-            a: company.hq.country
-            in:
-            - US
-            - CA
-    VisitorInsightsAccountListSpecification:
-      type: object
-      description: 'Specification object for a VisitorInsights Type account list which allows for the creation of an account list based on first party website visitor data.
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
 
-        Please speak with your Bombora representative if you''d like to enable access to [Visitor Insights Data](https://bombora.com/resources/bombora-visitor-insights-identity-and-enrichment/).
-
-        '
-      properties:
-        attributes:
-          type:
-          - array
-          - 'null'
-          description: "An optional array of attributes to be returned in the response. \n\nAttribute | Description\n----------------|-------------\ndomain | The account domain\nuniqueVisitorCount | Number of unique visitors\ntotalVisitCount | Number of total visits\n"
-        filters:
-          description: "An optional filter that can be applied to visitor data to derive the accounts in this account list.\nThe filter must be a valid condition object and reference one of the supported filterable visitor attributes.\n\nAttribute | Description\n----------------|-------------\ndomain | The account domain\ncompany.* | [Company Attributes](/docs/account-list-api/1/types/company)\nurlVisited | Visited page URL\nvisitedWithinDays | Visited within the last X number of days\ncountry | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\nstate | [State](/docs/reference-api/1/routes/geographic/state/get) (for US and CA only) \ncity | City\nmetro | [Metropolitan Area](/docs/reference-api/1/routes/geographic/metro-area/get)\nfunctionalArea | [Functional Area](/docs/reference-api/1/routes/demographic/functional-area/get)\nseniority | [Seniority](/docs/reference-api/1/routes/demographic/seniority/get)\nprofessionalGroup | [Professional Group](/docs/reference-api/1/routes/demographic/professional-group/get)\n"
-          oneOf:
-          - $ref: '#/components/schemas/Eq'
-          - $ref: '#/components/schemas/Neq'
-          - $ref: '#/components/schemas/In'
-          - $ref: '#/components/schemas/Nin'
-          - $ref: '#/components/schemas/Gt'
-          - $ref: '#/components/schemas/Gte'
-          - $ref: '#/components/schemas/Lt'
-          - $ref: '#/components/schemas/Lte'
-          - $ref: '#/components/schemas/And'
-          - $ref: '#/components/schemas/Or'
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-    AccountListType:
-      type: string
-      description: The type of account list
-      enum:
-      - Manual
-      - Derived
-      - Surge
-      - VisitorInsights
+            '
     Or:
       type: object
       description: Or operator, allowing for multiple filters to be joined.
@@ -726,6 +692,46 @@ components:
                 gt: 70
               - a: company.hq.country
                 eq: CA
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+  responses:
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    BadRequestError:
+      description: The request is syntactically invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
   parameters:
     accountListId:
       name: accountListId

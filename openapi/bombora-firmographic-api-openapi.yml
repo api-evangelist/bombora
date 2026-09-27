@@ -129,6 +129,14 @@ paths:
       operationId: getFirmographicRevenue
       x-operation-id-source: derived
 components:
+  schemas:
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
   responses:
     BadRequestError:
       description: The request is syntactically invalid.
@@ -138,14 +146,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorMessageResponse'
-  schemas:
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
   securitySchemes:
     bearerAuth:
       type: http

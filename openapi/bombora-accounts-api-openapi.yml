@@ -348,6 +348,27 @@ paths:
       operationId: postAccountListByAccountListIdDeleteAccounts
       x-operation-id-source: derived
 components:
+  responses:
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
   schemas:
     And:
       type: object
@@ -376,49 +397,15 @@ components:
               gt: 80
             - a: company.hq.country
               eq: US
-    Lt:
-      type: object
-      description: Less Than operator. The data value must be less than this value.
-      required:
-      - a
-      - lt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        lt:
-          type: string
-          description: The value which the attribute is evaluated.
+    attributes:
+      type:
+      - object
+      - 'null'
+      description: "Any optional attributes provided for the account represented as a string. \nUnsupported characters: '\"'\n"
       example:
-        Simple:
-          summary: This example shows where the score must be less than 75.
-          value:
-            a: score
-            lt: 75
-    Neq:
-      type: object
-      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - neq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        neq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be US.
-          value:
-            a: company.hq.country
-            neq: US
-        Wildcard:
-          summary: This example shows where a domain must not be an .edu domain.
-          value:
-            a: domain
-            neq: '*.edu'
+        attributes:
+          external_id: A34231
+          account_rep: Adam Smith
     Lte:
       type: object
       description: Less Than or Equal To operator. The data value must be less than or equal to this value.
@@ -438,6 +425,53 @@ components:
           value:
             a: score
             lte: 75
+    Or:
+      type: object
+      description: Or operator, allowing for multiple filters to be joined.
+      required:
+      - or
+      properties:
+        or:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 OR the company HQ country must be equal to US.
+          value:
+            or:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+        Complex:
+          summary: This example shows where [the score must be greater than 80 AND the company HQ country must be equal to US] OR [the score must be greater than 70 AND the company HQ country must be equal to CA].
+          value:
+            or:
+            - and:
+              - a: score
+                gt: 80
+              - a: company.hq.country
+                eq: US
+            - and:
+              - a: score
+                gt: 70
+              - a: company.hq.country
+                eq: CA
+    id:
+      type:
+      - string
+      - 'null'
+      description: The unique identifier of an account within an account list. When null, the value in the domain attribute is used as a unique identifier for the account.
+      example: '123456'
     Eq:
       type: object
       description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
@@ -462,36 +496,25 @@ components:
           value:
             a: domain
             eq: '*.edu'
-    ErrorMessageResponse:
+    Lt:
       type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-    Nin:
-      type: object
-      description: Not-In operator. The data value must not appear in this collection of values.
+      description: Less Than operator. The data value must be less than this value.
       required:
       - a
-      - nin
+      - lt
       properties:
         a:
           type: string
           description: The attribute that the condition applies to.
-        nin:
-          type: array
-          description: The collection of values which the attribute is evaluated.
-          items:
-            type: string
+        lt:
+          type: string
+          description: The value which the attribute is evaluated.
       example:
         Simple:
-          summary: This example shows where the company HQ country must not be in US or CA.
+          summary: This example shows where the score must be less than 75.
           value:
-            a: company.hq.country
-            nin:
-            - US
-            - CA
+            a: score
+            lt: 75
     Gt:
       type: object
       description: Greater Than operator. The data value must be greater than this value.
@@ -534,15 +557,30 @@ components:
             in:
             - US
             - CA
-    id:
-      type:
-      - string
-      - 'null'
-      description: The unique identifier of an account within an account list. When null, the value in the domain attribute is used as a unique identifier for the account.
-      example: '123456'
-    domain:
-      type: string
-      description: Domain name associated with the account.
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
     Gte:
       type: object
       description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
@@ -562,77 +600,39 @@ components:
           value: '{ "a": "score", "gte": 65 }
 
             '
-    Or:
+    domain:
+      type: string
+      description: Domain name associated with the account.
+    ErrorMessageResponse:
       type: object
-      description: Or operator, allowing for multiple filters to be joined.
-      required:
-      - or
       properties:
-        or:
+        message:
+          type:
+          - string
+          - 'null'
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
           type: array
+          description: The collection of values which the attribute is evaluated.
           items:
-            oneOf:
-            - $ref: '#/components/schemas/Eq'
-            - $ref: '#/components/schemas/Neq'
-            - $ref: '#/components/schemas/In'
-            - $ref: '#/components/schemas/Nin'
-            - $ref: '#/components/schemas/Gt'
-            - $ref: '#/components/schemas/Gte'
-            - $ref: '#/components/schemas/Lt'
-            - $ref: '#/components/schemas/Lte'
+            type: string
       example:
         Simple:
-          summary: This example shows where the score must be greater than 80 OR the company HQ country must be equal to US.
+          summary: This example shows where the company HQ country must not be in US or CA.
           value:
-            or:
-            - a: score
-              gt: 80
-            - a: company.hq.country
-              eq: US
-        Complex:
-          summary: This example shows where [the score must be greater than 80 AND the company HQ country must be equal to US] OR [the score must be greater than 70 AND the company HQ country must be equal to CA].
-          value:
-            or:
-            - and:
-              - a: score
-                gt: 80
-              - a: company.hq.country
-                eq: US
-            - and:
-              - a: score
-                gt: 70
-              - a: company.hq.country
-                eq: CA
-    attributes:
-      type:
-      - object
-      - 'null'
-      description: "Any optional attributes provided for the account represented as a string. \nUnsupported characters: '\"'\n"
-      example:
-        attributes:
-          external_id: A34231
-          account_rep: Adam Smith
-  responses:
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    NotFoundError:
-      description: The resource could at this path does not exist.
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    BadRequestError:
-      description: The request is syntactically invalid.
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
+            a: company.hq.country
+            nin:
+            - US
+            - CA
   parameters:
     accountListId:
       name: accountListId

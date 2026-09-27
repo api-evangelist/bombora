@@ -166,6 +166,37 @@ paths:
       operationId: deleteDestinationByDestinationIdEventByEventType
       x-operation-id-source: derived
 components:
+  parameters:
+    destinationId:
+      name: destinationId
+      in: path
+      required: true
+      description: An identifier for the destination.
+      schema:
+        type: string
+        format: uuid
+      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    eventType:
+      name: eventType
+      in: path
+      required: true
+      schema:
+        type: string
+        example:
+          SignalDefinitionCreated: null
+  responses:
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
   schemas:
     ErrorMessageResponse:
       type: object
@@ -204,37 +235,6 @@ components:
           description: Expected headers to receive when event type is triggered.
           additionalProperties:
             type: string
-  parameters:
-    eventType:
-      name: eventType
-      in: path
-      required: true
-      schema:
-        type: string
-        example:
-          SignalDefinitionCreated: null
-    destinationId:
-      name: destinationId
-      in: path
-      required: true
-      description: An identifier for the destination.
-      schema:
-        type: string
-        format: uuid
-      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-  responses:
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    NotFoundError:
-      description: The resource could at this path does not exist.
   securitySchemes:
     bearerAuth:
       type: http

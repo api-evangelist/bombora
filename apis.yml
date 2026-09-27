@@ -573,8 +573,6 @@ apis:
   humanURL: https://developer.bombora.com/docs/intent-api/1/overview
   baseURL: https://api.bombora.com/intent/v1
   tags:
-  - Account Lists
-  tags_raw:
   - account lists
   properties:
   - type: OpenAPI

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Authentication OAUTH API
+  title: Authentication OAuth API
   description: The OAuth 2.0 Authentication API is used to retrieve the bearer tokens that are necessary to make calls to Bombora's APIs.
   version: 1.0.0
 servers:

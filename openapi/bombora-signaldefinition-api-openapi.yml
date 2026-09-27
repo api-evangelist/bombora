@@ -383,14 +383,36 @@ paths:
       operationId: putSignalDefinitionBySignalDefinitionIdProductDefinition
       x-operation-id-source: derived
 components:
+  parameters:
+    signalDefinitionId:
+      name: signalDefinitionId
+      description: Unique identifier of a Signal Definition
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 517134f7-4451-4941-9491-8c5c7750d49a
+  responses:
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    BadRequestError:
+      description: The request is syntactically invalid.
   schemas:
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
     ProductDefinition:
       description: 'The product definition can contain any of the following information to enable an AI-created Signal Definition.
 
@@ -434,6 +456,41 @@ components:
         urls:
         - https://www.example.com/productUrl
         - https://www.example.com/resources/productTraining.html
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    Metadata:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: A name for this signal definition.
+          maximum: 255
+          example: Signal definition for X product
+        description:
+          type:
+          - string
+          - 'null'
+          maximum: 2048
+          description: A description for this signal definition.
+          example: Definition created by Joe for the sales team.
+        clientId:
+          type:
+          - string
+          - 'null'
+          maximum: 255
+          description: Third-party client identifier. Required for channel partners.
+      description: Metadata associated with this signal definition
+      example:
+        name: Signal definition for X product
+        description: Definition created by Joe for the sales team.
+        clientId: 9844a971-1cdc-4f2d-a145-87491392649f
     SignalDefinition:
       type: object
       properties:
@@ -470,63 +527,6 @@ components:
         - id: 23456
           name: Electric Vehicles (EV)
           weighting: 0.9
-    Metadata:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          description: A name for this signal definition.
-          maximum: 255
-          example: Signal definition for X product
-        description:
-          type:
-          - string
-          - 'null'
-          maximum: 2048
-          description: A description for this signal definition.
-          example: Definition created by Joe for the sales team.
-        clientId:
-          type:
-          - string
-          - 'null'
-          maximum: 255
-          description: Third-party client identifier. Required for channel partners.
-      description: Metadata associated with this signal definition
-      example:
-        name: Signal definition for X product
-        description: Definition created by Joe for the sales team.
-        clientId: 9844a971-1cdc-4f2d-a145-87491392649f
-  responses:
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    BadRequestError:
-      description: The request is syntactically invalid.
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-  parameters:
-    signalDefinitionId:
-      name: signalDefinitionId
-      description: Unique identifier of a Signal Definition
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-      example: 517134f7-4451-4941-9491-8c5c7750d49a
   securitySchemes:
     bearerAuth:
       type: http

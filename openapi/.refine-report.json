@@ -27,7 +27,7 @@
     "bombora-events-api-openapi.yml"
   ],
   "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
+    "deleted 1 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -64,8 +64,8 @@
     "bombora-webhooks-api-openapi-original.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "bombora-webhooks-api-openapi-original.yml: declared missing tag: Destinations",
     "bombora-webhooks-api-openapi-original.yml: declared missing tag: Events",
-    "superseded outputs removed: bombora-account-lists-api-openapi.yml, bombora-o-auth-api-openapi.yml",
-    "apis.yml register: written (+2 apis, 17 total)"
+    "superseded outputs removed: bombora-account-lists-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 17 total)"
   ],
   "skipped": [
     "_original/bombora-webhooks-api-openapi.yml: archived document superseded by a larger archived document",
@@ -86,7 +86,7 @@
     "bombora-geographic-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bombora-install-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bombora-intent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "bombora-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bombora-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bombora-signaldefinition-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bombora-suspend-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]

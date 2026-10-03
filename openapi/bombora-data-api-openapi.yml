@@ -199,6 +199,102 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Lte:
+      type: object
+      description: Less Than or Equal To operator. The data value must be less than or equal to this value.
+      required:
+      - a
+      - lte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than or equal to 75.
+          value:
+            a: score
+            lte: 75
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
+          type: array
+          description: The collection of values which the attribute is evaluated.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be in US or CA.
+          value:
+            a: company.hq.country
+            nin:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list. This is functionally identical to specifying an accountList with the neq operator.
+          value:
+            a: domain
+            nin:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list.
+          value:
+            a: domain
+            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
     Eq:
       type: object
       description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
@@ -228,13 +324,39 @@ components:
           value:
             a: domain
             eq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    And:
+    ErrorMessageResponse:
       type: object
-      description: And operator, allowing for multiple filters to be joined.
-      required:
-      - and
       properties:
-        and:
+        message:
+          type:
+          - string
+          - 'null'
+    Gte:
+      type: object
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      required:
+      - a
+      - gte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
+    Or:
+      type: object
+      description: Or operator, allowing for multiple filters to be joined.
+      required:
+      - or
+      properties:
+        or:
           type: array
           items:
             oneOf:
@@ -248,13 +370,56 @@ components:
             - $ref: '#/components/schemas/Lte'
       example:
         Simple:
-          summary: This example shows where the score must be greater than 80 AND the company HQ country must be equal to US.
+          summary: This example shows where the score must be greater than 80 OR the company HQ country must be equal to US.
           value:
-            and:
+            or:
             - a: score
               gt: 80
             - a: company.hq.country
               eq: US
+        Complex:
+          summary: This example shows where [the score must be greater than 80 AND the company HQ country must be equal to US] OR [the score must be greater than 70 AND the company HQ country must be equal to CA].
+          value:
+            or:
+            - and:
+              - a: score
+                gt: 80
+              - a: company.hq.country
+                eq: US
+            - and:
+              - a: score
+                gt: 70
+              - a: company.hq.country
+                eq: CA
+    In:
+      type: object
+      description: In operator. The data value must appear in this collection of values.
+      required:
+      - a
+      - in
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be in US or CA.
+          value:
+            a: company.hq.country
+            in:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must appear in the specified account list. This is functionally identical to specifying an accountList with the eq operator.
+          value:
+            a: domain
+            in:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
     Lt:
       type: object
       description: Less Than operator. The data value must be less than this value.
@@ -312,70 +477,13 @@ components:
         - areasOfInterest
         - company.size
         - company.hq
-    Gte:
+    And:
       type: object
-      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      description: And operator, allowing for multiple filters to be joined.
       required:
-      - a
-      - gte
+      - and
       properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than or equal to 65.
-          value: '{ "a": "score", "gte": 65 }
-
-            '
-    Lte:
-      type: object
-      description: Less Than or Equal To operator. The data value must be less than or equal to this value.
-      required:
-      - a
-      - lte
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        lte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be less than or equal to 75.
-          value:
-            a: score
-            lte: 75
-    Gt:
-      type: object
-      description: Greater Than operator. The data value must be greater than this value.
-      required:
-      - a
-      - gt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gt:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than 65.
-          value:
-            a: score
-            gt: 65
-    Or:
-      type: object
-      description: Or operator, allowing for multiple filters to be joined.
-      required:
-      - or
-      properties:
-        or:
+        and:
           type: array
           items:
             oneOf:
@@ -389,134 +497,26 @@ components:
             - $ref: '#/components/schemas/Lte'
       example:
         Simple:
-          summary: This example shows where the score must be greater than 80 OR the company HQ country must be equal to US.
+          summary: This example shows where the score must be greater than 80 AND the company HQ country must be equal to US.
           value:
-            or:
+            and:
             - a: score
               gt: 80
             - a: company.hq.country
               eq: US
-        Complex:
-          summary: This example shows where [the score must be greater than 80 AND the company HQ country must be equal to US] OR [the score must be greater than 70 AND the company HQ country must be equal to CA].
-          value:
-            or:
-            - and:
-              - a: score
-                gt: 80
-              - a: company.hq.country
-                eq: US
-            - and:
-              - a: score
-                gt: 70
-              - a: company.hq.country
-                eq: CA
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-    Nin:
-      type: object
-      description: Not-In operator. The data value must not appear in this collection of values.
-      required:
-      - a
-      - nin
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        nin:
-          type: array
-          description: The collection of values which the attribute is evaluated.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be in US or CA.
-          value:
-            a: company.hq.country
-            nin:
-            - US
-            - CA
-        Account List:
-          summary: This example shows where a domain must not appear in the specified account list. This is functionally identical to specifying an accountList with the neq operator.
-          value:
-            a: domain
-            nin:
-            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    In:
-      type: object
-      description: In operator. The data value must appear in this collection of values.
-      required:
-      - a
-      - in
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        in:
-          type: array
-          description: The collection of values which the attribute value must match.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must be in US or CA.
-          value:
-            a: company.hq.country
-            in:
-            - US
-            - CA
-        Account List:
-          summary: This example shows where a domain must appear in the specified account list. This is functionally identical to specifying an accountList with the eq operator.
-          value:
-            a: domain
-            in:
-            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    Neq:
-      type: object
-      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - neq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        neq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be US.
-          value:
-            a: company.hq.country
-            neq: US
-        Wildcard:
-          summary: This example shows where a domain must not be an .edu domain.
-          value:
-            a: domain
-            neq: '*.edu'
-        Account List:
-          summary: This example shows where a domain must not appear in the specified account list.
-          value:
-            a: domain
-            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
   responses:
     ForbiddenError:
       description: The access token does not have permission to access this API.
     UnauthorizedError:
       description: The access token is missing or invalid.
+    BadRequestError:
+      description: The request is syntactically invalid.
     UnprocessableEntityError:
       description: The request body is syntactically correct but semantically incorrect, such as validation errors.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorMessageResponse'
-    BadRequestError:
-      description: The request is syntactically invalid.
   securitySchemes:
     bearerAuth:
       type: http

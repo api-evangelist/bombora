@@ -281,33 +281,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SurgeAccountListSpecification:
+    DerivedAccountListSpecification:
       type: object
-      description: Specification object for a Surge Type account list which allows for the creation of an account list based on Intent Surge data (see [Intent API](/docs/intent-api/1/overview)).
+      description: Specification object for a Derived Type account list which allows for the creation of an account list based on a parent account list.
+      required:
+      - parentId
       properties:
-        signalDefinitionId:
-          description: Unique identifier of a Signal Definition. It is mutually exclusive with topics.
+        parentId:
           type: string
-          format: UUID
-        topics:
-          description: A collection of topic names to retrieve data for. It is mutually exclusive with signalDefinitionId.
-          type: array
-          items:
-            type: string
-            maximum: 50
-        attributes:
-          type:
-          - array
-          - 'null'
-          description: "An optional array of attributes to be returned in the response. \nSupported attributes include `domain`, `score`, and `scoreLabel`.\n"
-        filters:
-          description: 'An optional filter that can be applied to surge data to derive the accounts in this account list.
+          format: uuid
+          description: The unique identifier (AccountListId) of the parent account list.
+        filter:
+          description: 'An optional filter that can be applied to the parent account list to derive the accounts in this account list.
 
             The filter must be a valid condition object, such as an Eq, Neq, In, Nin, Gt, Gte, Lt, or Lte condition.
 
-            If no filter is specified, all accounts that are showing activity on the signal will be included in this account list.
+            If no filter is specified, all accounts in the parent account list will be included in this account list.
 
-            See [Intent API - Attributes](/docs/intent-api/1/types/Attributes) for a list of supported attributes.
+            See [Company Attributes](/docs/account-list-api/1/types/company) for a list of filterable firmographic attributes.
 
             '
           oneOf:
@@ -321,6 +312,234 @@ components:
           - $ref: '#/components/schemas/Lte'
           - $ref: '#/components/schemas/And'
           - $ref: '#/components/schemas/Or'
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+    AccountListType:
+      type: string
+      description: The type of account list
+      enum:
+      - Manual
+      - Derived
+      - Surge
+      - VisitorInsights
+    Or:
+      type: object
+      description: Or operator, allowing for multiple filters to be joined.
+      required:
+      - or
+      properties:
+        or:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Eq'
+            - $ref: '#/components/schemas/Neq'
+            - $ref: '#/components/schemas/In'
+            - $ref: '#/components/schemas/Nin'
+            - $ref: '#/components/schemas/Gt'
+            - $ref: '#/components/schemas/Gte'
+            - $ref: '#/components/schemas/Lt'
+            - $ref: '#/components/schemas/Lte'
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 80 OR the company HQ country must be equal to US.
+          value:
+            or:
+            - a: score
+              gt: 80
+            - a: company.hq.country
+              eq: US
+        Complex:
+          summary: This example shows where [the score must be greater than 80 AND the company HQ country must be equal to US] OR [the score must be greater than 70 AND the company HQ country must be equal to CA].
+          value:
+            or:
+            - and:
+              - a: score
+                gt: 80
+              - a: company.hq.country
+                eq: US
+            - and:
+              - a: score
+                gt: 70
+              - a: company.hq.country
+                eq: CA
+    ManualAccountListSpecification:
+      type: object
+      description: Specification object for a Manual Type account list.
+    Nin:
+      type: object
+      description: Not-In operator. The data value must not appear in this collection of values.
+      required:
+      - a
+      - nin
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        nin:
+          type: array
+          description: The collection of values which the attribute is evaluated.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be in US or CA.
+          value:
+            a: company.hq.country
+            nin:
+            - US
+            - CA
+    AccountListDefinition:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AccountListType'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        specification:
+          type: object
+          description: The specification for the account list. The provided account list specification must match the account list type specified in the type attribute.
+          oneOf:
+          - $ref: '#/components/schemas/ManualAccountListSpecification'
+          - $ref: '#/components/schemas/DerivedAccountListSpecification'
+          - $ref: '#/components/schemas/SurgeAccountListSpecification'
+          - $ref: '#/components/schemas/VisitorInsightsAccountListSpecification'
+        accountsLastModified:
+          type: string
+          description: Datetime that the accounts in the account list were last updated.
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+    Gte:
+      type: object
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      required:
+      - a
+      - gte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
+    In:
+      type: object
+      description: In operator. The data value must appear in this collection of values.
+      required:
+      - a
+      - in
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be in US or CA.
+          value:
+            a: company.hq.country
+            in:
+            - US
+            - CA
+    Eq:
+      type: object
+      description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - eq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        eq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be US.
+          value:
+            a: company.hq.country
+            eq: US
+        Wildcard:
+          summary: This example shows where a domain must be an .edu domain.
+          value:
+            a: domain
+            eq: '*.edu'
+    Lt:
+      type: object
+      description: Less Than operator. The data value must be less than this value.
+      required:
+      - a
+      - lt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        lt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be less than 75.
+          value:
+            a: score
+            lt: 75
     And:
       type: object
       description: And operator, allowing for multiple filters to be joined.
@@ -367,47 +586,25 @@ components:
           value:
             a: score
             lte: 75
-    Or:
+    Metadata:
       type: object
-      description: Or operator, allowing for multiple filters to be joined.
       required:
-      - or
+      - name
       properties:
-        or:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/Eq'
-            - $ref: '#/components/schemas/Neq'
-            - $ref: '#/components/schemas/In'
-            - $ref: '#/components/schemas/Nin'
-            - $ref: '#/components/schemas/Gt'
-            - $ref: '#/components/schemas/Gte'
-            - $ref: '#/components/schemas/Lt'
-            - $ref: '#/components/schemas/Lte'
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than 80 OR the company HQ country must be equal to US.
-          value:
-            or:
-            - a: score
-              gt: 80
-            - a: company.hq.country
-              eq: US
-        Complex:
-          summary: This example shows where [the score must be greater than 80 AND the company HQ country must be equal to US] OR [the score must be greater than 70 AND the company HQ country must be equal to CA].
-          value:
-            or:
-            - and:
-              - a: score
-                gt: 80
-              - a: company.hq.country
-                eq: US
-            - and:
-              - a: score
-                gt: 70
-              - a: company.hq.country
-                eq: CA
+        name:
+          type: string
+          description: The name of the account list.
+        description:
+          type: string
+          description: An optional description for the account list.
+        accountTotal:
+          readOnly: true
+          type: integer
+          description: The number of accounts in the account list.
+        pendingUpdate:
+          readOnly: true
+          type: boolean
+          description: When set to true, an asynchronous account list update job is queued for processing.
     AccountListSummary:
       type: object
       required:
@@ -448,105 +645,46 @@ components:
         modifiedDate:
           type: string
           description: Datetime that the account list definition was last modified.
-    Eq:
+    SurgeAccountListSpecification:
       type: object
-      description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - eq
+      description: Specification object for a Surge Type account list which allows for the creation of an account list based on Intent Surge data (see [Intent API](/docs/intent-api/1/overview)).
       properties:
-        a:
+        signalDefinitionId:
+          description: Unique identifier of a Signal Definition. It is mutually exclusive with topics.
           type: string
-          description: The attribute that the condition applies to.
-        eq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must be US.
-          value:
-            a: company.hq.country
-            eq: US
-        Wildcard:
-          summary: This example shows where a domain must be an .edu domain.
-          value:
-            a: domain
-            eq: '*.edu'
-    AccountListDefinition:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/AccountListType'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        specification:
-          type: object
-          description: The specification for the account list. The provided account list specification must match the account list type specified in the type attribute.
+          format: UUID
+        topics:
+          description: A collection of topic names to retrieve data for. It is mutually exclusive with signalDefinitionId.
+          type: array
+          items:
+            type: string
+            maximum: 50
+        attributes:
+          type:
+          - array
+          - 'null'
+          description: "An optional array of attributes to be returned in the response. \nSupported attributes include `domain`, `score`, and `scoreLabel`.\n"
+        filters:
+          description: 'An optional filter that can be applied to surge data to derive the accounts in this account list.
+
+            The filter must be a valid condition object, such as an Eq, Neq, In, Nin, Gt, Gte, Lt, or Lte condition.
+
+            If no filter is specified, all accounts that are showing activity on the signal will be included in this account list.
+
+            See [Intent API - Attributes](/docs/intent-api/1/types/Attributes) for a list of supported attributes.
+
+            '
           oneOf:
-          - $ref: '#/components/schemas/ManualAccountListSpecification'
-          - $ref: '#/components/schemas/DerivedAccountListSpecification'
-          - $ref: '#/components/schemas/SurgeAccountListSpecification'
-          - $ref: '#/components/schemas/VisitorInsightsAccountListSpecification'
-        accountsLastModified:
-          type: string
-          description: Datetime that the accounts in the account list were last updated.
-    Lt:
-      type: object
-      description: Less Than operator. The data value must be less than this value.
-      required:
-      - a
-      - lt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        lt:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be less than 75.
-          value:
-            a: score
-            lt: 75
-    Gt:
-      type: object
-      description: Greater Than operator. The data value must be greater than this value.
-      required:
-      - a
-      - gt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gt:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than 65.
-          value:
-            a: score
-            gt: 65
-    Metadata:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the account list.
-        description:
-          type: string
-          description: An optional description for the account list.
-        accountTotal:
-          readOnly: true
-          type: integer
-          description: The number of accounts in the account list.
-        pendingUpdate:
-          readOnly: true
-          type: boolean
-          description: When set to true, an asynchronous account list update job is queued for processing.
+          - $ref: '#/components/schemas/Eq'
+          - $ref: '#/components/schemas/Neq'
+          - $ref: '#/components/schemas/In'
+          - $ref: '#/components/schemas/Nin'
+          - $ref: '#/components/schemas/Gt'
+          - $ref: '#/components/schemas/Gte'
+          - $ref: '#/components/schemas/Lt'
+          - $ref: '#/components/schemas/Lte'
+          - $ref: '#/components/schemas/And'
+          - $ref: '#/components/schemas/Or'
     VisitorInsightsAccountListSpecification:
       type: object
       description: 'Specification object for a VisitorInsights Type account list which allows for the creation of an account list based on first party website visitor data.
@@ -573,165 +711,6 @@ components:
           - $ref: '#/components/schemas/Lte'
           - $ref: '#/components/schemas/And'
           - $ref: '#/components/schemas/Or'
-    In:
-      type: object
-      description: In operator. The data value must appear in this collection of values.
-      required:
-      - a
-      - in
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        in:
-          type: array
-          description: The collection of values which the attribute value must match.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must be in US or CA.
-          value:
-            a: company.hq.country
-            in:
-            - US
-            - CA
-    Neq:
-      type: object
-      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - neq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        neq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be US.
-          value:
-            a: company.hq.country
-            neq: US
-        Wildcard:
-          summary: This example shows where a domain must not be an .edu domain.
-          value:
-            a: domain
-            neq: '*.edu'
-    AccountListType:
-      type: string
-      description: The type of account list
-      enum:
-      - Manual
-      - Derived
-      - Surge
-      - VisitorInsights
-    Gte:
-      type: object
-      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
-      required:
-      - a
-      - gte
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than or equal to 65.
-          value: '{ "a": "score", "gte": 65 }
-
-            '
-    ManualAccountListSpecification:
-      type: object
-      description: Specification object for a Manual Type account list.
-    DerivedAccountListSpecification:
-      type: object
-      description: Specification object for a Derived Type account list which allows for the creation of an account list based on a parent account list.
-      required:
-      - parentId
-      properties:
-        parentId:
-          type: string
-          format: uuid
-          description: The unique identifier (AccountListId) of the parent account list.
-        filter:
-          description: 'An optional filter that can be applied to the parent account list to derive the accounts in this account list.
-
-            The filter must be a valid condition object, such as an Eq, Neq, In, Nin, Gt, Gte, Lt, or Lte condition.
-
-            If no filter is specified, all accounts in the parent account list will be included in this account list.
-
-            See [Company Attributes](/docs/account-list-api/1/types/company) for a list of filterable firmographic attributes.
-
-            '
-          oneOf:
-          - $ref: '#/components/schemas/Eq'
-          - $ref: '#/components/schemas/Neq'
-          - $ref: '#/components/schemas/In'
-          - $ref: '#/components/schemas/Nin'
-          - $ref: '#/components/schemas/Gt'
-          - $ref: '#/components/schemas/Gte'
-          - $ref: '#/components/schemas/Lt'
-          - $ref: '#/components/schemas/Lte'
-          - $ref: '#/components/schemas/And'
-          - $ref: '#/components/schemas/Or'
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-    Nin:
-      type: object
-      description: Not-In operator. The data value must not appear in this collection of values.
-      required:
-      - a
-      - nin
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        nin:
-          type: array
-          description: The collection of values which the attribute is evaluated.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be in US or CA.
-          value:
-            a: company.hq.country
-            nin:
-            - US
-            - CA
-  responses:
-    BadRequestError:
-      description: The request is syntactically invalid.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    NotFoundError:
-      description: The resource could at this path does not exist.
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnauthorizedError:
-      description: The access token is missing or invalid.
   parameters:
     accountListId:
       name: accountListId
@@ -742,6 +721,27 @@ components:
         type: string
         format: uuid
       example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+  responses:
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    BadRequestError:
+      description: The request is syntactically invalid.
   securitySchemes:
     bearerAuth:
       type: http

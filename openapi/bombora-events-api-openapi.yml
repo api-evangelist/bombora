@@ -166,25 +166,18 @@ paths:
       operationId: deleteDestinationByDestinationIdEventByEventType
       x-operation-id-source: derived
 components:
-  parameters:
-    eventType:
-      name: eventType
-      in: path
-      required: true
-      schema:
-        type: string
-        example:
-          SignalDefinitionCreated: null
-    destinationId:
-      name: destinationId
-      in: path
-      required: true
-      description: An identifier for the destination.
-      schema:
-        type: string
-        format: uuid
-      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
   schemas:
+    Event:
+      type: object
+      properties:
+        enabled:
+          description: True if event type is enabled; otherwise, false.
+          type: boolean
+        headers:
+          type: object
+          description: Expected headers to receive when event type is triggered.
+          additionalProperties:
+            type: string
     stats:
       type: object
       description: Stats related to the event type subscription.
@@ -204,17 +197,6 @@ components:
         lastErrorTimestamp:
           description: Timestamp of last event post failure.
           type: string
-    Event:
-      type: object
-      properties:
-        enabled:
-          description: True if event type is enabled; otherwise, false.
-          type: boolean
-        headers:
-          type: object
-          description: Expected headers to receive when event type is triggered.
-          additionalProperties:
-            type: string
     ErrorMessageResponse:
       type: object
       properties:
@@ -222,11 +204,29 @@ components:
           type:
           - string
           - 'null'
+  parameters:
+    destinationId:
+      name: destinationId
+      in: path
+      required: true
+      description: An identifier for the destination.
+      schema:
+        type: string
+        format: uuid
+      example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+    eventType:
+      name: eventType
+      in: path
+      required: true
+      schema:
+        type: string
+        example:
+          SignalDefinitionCreated: null
   responses:
-    NotFoundError:
-      description: The resource could at this path does not exist.
     ForbiddenError:
       description: The access token does not have permission to access this API.
+    NotFoundError:
+      description: The resource could at this path does not exist.
     UnauthorizedError:
       description: The access token is missing or invalid.
     UnprocessableEntityError:

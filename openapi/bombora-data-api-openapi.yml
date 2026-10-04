@@ -199,6 +199,121 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Eq:
+      type: object
+      description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - eq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        eq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be US.
+          value:
+            a: company.hq.country
+            eq: US
+        Wildcard:
+          summary: This example shows where a domain must be an .edu domain.
+          value:
+            a: domain
+            eq: '*.edu'
+        Account List:
+          summary: This example shows where a domain must appear in the specified account list.
+          value:
+            a: domain
+            eq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+    Attributes:
+      type: array
+      items:
+        type: string
+        enum:
+        - domain
+        - topic
+        - researchCountry
+        - researchState
+        - researchMetro
+        - score
+        - scoreLabel
+        - topicsCount
+        - topics
+        - topics.id
+        - topics.name
+        - topics.score
+        - topics.personas
+        - areasOfInterest
+        - personas
+        - company
+        - company.name
+        - company.industry
+        - company.size
+        - company.revenue
+        - company.hq
+        - company.hq.address
+        - company.hq.address2
+        - company.hq.country
+        - company.hq.state
+        - company.hq.city
+        - company.hq.zip
+      description: "The available attributes that can be retrieved.\n\nPlease note: Key Attributes form part of the unique identifier for each record when specified. In addition to the domain attribute, the topic, researchCountry, researchState, and researchMetro attributes are Key Attributes.\n\nAttributes | Descriptions\n----------------|-------------\ndomain | (Key) The domain of the company.\ntopic |  (Key) The intent [topic](/docs/reference-api/1/routes/topics/get). When specified, data will apply at the intent topic level, in addition to domain and any other specified key fields.\nresearchCountry | (Key) ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code that the research originates. When specified, data will apply at the country level, in addition to domain and any other specified key fields.\nresearchState | (Key) The [state](/docs/reference-api/1/routes/geographic/state/get) (US and CA only) that the research originates. When specified, data will apply at the country and state level, in addition to domain and any other specified key fields.\nresearchMetro | (Key) The [metro](/docs/reference-api/1/routes/geographic/metro-area/get) area that the research originates. When specified, data will apply at the metro level, in addition to domain and any other specified key fields. This attribute cannot be specified with researchCountry or researchState.\nscore | The score associated with this record. \nscoreLabel | A categorization label associated with the score.\ntopicsCount | The count of topics associated with this record.\ntopics | An array of [topic data](/docs/reference-api/1/routes/topics/get) associated with this record. Includes all nested topics.* attributes. Cannot be used alongside `topic` attribute.\ntopics.id | A unique topic identifier.\ntopics.name | The topic's name.\ntopics.score | The score associated with the topic.\ntopics.personas | The [personas](/docs/reference-api/1/routes/demographic/b2b-personas/get) associated with the topic. Please reach out to your Bombora representative to find out how to enable access to this attribute.\nareasOfInterest | The topics showing intent, ordered by topic score descending.\npersonas | The [personas](/docs/reference-api/1/routes/demographic/b2b-personas/get) associated with this record. Please reach out to your Bombora representative to find out how to enable access to this attribute.\ncompany | Includes all nested company.* attributes.\ncompany.name  | The company name\ncompany.industry  | The [company industry](/docs/reference-api/1/routes/firmographic/industry/get)\ncompany.size  | The [company size](/docs/reference-api/1/routes/firmographic/company-size/get)\ncompany.revenue | The [company revenue](/docs/reference-api/1/routes/firmographic/revenue/get)\ncompany.hq  | The company HQ geographic information in a nested structure\ncompany.hq.address  | First line of address\ncompany.hq.address2 | Second line of address\ncompany.hq.country  | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\ncompany.hq.state  | [State](/docs/reference-api/1/routes/geographic/state/get) (returned for US and CA only)\ncompany.hq.city | City\ncompany.hq.zip  | Postal code\n"
+      example:
+        attributes:
+        - areasOfInterest
+        - company.size
+        - company.hq
+    Gt:
+      type: object
+      description: Greater Than operator. The data value must be greater than this value.
+      required:
+      - a
+      - gt
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gt:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than 65.
+          value:
+            a: score
+            gt: 65
+    In:
+      type: object
+      description: In operator. The data value must appear in this collection of values.
+      required:
+      - a
+      - in
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        in:
+          type: array
+          description: The collection of values which the attribute value must match.
+          items:
+            type: string
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must be in US or CA.
+          value:
+            a: company.hq.country
+            in:
+            - US
+            - CA
+        Account List:
+          summary: This example shows where a domain must appear in the specified account list. This is functionally identical to specifying an accountList with the eq operator.
+          value:
+            a: domain
+            in:
+            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
     Lte:
       type: object
       description: Less Than or Equal To operator. The data value must be less than or equal to this value.
@@ -247,109 +362,6 @@ components:
             a: domain
             nin:
             - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    Gt:
-      type: object
-      description: Greater Than operator. The data value must be greater than this value.
-      required:
-      - a
-      - gt
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gt:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than 65.
-          value:
-            a: score
-            gt: 65
-    Neq:
-      type: object
-      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - neq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        neq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must not be US.
-          value:
-            a: company.hq.country
-            neq: US
-        Wildcard:
-          summary: This example shows where a domain must not be an .edu domain.
-          value:
-            a: domain
-            neq: '*.edu'
-        Account List:
-          summary: This example shows where a domain must not appear in the specified account list.
-          value:
-            a: domain
-            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    Eq:
-      type: object
-      description: "Equal operator. The data must be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"eq\": \"*.edu\"`.\n"
-      required:
-      - a
-      - eq
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        eq:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must be US.
-          value:
-            a: company.hq.country
-            eq: US
-        Wildcard:
-          summary: This example shows where a domain must be an .edu domain.
-          value:
-            a: domain
-            eq: '*.edu'
-        Account List:
-          summary: This example shows where a domain must appear in the specified account list.
-          value:
-            a: domain
-            eq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
-    Gte:
-      type: object
-      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
-      required:
-      - a
-      - gte
-      properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        gte:
-          type: string
-          description: The value which the attribute is evaluated.
-      example:
-        Simple:
-          summary: This example shows where the score must be greater than or equal to 65.
-          value: '{ "a": "score", "gte": 65 }
-
-            '
     Or:
       type: object
       description: Or operator, allowing for multiple filters to be joined.
@@ -391,35 +403,13 @@ components:
                 gt: 70
               - a: company.hq.country
                 eq: CA
-    In:
+    ErrorMessageResponse:
       type: object
-      description: In operator. The data value must appear in this collection of values.
-      required:
-      - a
-      - in
       properties:
-        a:
-          type: string
-          description: The attribute that the condition applies to.
-        in:
-          type: array
-          description: The collection of values which the attribute value must match.
-          items:
-            type: string
-      example:
-        Simple:
-          summary: This example shows where the company HQ country must be in US or CA.
-          value:
-            a: company.hq.country
-            in:
-            - US
-            - CA
-        Account List:
-          summary: This example shows where a domain must appear in the specified account list. This is functionally identical to specifying an accountList with the eq operator.
-          value:
-            a: domain
-            in:
-            - accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
+        message:
+          type:
+          - string
+          - 'null'
     Lt:
       type: object
       description: Less Than operator. The data value must be less than this value.
@@ -439,44 +429,6 @@ components:
           value:
             a: score
             lt: 75
-    Attributes:
-      type: array
-      items:
-        type: string
-        enum:
-        - domain
-        - topic
-        - researchCountry
-        - researchState
-        - researchMetro
-        - score
-        - scoreLabel
-        - topicsCount
-        - topics
-        - topics.id
-        - topics.name
-        - topics.score
-        - topics.personas
-        - areasOfInterest
-        - personas
-        - company
-        - company.name
-        - company.industry
-        - company.size
-        - company.revenue
-        - company.hq
-        - company.hq.address
-        - company.hq.address2
-        - company.hq.country
-        - company.hq.state
-        - company.hq.city
-        - company.hq.zip
-      description: "The available attributes that can be retrieved.\n\nPlease note: Key Attributes form part of the unique identifier for each record when specified. In addition to the domain attribute, the topic, researchCountry, researchState, and researchMetro attributes are Key Attributes.\n\nAttributes | Descriptions\n----------------|-------------\ndomain | (Key) The domain of the company.\ntopic |  (Key) The intent [topic](/docs/reference-api/1/routes/topics/get). When specified, data will apply at the intent topic level, in addition to domain and any other specified key fields.\nresearchCountry | (Key) ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code that the research originates. When specified, data will apply at the country level, in addition to domain and any other specified key fields.\nresearchState | (Key) The [state](/docs/reference-api/1/routes/geographic/state/get) (US and CA only) that the research originates. When specified, data will apply at the country and state level, in addition to domain and any other specified key fields.\nresearchMetro | (Key) The [metro](/docs/reference-api/1/routes/geographic/metro-area/get) area that the research originates. When specified, data will apply at the metro level, in addition to domain and any other specified key fields. This attribute cannot be specified with researchCountry or researchState.\nscore | The score associated with this record. \nscoreLabel | A categorization label associated with the score.\ntopicsCount | The count of topics associated with this record.\ntopics | An array of [topic data](/docs/reference-api/1/routes/topics/get) associated with this record. Includes all nested topics.* attributes. Cannot be used alongside `topic` attribute.\ntopics.id | A unique topic identifier.\ntopics.name | The topic's name.\ntopics.score | The score associated with the topic.\ntopics.personas | The [personas](/docs/reference-api/1/routes/demographic/b2b-personas/get) associated with the topic. Please reach out to your Bombora representative to find out how to enable access to this attribute.\nareasOfInterest | The topics showing intent, ordered by topic score descending.\npersonas | The [personas](/docs/reference-api/1/routes/demographic/b2b-personas/get) associated with this record. Please reach out to your Bombora representative to find out how to enable access to this attribute.\ncompany | Includes all nested company.* attributes.\ncompany.name  | The company name\ncompany.industry  | The [company industry](/docs/reference-api/1/routes/firmographic/industry/get)\ncompany.size  | The [company size](/docs/reference-api/1/routes/firmographic/company-size/get)\ncompany.revenue | The [company revenue](/docs/reference-api/1/routes/firmographic/revenue/get)\ncompany.hq  | The company HQ geographic information in a nested structure\ncompany.hq.address  | First line of address\ncompany.hq.address2 | Second line of address\ncompany.hq.country  | ISO 3166-2 [Country](/docs/reference-api/1/routes/geographic/country/get) Code\ncompany.hq.state  | [State](/docs/reference-api/1/routes/geographic/state/get) (returned for US and CA only)\ncompany.hq.city | City\ncompany.hq.zip  | Postal code\n"
-      example:
-        attributes:
-        - areasOfInterest
-        - company.size
-        - company.hq
     And:
       type: object
       description: And operator, allowing for multiple filters to be joined.
@@ -504,13 +456,61 @@ components:
               gt: 80
             - a: company.hq.country
               eq: US
+    Gte:
+      type: object
+      description: Greater Than or Equal To operator. The data value must be greater than or equal to this value.
+      required:
+      - a
+      - gte
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        gte:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the score must be greater than or equal to 65.
+          value: '{ "a": "score", "gte": 65 }
+
+            '
+    Neq:
+      type: object
+      description: "Not-Equal operator. The data must not be equal to this value. \nWildcards are supported, for example `\"a\": \"domain\", \"neq\": \"*.edu\"`.\n"
+      required:
+      - a
+      - neq
+      properties:
+        a:
+          type: string
+          description: The attribute that the condition applies to.
+        neq:
+          type: string
+          description: The value which the attribute is evaluated.
+      example:
+        Simple:
+          summary: This example shows where the company HQ country must not be US.
+          value:
+            a: company.hq.country
+            neq: US
+        Wildcard:
+          summary: This example shows where a domain must not be an .edu domain.
+          value:
+            a: domain
+            neq: '*.edu'
+        Account List:
+          summary: This example shows where a domain must not appear in the specified account list.
+          value:
+            a: domain
+            neq: accountList:7fa79789-097c-4414-965f-ba0a08af7ea5
   responses:
     ForbiddenError:
       description: The access token does not have permission to access this API.
-    UnauthorizedError:
-      description: The access token is missing or invalid.
     BadRequestError:
       description: The request is syntactically invalid.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
     UnprocessableEntityError:
       description: The request body is syntactically correct but semantically incorrect, such as validation errors.
       content:

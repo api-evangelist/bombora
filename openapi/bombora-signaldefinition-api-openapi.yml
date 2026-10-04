@@ -383,6 +383,35 @@ paths:
       operationId: putSignalDefinitionBySignalDefinitionIdProductDefinition
       x-operation-id-source: derived
 components:
+  responses:
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    BadRequestError:
+      description: The request is syntactically invalid.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+  parameters:
+    signalDefinitionId:
+      name: signalDefinitionId
+      description: Unique identifier of a Signal Definition
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 517134f7-4451-4941-9491-8c5c7750d49a
   schemas:
     Metadata:
       type: object
@@ -419,42 +448,6 @@ components:
           type:
           - string
           - 'null'
-    SignalDefinition:
-      type: object
-      properties:
-        topics:
-          description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that inform the signal
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                format: int32
-                description: Topic identifier
-              name:
-                type:
-                - string
-                - 'null'
-                description: Topic name
-              weighting:
-                type: number
-                format: float
-                description: Weighting of the topic in the signal
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-      example:
-        metadata:
-          name: Signal For Product X
-          description: Signal created by Joe for the Product X sales team
-          clientId: 9844a971-1cdc-4f2d-a145-87491392649f
-        topics:
-        - id: 12345
-          name: Wireless Communication
-          weighting: 0.9
-        - id: 23456
-          name: Electric Vehicles (EV)
-          weighting: 0.9
     ProductDefinition:
       description: 'The product definition can contain any of the following information to enable an AI-created Signal Definition.
 
@@ -498,35 +491,42 @@ components:
         urls:
         - https://www.example.com/productUrl
         - https://www.example.com/resources/productTraining.html
-  responses:
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    BadRequestError:
-      description: The request is syntactically invalid.
-  parameters:
-    signalDefinitionId:
-      name: signalDefinitionId
-      description: Unique identifier of a Signal Definition
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-      example: 517134f7-4451-4941-9491-8c5c7750d49a
+    SignalDefinition:
+      type: object
+      properties:
+        topics:
+          description: A collection of [topics](/docs/reference-api/1/routes/topics/get) that inform the signal
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int32
+                description: Topic identifier
+              name:
+                type:
+                - string
+                - 'null'
+                description: Topic name
+              weighting:
+                type: number
+                format: float
+                description: Weighting of the topic in the signal
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+      example:
+        metadata:
+          name: Signal For Product X
+          description: Signal created by Joe for the Product X sales team
+          clientId: 9844a971-1cdc-4f2d-a145-87491392649f
+        topics:
+        - id: 12345
+          name: Wireless Communication
+          weighting: 0.9
+        - id: 23456
+          name: Electric Vehicles (EV)
+          weighting: 0.9
   securitySchemes:
     bearerAuth:
       type: http

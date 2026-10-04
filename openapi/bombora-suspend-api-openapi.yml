@@ -36,6 +36,28 @@ paths:
       operationId: putByDataexchangeByExternalIdByPartnerIdSuspend
       x-operation-id-source: derived
 components:
+  parameters:
+    dataexchange:
+      name: dataexchange
+      in: path
+      required: true
+      description: Data exchange which owns the digital audience.
+      schema:
+        $ref: '#/components/schemas/DataExchanges'
+    partnerId:
+      name: partnerId
+      in: path
+      required: false
+      description: "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
+      schema:
+        type: string
+    externalId:
+      name: externalId
+      in: path
+      required: true
+      description: The external ID of the digital audience.
+      schema:
+        type: string
   schemas:
     DataExchanges:
       type: string
@@ -79,28 +101,6 @@ components:
       - taboola_direct
       - trade_desk_direct
       - rtvi
-  parameters:
-    partnerId:
-      name: partnerId
-      in: path
-      required: false
-      description: "The partner ID of the digital audience. \n* Only required for Adobe, Xandr (Appnexus), and theTradeDesk.\n"
-      schema:
-        type: string
-    dataexchange:
-      name: dataexchange
-      in: path
-      required: true
-      description: Data exchange which owns the digital audience.
-      schema:
-        $ref: '#/components/schemas/DataExchanges'
-    externalId:
-      name: externalId
-      in: path
-      required: true
-      description: The external ID of the digital audience.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http

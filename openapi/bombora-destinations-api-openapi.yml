@@ -213,40 +213,7 @@ paths:
       operationId: putDestinationByDestinationIdAuth
       x-operation-id-source: derived
 components:
-  responses:
-    NotFoundError:
-      description: The resource could at this path does not exist.
-    ForbiddenError:
-      description: The access token does not have permission to access this API.
-    ConflictError:
-      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
-    UnauthorizedError:
-      description: The access token is missing or invalid.
-    UnprocessableEntityError:
-      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorMessageResponse'
   schemas:
-    auth:
-      type: object
-      description: Auth object containing data and/or credentials used in authenticating the connection back to the webhook address.
-      properties:
-        secret:
-          description: When provided, this UTF-8 value will be used as the key to calculate a HMAC (Hash-based Message Authentication Code) using the SHA-256 hash function. The HMAC is computed on the UTF-8 HTTP response body, and will be sent in the X-Bombora-Signature-256 HTTP response header.
-          type: string
-    ErrorMessageResponse:
-      type: object
-      properties:
-        message:
-          type:
-          - string
-          - 'null'
     DestinationSummary:
       type: object
       properties:
@@ -264,6 +231,13 @@ components:
           type: string
           example:
             description: This is where Bombora will send messages to
+    auth:
+      type: object
+      description: Auth object containing data and/or credentials used in authenticating the connection back to the webhook address.
+      properties:
+        secret:
+          description: When provided, this UTF-8 value will be used as the key to calculate a HMAC (Hash-based Message Authentication Code) using the SHA-256 hash function. The HMAC is computed on the UTF-8 HTTP response body, and will be sent in the X-Bombora-Signature-256 HTTP response header.
+          type: string
     Destination:
       type: object
       required:
@@ -294,6 +268,13 @@ components:
               X-Source: Bombora
           additionalProperties:
             type: string
+    ErrorMessageResponse:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
   parameters:
     destinationId:
       name: destinationId
@@ -304,6 +285,25 @@ components:
         type: string
         format: uuid
       example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+  responses:
+    NotFoundError:
+      description: The resource could at this path does not exist.
+    ForbiddenError:
+      description: The access token does not have permission to access this API.
+    UnauthorizedError:
+      description: The access token is missing or invalid.
+    UnprocessableEntityError:
+      description: The request body is syntactically correct but semantically incorrect, such as validation errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
+    ConflictError:
+      description: Resource could not be retrieved due to a conflict with the current state of the resource (pending update or currently in use).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessageResponse'
   securitySchemes:
     bearerAuth:
       type: http

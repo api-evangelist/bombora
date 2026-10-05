@@ -1,0 +1,57 @@
+slug: bombora
+provider: Bombora
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Events
+  spec_file: bombora-events-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.85
+  evidence: '"The Webhooks API provides the ability to create webhook destinations for receiving various
+    Bombora event subscriptions." — GET /destination/{destinationId}/events'
+  reason: Operations manage event subscriptions attached to webhook destinations — outbound webhook/event
+    subscription lifecycle, a developer-platform capability.
+- tag: Activate
+  spec_file: bombora-activate-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '"PUT /{dataexchange}/{externalId}/{partnerId}/activate  Activate a digital audience"'
+  reason: Pushes a built custom audience live to a named data exchange/partner — audience activation for
+    paid digital media, which is Digital Marketing Management. Some chance the gold is Customer Segmentation
+    Management instead, so 0.7.
+- tag: Destinations
+  spec_file: bombora-destinations-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.7
+  evidence: '"The Webhooks API provides the ability to create webhook destinations for receiving various
+    Bombora event subscriptions."'
+  reason: Full lifecycle of outbound webhook destinations and their auth for event subscriptions, which
+    maps directly to Webhook & Event Subscription Management. Held at 0.7 because webhook delivery configuration
+    is also defensibly treated as non-business plumbing.
+- tag: Digital Audience Builder (DAB) API
+  spec_file: bombora-digital-audience-builder-dab-api-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: '"Create a digital audience"; "customers the ability to programmatically create and edit custom
+    audiences"; schemas include topics, ccm_company_size, intent_category'
+  reason: Creates and edits custom advertising audiences defined by intent topics and firmographic filters
+    for delivery to data exchanges — audience building for digital/paid media. Customer Segmentation Management
+    is the plausible alternative, so 0.7.

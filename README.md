@@ -1,4 +1,4 @@
-# bombora
+# Bombora
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,21 +64,163 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Bombora — B2B intent data and Company Surge platform, profiled for API Evangelist.
+Bombora is a New York-based B2B data company that provides intent data and identity solutions used by marketing, sales, and ad-tech teams to identify in-market accounts and personalize outreach. Its flagship product, Company Surge, aggregates anonymous content-consumption signals from a cooperative of more than 5,000 B2B publishers and scores accounts against 18,000+ B2B intent topics to surface organizations actively researching specific products, services, and categories. Beyond Company Surge, Bombora offers Identity and Enrichment for first-party visitor resolution, Digital Audiences for activation across DSPs and walled gardens, Campaign Measurement for B2B attribution, and an Insights Suite that combines intent, visitor, and engagement signals. Bombora runs an Apigee Integrated Developer Portal at developer.bombora.com that publishes six OpenAPI 3.0 documents anonymously — Intent, Reference, Account List, Digital Audience Builder, Webhooks, and Authentication — covering 54 operations on api.bombora.com, all secured with OAuth 2.0 client credentials exchanged for a bearer JWT at POST /oauth/token. A separate legacy partner Company Surge API (v4) runs on sentry.bombora.com with HTTP Basic auth and a documented 60 calls-per-minute-per-endpoint limit. Credentials are not self-service: the portal is SAML-only and restricted to existing Bombora customers, the Intent and Digital Audience products require manual per-application approval, and no pricing is published — commercial access is sold via annual contracts. Bombora integrates broadly with the B2B revenue stack, including Salesforce, HubSpot, LinkedIn, 6sense, Demandbase, Apollo, ZoomInfo, Dun and Bradstreet, Snowflake, and Adobe Experience Platform, and is profiled here for its role as the dominant supplier of cooperative-sourced B2B intent data.
 
-Bombora aggregates anonymous content-consumption signals from a cooperative of 5,000+ B2B publishers and scores accounts against 18,000+ intent topics to identify organizations actively researching specific products, services, and categories. Its developer portal at [developer.bombora.com](https://developer.bombora.com) exposes a catalog of REST APIs covering authentication, intent feeds, reference taxonomies, digital audience activation, webhooks, and Company Surge report orchestration.
+**Areas:** Intent Data · B2B Intent · Company Surge · Account Based Marketing · Sales Intelligence · Marketing Intelligence · Identity Resolution · Audience Activation · Data Cooperative · Webhook · Reference Data · AdTech
 
-## APIs profiled
+## Bombora on APIs.io
 
-- **Authentication API** — OAuth 2.0 bearer-token issuance for developer.bombora.com APIs
-- **Intent API** — Company Surge intent scores across 18,000+ B2B topics
-- **Reference API** — Topic taxonomy and reference metadata
-- **Digital Audience Builder (DAB) API** — Compose and activate B2B audiences across data exchanges and DSPs
-- **Webhooks API** — Outbound event destinations for Surge and audience updates
-- **Company Surge API (v4)** — Partner API at `sentry.bombora.com/v4/Surge` for creating, listing, and retrieving Company Surge reports
+Everything profiled for Bombora is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bombora/](https://apis.io/providers/bombora/)** — or go straight to one of the APIs or properties below.
 
-Bombora does not publish public OpenAPI specifications — its developer reference docs are gated behind portal login and partner-only Confluence pages — so no `openapi/` artifacts are included in this repo.
+### APIs (17)
 
-## Files
+- [Bombora Intent API](https://apis.io/apis/bombora/bombora-intent-api/) — Streams Bombora's Company Surge intent signals — account-level scores against 18,000+ B2B intent topics — derived from the Bombora Data Cooperative.…
+- [Bombora Company Surge API (v4)](https://apis.io/apis/bombora/bombora-company-surge-api/) — Partner API for orchestrating Company Surge reports — create reports with topic, geography, blacklist, and AutoGen options (POST /v4/Surge/Create), list…
+- [Bombora Accounts API](https://apis.io/apis/bombora/bombora-accounts-api/) — The Accounts API from Bombora — 4 operation(s) for accounts.
+- [Bombora Activate API](https://apis.io/apis/bombora/bombora-activate-api/) — The Activate API from Bombora — 1 operation(s) for activate.
+- [Bombora Data API](https://apis.io/apis/bombora/bombora-data-api/) — The Data API from Bombora — 1 operation(s) for data.
+- [Bombora Demographic API](https://apis.io/apis/bombora/bombora-demographic-api/) — The Demographic API from Bombora — 4 operation(s) for demographic.
+- [Bombora Destinations API](https://apis.io/apis/bombora/bombora-destinations-api/) — The Destinations API from Bombora — 4 operation(s) for destinations.
+- [Bombora Digital Audience Builder (DAB) API](https://apis.io/apis/bombora/bombora-digital-audience-builder-dab-api-api/) — The Digital Audience Builder (DAB) API API from Bombora — 2 operation(s) for digital audience builder (dab) api.
+- [Bombora Estimate API](https://apis.io/apis/bombora/bombora-estimate-api/) — The Estimate API from Bombora — 1 operation(s) for estimate.
+- [Bombora Events API](https://apis.io/apis/bombora/bombora-events-api/) — The Events API from Bombora — 2 operation(s) for events.
+- [Bombora Firmographic API](https://apis.io/apis/bombora/bombora-firmographic-api/) — The Firmographic API from Bombora — 3 operation(s) for firmographic.
+- [Bombora Geographic API](https://apis.io/apis/bombora/bombora-geographic-api/) — The Geographic API from Bombora — 3 operation(s) for geographic.
+- [Bombora Install Data API](https://apis.io/apis/bombora/bombora-install-data-api/) — The Install Data API from Bombora — 1 operation(s) for install data.
+- [Bombora Signal Definition API](https://apis.io/apis/bombora/bombora-signaldefinition-api/) — The SignalDefinition API from Bombora — 5 operation(s) for signaldefinition.
+- [Bombora Suspend API](https://apis.io/apis/bombora/bombora-suspend-api/) — The Suspend API from Bombora — 1 operation(s) for suspend.
+- [Bombora OAUTH API](https://apis.io/apis/bombora/bombora-oauth-api/) — The Oauth API from Bombora — 1 operation(s) for oauth.
+- [Bombora account lists API](https://apis.io/apis/bombora/bombora-account-lists-api/) — The account lists API from Bombora — 2 operation(s) for account lists.
 
-- [apis.yml](apis.yml) — APIs.json 0.20 catalog entry covering the six documented Bombora APIs
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Bombora Webhooks](https://apis.io/asyncapis/bombora/bombora-webhooks/)
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Moved to /providers/bombora/](https://apis.io/graphqls/bombora/bombora-graphql/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [bombora-wp-mcp](https://apis.io/servers/bombora/bombora-wp-mcp/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [Account List API](https://apis.io/collections/bombora/open-bombora-account-list-api/)
+- [Authentication API](https://apis.io/collections/bombora/open-bombora-authentication-api/)
+- [Digital Audience Builder (DAB) API](https://apis.io/collections/bombora/open-bombora-digital-audience-api/)
+- [Intent API](https://apis.io/collections/bombora/open-bombora-intent-api/)
+- [Reference API](https://apis.io/collections/bombora/open-bombora-reference-api/)
+- [Webhooks API](https://apis.io/collections/bombora/open-bombora-webhooks-api/)
+
+#### Overlays (6)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Bombora Account List Api Overlay](https://apis.io/overlays/bombora/bombora-account-list-api-overlay/)
+- [Bombora Authentication Api Overlay](https://apis.io/overlays/bombora/bombora-authentication-api-overlay/)
+- [Bombora Digital Audience Api Overlay](https://apis.io/overlays/bombora/bombora-digital-audience-api-overlay/)
+- [Bombora Intent Api Overlay](https://apis.io/overlays/bombora/bombora-intent-api-overlay/)
+- [Bombora Reference Api Overlay](https://apis.io/overlays/bombora/bombora-reference-api-overlay/)
+- [Bombora Webhooks Api Overlay](https://apis.io/overlays/bombora/bombora-webhooks-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Bombora Authentication](https://apis.io/security/bombora/bombora-authentication/)
+- [Bombora Domain Security](https://apis.io/security/bombora/bombora-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Bombora Plans Pricing](https://apis.io/plans/bombora/bombora-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Bombora Rate Limits](https://apis.io/rate-limits/bombora/bombora-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://bombora.com)
+- [Documentation](https://developer.bombora.com/docs/intent-api/1/overview)
+- [Getting started](https://developer.bombora.com/get-started)
+- [API reference](https://developer.bombora.com/apis)
+- [Sign up](https://developer.bombora.com/login)
+- [Support](https://bombora.com/customer-support-forms/)
+- [Blog](https://bombora.com/feed/)
+- [Terms of service](https://bombora.com/terms)
+- [Privacy policy](https://bombora.com/privacy-policy)
+- [GitHub](https://github.com/bomboradata)
+
+## API Evangelist rating
+
+**Kin Score 44.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 60.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 47.4 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 21.1 |
+
+**Agent readiness 42.7** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bombora/](https://apis.io/providers/bombora/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Bombora: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bombora/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
